@@ -449,21 +449,31 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
         function nowAndNextSlot(slots) {
             var nowAndNext = [];
             var now = currentTime;
-            slots.forEach(function (slot) {
-
+            var nowSlot = null, nextSlot = null;
+            for (var i = 0; i < slots.length; i++) {
+                var slot = slots[i];
                 var slotDate;
                 var match = false;
 
+                console.log(slot, keynoteStartTime, keynoteEndTime);
                 if (slot == KEYNOTE) {
                     match = now.before(keynoteStartTime.withDate(now)) || now.between(keynoteStartTime.withDate(now), keynoteEndTime.withDate(now));
                 } else {
                     slotDate = Date.parseExact(slot, "HH:mm").withDate(now);
-                    match = slotDate.after(now);
+                    match = now.after(slotDate);
                 }
-                if (match && nowAndNext.length < 2) {
-                    nowAndNext.push(slot);
+                if (match) {
+                    nowAndNext[0] = slot;
+                    nowAndNext[1] = slots[i + 1];
                 }
-            });
+            }
+            var firstSlotDate = Date.parseExact(slots[0], "HH:mm").withDate(now);
+            var beforeFirstSlot = now.before(firstSlotDate);
+            if (!nowAndNext.length && beforeFirstSlot) {
+                console.log('default to morning');
+                nowAndNext[0] = slots[0];
+                nowAndNext[1] = slots[1];
+            }
             return nowAndNext;
         }
 
