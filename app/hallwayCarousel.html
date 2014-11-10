@@ -1,0 +1,44 @@
+<ul class="panes">
+    <li>
+        <h1>Current talks</h1>
+        <h2 ng-show="loading">Loading...</h2>
+        <div ng-repeat="item in scheduleNow" class="listEntry" ng-hide="loading">
+            <span class="room">{{item.room}}</span>
+            <span class="image"><img ng-src="{{item.speakerImgUrl}}"/></span>
+            <div class="text">
+                <span class="highlight">{{item.time}}</span>
+                {{item.title}}
+                <span class="warning">{{item.speakers}}</span>
+            </div>
+        </div>
+    </li>
+
+    <li>
+        <h1>Next up</h1>
+        <h2 ng-show="loading">Loading...</h2>
+        <div ng-repeat="item in scheduleNext" class="listEntry" ng-hide="loading">
+            <div class="room">{{item.room}}</div>
+            <div class="image"><img ng-src="{{item.speakerImgUrl}}"/></div>
+            <div class="text">
+                <span class="highlight">{{item.time}}</span>
+                {{item.title}}
+                <span class="warning">{{item.speakers}}</span>
+            </div>
+        </div>
+    </li>
+
+    <li>
+        <div ng-controller="GameLeaderboardController">
+            <h1>Overall game leaderboard</h1>
+            <h2></h2>
+            <h2 ng-show="loading">Loading...</h2>
+            <div ng-repeat="lb in leaderboard|limitTo:7" class="listEntry" ng-hide="loading">
+                <div class="gamePoints">{{lb.points}}</div>
+                <div class="image"><img ng-src="{{lb.pictureUrl}}"/></div>
+                <div class="text warning">
+                    {{lb.name}}
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>
