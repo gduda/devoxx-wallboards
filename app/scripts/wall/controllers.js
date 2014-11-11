@@ -308,6 +308,10 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
 
     setTimeout(init, 0); // Schedule init() call after Object is loaded.
     function init() {
+        if (lsc.hasDay(0)) {
+            lsc.clear();
+        }
+
         $scope.$apply(function () {
             var onDone = function () {
                 if ((!lsc.hasDay(currentDay)) || (!lsc.hasSchedule())) {
@@ -397,7 +401,7 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
                 });
 
                 for (var i = 0; i < groups.length; i++) {
-                    storeDay(i, groups[i]);
+                    storeDay(i+1, groups[i]);
                 }
                 console.log('stored days');
                 function storeDay(itemDay, group) {
