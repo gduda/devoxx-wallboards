@@ -308,10 +308,6 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
 
     setTimeout(init, 0); // Schedule init() call after Object is loaded.
     function init() {
-        if (lsc.hasDay(0)) {
-            lsc.clear();
-        }
-
         $scope.$apply(function () {
             var onDone = function () {
                 if ((!lsc.hasDay(currentDay)) || (!lsc.hasSchedule())) {
@@ -329,7 +325,6 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
                 setInterval(self.refreshRemoteData, MINUTES_10);
             };
 
-            //onDone();
             preLoadSpeakerImageUrls(onDone);
 
             function preLoadSpeakerImageUrls(done) {

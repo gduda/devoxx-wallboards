@@ -41,15 +41,7 @@ h1 {
     left: 240px;
 }
 
-#hallwayCarousel {
-    .carousel(3, hallwayAnim)
-}
-
-#cinemaCarousel {
-    .carousel(4, cinemaAnim)
-}
-
-.carousel(@numberOfItems, @animation) {
+#carousel {
     width: 750px;
     height: 700px;
     top: 70px;
@@ -59,7 +51,7 @@ h1 {
 
     > .panes {
         @hundredPercent: 100%;
-        width: @hundredPercent * @numberOfItems;
+        width: @hundredPercent * 4;
         left: 0;
 //        left: -300%;
         list-style: none;
@@ -69,14 +61,14 @@ h1 {
         padding: 0;
 
         @animationDuration: 40s;
-        animation: @animation @animationDuration infinite;
-        -moz-animation: @animation @animationDuration infinite;
-        -webkit-animation: @animation @animationDuration infinite;
+        animation: carouselAnim @animationDuration infinite;
+        -moz-animation: carouselAnim @animationDuration infinite;
+        -webkit-animation: carouselAnim @animationDuration infinite;
 
         > li {
             position: relative;
             float: left;
-            width: @hundredPercent / @numberOfItems;
+            width: @hundredPercent / 4;
 
             h1, h2 {
                 color: #ebeb00;
@@ -156,7 +148,7 @@ h1 {
     }
 }
 
-@keyframes cinemaAnim {
+@keyframes carouselAnim {
     0%    { left:0; }
     20%   { left:0; }
     25%   { left:-100%; }
@@ -168,7 +160,7 @@ h1 {
     100%  { left:0; }
 }
 
-@-moz-keyframes cinemaAnim {
+@-moz-keyframes carouselAnim {
     0%    { left:0; }
     20%   { left:0; }
     25%   { left:-100%; }
@@ -180,7 +172,7 @@ h1 {
     100%  { left:0; }
 }
 
-@-webkit-keyframes cinemaAnim {
+@-webkit-keyframes carouselAnim {
     0%    { left:0; }
     20%   { left:0; }
     25%   { left:-100%; }
@@ -189,36 +181,6 @@ h1 {
     70%   { left:-200%; }
     75%   { left:-300%; }
     95%   { left:-300%; }
-    100%  { left:0; }
-}
-
-@keyframes hallwayAnim {
-    0%    { left:0; }
-    30%   { left:0; }
-    33%   { left:-100%; }
-    63%   { left:-100%; }
-    67%   { left:-200%; }
-    97%   { left:-200%; }
-    100%  { left:0; }
-}
-
-@-moz-keyframes hallwayAnim {
-    0%    { left:0; }
-    30%   { left:0; }
-    33%   { left:-100%; }
-    63%   { left:-100%; }
-    67%   { left:-200%; }
-    97%   { left:-200%; }
-    100%  { left:0; }
-}
-
-@-webkit-keyframes hallwayAnim {
-    0%    { left:0; }
-    30%   { left:0; }
-    33%   { left:-100%; }
-    63%   { left:-100%; }
-    67%   { left:-200%; }
-    97%   { left:-200%; }
     100%  { left:0; }
 }
 
