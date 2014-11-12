@@ -2,7 +2,7 @@
     <li>
         <h1>Current talks</h1>
         <h2 ng-show="loading">Loading...</h2>
-        <div ng-repeat="item in scheduleNow" class="listEntry" ng-hide="loading">
+        <div ng-repeat="item in scheduleNow|orderBy:'room'" class="listEntry" ng-hide="loading">
             <span class="room">{{item.room}}</span>
             <span class="image"><img ng-src="{{item.speakerImgUrl}}"/></span>
             <div class="text">
@@ -16,7 +16,7 @@
     <li>
         <h1>Next up</h1>
         <h2 ng-show="loading">Loading...</h2>
-        <div ng-repeat="item in scheduleNext" class="listEntry" ng-hide="loading">
+        <div ng-repeat="item in scheduleNext|orderBy:'room'" class="listEntry" ng-hide="loading">
             <div class="room">{{item.room}}</div>
             <div class="image"><img ng-src="{{item.speakerImgUrl}}"/></div>
             <div class="text">
