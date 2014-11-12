@@ -115,6 +115,7 @@ function LocalStorageController() {
     var DAYMD5_KEY = 'md5_' + DAY_KEY;
     var SPEAKER_KEY = 'speaker';
     var SCHEDULE_KEY = 'schedule';
+    var STORAGE_TIMESTAMP = '_timestamp';
 
     var self = this;
 
@@ -182,9 +183,14 @@ function LocalStorageController() {
         return false;
     };
 
+    function createTimestamp() {
+        return new Date().getTime();
+    }
+
     this.setSpeakers = function (speakers) {
         try {
             localStorage.setItem(SPEAKER_KEY, JSON.stringify(speakers));
+            localStorage.setItem(SPEAKER_KEY + STORAGE_TIMESTAMP, createTimestamp());
             logStorageSize();
         } catch (e) {
             console.error('ERROR Storing Speakers error: ' + e.message);
@@ -193,15 +199,17 @@ function LocalStorageController() {
 
     this.getSpeakers = function () {
         try {
-            var data = localStorage.getItem(SPEAKER_KEY);
-            if (data == undefined) {
-                return data;
-            } else {
-                return JSON.parse(data);
+            var timestamp = localStorage.getItem(SPEAKER_KEY + STORAGE_TIMESTAMP);
+            if (timestamp > createTimestamp() - 1000*60*60) {
+                var data = localStorage.getItem(SPEAKER_KEY);
+                if (data != undefined) {
+                    return JSON.parse(data);
+                }
             }
         } catch (e) {
             console.error('ERROR Loading Speakers error: ' + e.message);
         }
+        return undefined;
     };
 
     this.clear = function () {
@@ -300,24 +308,21 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
 
     setTimeout(init, 0); // Schedule init() call after Object is loaded.
     function init() {
-
         $scope.$apply(function () {
-
             var onDone = function () {
-
                 if ((!lsc.hasDay(currentDay)) || (!lsc.hasSchedule())) {
                     self.refreshRemoteData();
                 } else {
                     currentData = lsc.getDay(currentDay);
                     updateModels();
-                    $scope.loading = false;
-                    console.log("Resolve after speakers");
-                    scheduleLoaded.defer.resolve();
                 }
+
+                console.log("Resolve after speakers");
+                scheduleLoaded.defer.resolve();
+                $scope.loading = false;
 
                 var MINUTES_10 = 1000 * 60 * 10;
                 setInterval(self.refreshRemoteData, MINUTES_10);
-
             };
 
             //onDone();
@@ -326,30 +331,33 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
             function preLoadSpeakerImageUrls(done) {
                 console.log('Preloading all speaker images...');
                 try {
-                    var fullScheduleUrl = baseUriV1 + "events/" + eventId + "/speakers";
-                    $http.get(fullScheduleUrl)
-                        .then(function (data, code) {
-                            if ("" == data.data) {
-                                console.error('Failed to call CFP REST');
-                                speakers = lsc.getSpeakers();
-                            } else {
+                    var speakersFromCache = lsc.getSpeakers();
+                    if (speakersFromCache) {
+                        speakers = speakersFromCache;
+                        done();
+                    } else {
+                        var fullScheduleUrl = baseUriV1 + "events/" + eventId + "/speakers";
+                        $http.get(fullScheduleUrl)
+                            .then(function (data, code) {
+                                if ("" == data.data) {
+                                    console.error('Failed to call CFP REST');
+                                    speakers = lsc.getSpeakers();
+                                } else {
+                                    data.data.forEach(function (item) {
+                                        speakers.push(new Speaker(item));
+                                    });
 
-                                data.data.forEach(function (item) {
-                                    speakers.push(new Speaker(item));
-                                });
+                                    lsc.setSpeakers(speakers);
+                                }
 
-                                lsc.setSpeakers(speakers);
-                            }
-
-                            done();
-
-                        });
+                                done();
+                            });
+                    }
                 } catch (e) {
-                    console.error('Failed to preload speaker images: ' + e.message);
+                    console.error('Failed to preload speaker images: ', e);
                     done();
                 }
             }
-
         });
     }
 
@@ -368,7 +376,6 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
     setInterval(self.nowAndNextTimer, MINUTES_1);
 
     this.refreshRemoteData = function () {
-
         $http.get(baseUriV1 + "events/" + eventId + "/schedule")
             .then(function (data, code) {
                 if ("" == data.data) {
@@ -380,37 +387,34 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
                 var tak = filterTalksAndKeynotes(data.data, speakers);
 
                 lsc.setSchedule(tak);
-
-                var group = [];
-                var itemDay = 1;
+                var groups = [];
                 tak.forEach(function (item) {
-                    if (item.day != itemDay) {
-                        storeDay(itemDay, group);
-                        itemDay = item.day;
-                        group = [];
+                    var itemIndex = (item.day - 1);
+                    if (!groups[itemIndex]) {
+                        groups[itemIndex] = [];
                     }
-                    group.push(item);
+                    groups[itemIndex].push(item);
                 });
-                storeDay(itemDay, group);
 
-                function storeDay(itemDay, group) {
-                    var changed = lsc.setDay(itemDay, group);
-                    if (changed && currentDay == itemDay) {
-                        currentData = group;
-                        updateModels();
-                    }
+                for (var i = 0; i < groups.length; i++) {
+                    storeDay(i, groups[i]);
                 }
+                console.log('stored days');
+                function storeDay(itemDay, group) {
+                    /*var changed =*/ lsc.setDay(itemDay, group);
+                    //if (changed && currentDay == itemDay) {
+                    //    currentData = group;
+                    //    updateModels();
+                    //}
+                }
+                currentData = groups[currentDay-1];
+                updateModels();
 
-            }).then(scheduleLoaded.defer.resolve());
+            }).then(scheduleLoaded.defer.resolve);
     };
 
     function updateModels() {
-
         console.log('ScheduleItem data changed for day ' + currentDay + ' updating models...');
-
-        var KEYNOTE = "Keynote";
-        var keynoteStartTime;
-        var keynoteEndTime;
 
         $scope.scheduleNow = [];
         $scope.scheduleNext = [];
@@ -428,20 +432,10 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
         function defineSlots(items) {
             var slots = [];
             items.forEach(function (item) {
-
-                var slot = item.type == KEYNOTE ? KEYNOTE : item.time;
-
-                if (slot == KEYNOTE && keynoteStartTime == undefined) {
-                    keynoteStartTime = Date.parseExact(item.time, "HH:mm").withTodaysDate();
-                }
-                if (slot != KEYNOTE && keynoteStartTime != undefined && keynoteEndTime == undefined) {
-                    keynoteEndTime = Date.parseExact(item.time, "HH:mm").withTodaysDate();
-                }
-
+                var slot = item.time;
                 if (slots.indexOf(slot) == -1) {
                     slots.push(slot);
                 }
-
             });
             return slots;
         }
@@ -449,30 +443,22 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
         function nowAndNextSlot(slots) {
             var nowAndNext = [];
             var now = currentTime;
-            var nowSlot = null, nextSlot = null;
             for (var i = 0; i < slots.length; i++) {
                 var slot = slots[i];
-                var slotDate;
-                var match = false;
+                var slotDate = Date.parseExact(slot, "HH:mm").withDate(now);
 
-                console.log(slot, keynoteStartTime, keynoteEndTime);
-                if (slot == KEYNOTE) {
-                    match = now.before(keynoteStartTime.withDate(now)) || now.between(keynoteStartTime.withDate(now), keynoteEndTime.withDate(now));
-                } else {
-                    slotDate = Date.parseExact(slot, "HH:mm").withDate(now);
-                    match = now.after(slotDate);
-                }
-                if (match) {
+                if (now.after(slotDate)) {
                     nowAndNext[0] = slot;
                     nowAndNext[1] = slots[i + 1];
                 }
             }
-            var firstSlotDate = Date.parseExact(slots[0], "HH:mm").withDate(now);
-            var beforeFirstSlot = now.before(firstSlotDate);
-            if (!nowAndNext.length && beforeFirstSlot) {
-                console.log('default to morning');
-                nowAndNext[0] = slots[0];
-                nowAndNext[1] = slots[1];
+            if (!nowAndNext.length) {
+                var firstSlotDate = Date.parseExact(slots[0], "HH:mm").withDate(now);
+                var beforeFirstSlot = now.before(firstSlotDate);
+                if (beforeFirstSlot) {
+                    nowAndNext[0] = slots[0];
+                    nowAndNext[1] = slots[1];
+                }
             }
             return nowAndNext;
         }
@@ -483,13 +469,12 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
             }
             var items = [];
             currentData.forEach(function (item) {
-                if ((time == KEYNOTE && item.type == KEYNOTE) || (time == item.time)) {
+                if (time == item.time) {
                     items.push(item);
                 }
             });
             return items;
         }
-
     }
 
     function filterTalksAndKeynotes(data, speakers) {
@@ -498,22 +483,17 @@ wallApp.controller('ScheduleController', [ '$http', '$scope', '$q', function ($h
         data.forEach(function (item) {
 
             if (item.kind.match(/Talk|Keynote/)) {
-
-                try {
+                if (item.speakers) {
                     var si = new ScheduleItem(item, findSpeakerImageUrl);
                     talks.push(si);
-                } catch (e) {
-                    // Ignore buggy scheduleitems
-                    console.error(e);
                 }
             }
         });
 
-
         talks = _.sortBy(talks, "date");
-        _.each(talks, function (si) {
-            console.log("Day: " + si.day + " Room: " + si.room + " Time: " + si.time + " Title: " + si.title + " Speakers: " + si.speakers + " SpeakerImg: " + si.speakerImgUri);
-        });
+        //_.each(talks, function (si) {
+            //console.log("Day: " + si.day + " Room: " + si.room + " Time: " + si.time + " Title: " + si.title + " Speakers: " + si.speakers + " SpeakerImg: " + si.speakerImgUri);
+        //});
 
         function findSpeakerImageUrl(id) {
             if (id) {
@@ -554,32 +534,29 @@ wallApp.controller('VotingController', ["$scope", "$timeout", "VotingService", f
         return filtered;
     }
 
-    var refreshInterval = 30000;
+    var refreshInterval = 5*1000 * 60;
 
-    var refresh = function () {
-        $timeout(function () {
-            $scope.$apply(function () {
-                console.log('Start VotingService');
-                VotingService.topOfWeek().then(function (data) {
-                    var filteredData = filterKeyNotes(enrich(data));
-                    $scope.topTalksOfWeek = filteredData.slice(0, 3);
-                    $scope.hasTopTalksOfWeek = (filteredData.length > 0);
-                    $scope.loadingWeek = false;
-                }, function(err) {
-                    console.log("In Error");
-                });
-                VotingService.topOfDay().then(function (data) {
-                    var filteredData = filterKeyNotes(enrich(data));
-                    $scope.topTalksOfDay = filteredData.slice(0, 4);
-                    $scope.hasTopTalksOfDay = (filteredData.length > 0);
-                    $scope.loadingDay = false;
-                }, function(err) {
-                    console.log("In Error");
-                });
-            });
-            refresh();
-        }, refreshInterval);
-    };
+    function refresh () {
+        console.log('VotingService.refresh');
+        VotingService.topOfWeek().then(function (data) {
+            var filteredData = filterKeyNotes(enrich(data));
+            $scope.topTalksOfWeek = filteredData.slice(0, 3);
+            $scope.hasTopTalksOfWeek = (filteredData.length > 0);
+            $scope.loadingWeek = false;
+        }, function(err) {
+            console.log("VotingService.topOfWeek Error", err);
+        });
+        VotingService.topOfDay().then(function (data) {
+            var filteredData = filterKeyNotes(enrich(data));
+            $scope.topTalksOfDay = filteredData.slice(0, 4);
+            $scope.hasTopTalksOfDay = (filteredData.length > 0);
+            $scope.loadingDay = false;
+        }, function(err) {
+            console.log("VotingService.topOfDay Error", err);
+        });
+
+        $timeout(refresh, refreshInterval);
+    }
 
     scheduleLoaded.promise.then(refresh);
 } ]);
