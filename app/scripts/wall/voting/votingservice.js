@@ -1,5 +1,6 @@
-angular.module('VotingService', []).factory('VotingService', ['$http', '$q', '$timeout', function($http, $q, $timeout) {
+"use strict";
 
+wallApp.factory('VotingService', ['$http', '$q', function($http, $q) {
     var topOfWeekUrl = "http://172.19.0.252:3000/bestofweek";
     var topOfDayUrl = "http://172.19.0.252:3000/bestoftoday";
 

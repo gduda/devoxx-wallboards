@@ -1,9 +1,4 @@
 function ScheduleItem(scheduleItem, speakerUrlLookup) {
-
-    //if (!scheduleItem.speakers) {
-    //    throw new Error("No Speakers for schedule Item");
-    //}
-
     this.id = scheduleItem.id;
     this.type = scheduleItem.kind;
     this.room = getRoom(scheduleItem.room);

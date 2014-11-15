@@ -28,7 +28,7 @@
     </li>
 
     <li>
-        <div ng-controller="VotingController">
+        <div ng-controller="VotingCtrl">
             <h1 class="bestof">Top Talks Overall</h1>
             <h2 ng-show="loadingWeek">Loading...</h2>
             <div ng-repeat="talk in topTalksOfWeek" class="listEntry" ng-hide="loadingWeek">
@@ -55,7 +55,7 @@
     </li>
 
     <li>
-        <div ng-controller="GameLeaderboardController">
+        <div ng-controller="GameLeaderboardCtrl">
             <h1>#DevoxxHunt Top Hunters</h1>
             <h2></h2>
             <h2 ng-show="loading">Loading...</h2>

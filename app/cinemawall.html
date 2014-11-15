@@ -21,7 +21,7 @@
 
     <body ng-app="wallApp">
         <div id="cinema">
-            <div id="tweets" ng-controller="TwallController">
+            <div id="tweets" ng-controller="TweetWallCtrl">
                 <div ng-class="scrollClass">
                     <div class="container">
                         <div class="border">
@@ -33,8 +33,8 @@
                     </div>
                 </div>
             </div>
-            <div id="carousel" ng-include="'carousel.html'" ng-controller="ScheduleController"></div>
-            <div id="notice" ng-controller="NoticeController">{{notice}}</div>
+            <div id="carousel" ng-include="'carousel.html'" ng-controller="ScheduleCtrl"></div>
+            <div id="notice" ng-controller="NoticeCtrl">{{notice}}</div>
         </div>
     </body>
 
@@ -56,10 +56,15 @@
     <script src="scripts/config.js"></script>
     <script src="scripts/wall/date.js"></script>
     <script src="scripts/wall/md5.js"></script>
-    <script src="scripts/wall/anim.js"></script>
-    <script src="scripts/wall/controllers.js"></script>
     <script src="scripts/wall/models.js"></script>
     <script src="scripts/wall/utilities.js"></script>
-    <script src="scripts/wall/voteservice.js"></script>
+    <script src="scripts/wall/app.js"></script>
+    <script src="scripts/wall/gameleaderboard/GameLeaderboardCtrl.js"></script>
+    <script src="scripts/wall/gameleaderboard/GameLeaderboardService.js"></script>
+    <script src="scripts/wall/notice/NoticeCtrl.js"></script>
+    <script src="scripts/wall/schedule/ScheduleCtrl.js"></script>
+    <script src="scripts/wall/tweetwall/TweetWallCtrl.js"></script>
+    <script src="scripts/wall/voting/VotingCtrl.js"></script>
+    <script src="scripts/wall/voting/VotingService.js"></script>
     <!-- endbuild -->
 </html>
