@@ -9,8 +9,8 @@ module.exports = function(config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'app/bower_components/angular/angular.js',
-            'app/bower_components/angular-mocks/angular-mocks.js',
+            'app/components/angular/angular.js',
+            'app/components/angular-mocks/angular-mocks.js',
             'app/scripts/**/*.js',
             'test/e2e/**/*.spec.js'
         ],

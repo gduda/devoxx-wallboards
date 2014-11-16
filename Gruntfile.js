@@ -179,7 +179,7 @@ module.exports = function (grunt) {
                 imagesDir: '<%= yeoman.app %>/images',
                 javascriptsDir: '<%= yeoman.app %>/scripts',
                 fontsDir: '<%= yeoman.app %>/styles/fonts',
-                importPath: '<%= yeoman.app %>/bower_components',
+                importPath: '<%= yeoman.app %>/components',
                 relativeAssets: true
             },
             dist: {},
@@ -294,31 +294,11 @@ module.exports = function (grunt) {
                         src: [
                             '*.{ico,txt}',
                             'config.js',
-                            '<%= yeoman.app %>/bower_components/**/*',
+                            'components/**/*',
                             'images/{,*/}*.{gif,webp}',
                             'images/tracks/mobile/*',
                             'styles/*.{eot,svg,ttf,woff}',
                             'images_dummy/*'
-                        ]
-                    }
-                ]
-            },
-            staticdev: { // Only during dev of static files
-                files: [
-                    {
-                        expand: true,
-                        dot: true,
-                        cwd: '<%= yeoman.app %>',
-                        dest: '<%= yeoman.dist %>',
-                        src: [
-                            '*.{ico,txt}',
-                            '*.hbr.html',
-                            '<%= yeoman.app %>/bower_components/**/*',
-                            'images/**/*',
-                            'styles/*',
-                            'images_dummy/*',
-                            'scripts/main360.js',
-                            'scripts/favorite.js'
                         ]
                     }
                 ]
@@ -332,7 +312,6 @@ module.exports = function (grunt) {
         'clean:server',
         //'coffee:dist',
         //'compass:server',
-        'recess:dist',
         'build',
         'livereload-start',
         'connect:livereload',
@@ -384,8 +363,6 @@ module.exports = function (grunt) {
         'rev',
         'usemin'
     ]);
-
-    grunt.registerTask('static', ['clean', 'copy:staticdev']);
 
     grunt.registerTask('default', ['build']);
 };
