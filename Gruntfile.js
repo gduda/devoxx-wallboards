@@ -30,10 +30,10 @@ module.exports = function (grunt) {
                 files: ['test/spec/{,*/}*.coffee'],
                 tasks: ['coffee:test']
             },
-            compass: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+            /*compass: {
+                files: ['<%= yeoman.app %>/styles/{,*//*}*.{scss,sass}'],
                 tasks: ['compass']
-            },
+            },*/
             recess: {
                 files: ['<%= yeoman.app %>/styles/{,*/}*.less'],
                 tasks: ['recess:dist']
@@ -172,7 +172,7 @@ module.exports = function (grunt) {
                 ]
             }
         },
-        compass: {
+        /*compass: {
             options: {
                 sassDir: '<%= yeoman.app %>/styles',
                 cssDir: '.tmp/styles',
@@ -188,7 +188,7 @@ module.exports = function (grunt) {
                     debugInfo: true
                 }
             }
-        },
+        },*/
         recess: {
             options: {
                 compile: true
@@ -331,8 +331,8 @@ module.exports = function (grunt) {
     grunt.registerTask('server', [
         'clean:server',
         //'coffee:dist',
-        'compass:server',
-        //'recess:dist',
+        //'compass:server',
+        'recess:dist',
         'build',
         'livereload-start',
         'connect:livereload',
@@ -343,7 +343,7 @@ module.exports = function (grunt) {
     grunt.registerTask('serverDist', [
         'clean:server',
         'coffee:dist',
-        'compass:server',
+        //'compass:server',
         'recess:dist',
         'connect:e2eDist',
         'open:serverDist',
@@ -353,7 +353,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:server',
         'coffee',
-        'compass',
+        //'compass',
         'connect:test',
         'karma:unit'
     ]);
@@ -370,7 +370,7 @@ module.exports = function (grunt) {
         //'jshint',
         'coffee',
         // 'test',
-        'compass:dist',
+        //'compass:dist',
         'recess:dist',
         'useminPrepare',
         'imagemin',

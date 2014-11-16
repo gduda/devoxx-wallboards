@@ -4,9 +4,9 @@ Devoxx Wallboards Application
 This application is used to show interesting data on the various Devoxx screens.
 
 Used technologies:
-- HTML5
+- HTML 5 / CSS 3
+- LESS CSS
 - AngularJS
-- Bootstrap.JS
 - Karma
 - Grunt
 - Bower
@@ -16,7 +16,7 @@ Used technologies:
 
 - Install [nodejs] [1]
  - It comes with [npm] [2]
-- Have a look to [yeoman] [3]: it helps to scallfold an angular project with best practices
+- Have a look to [yeoman] [3]: it helps to scaffold an angular project with best practices
 - [sudo] npm install -g yo grunt-cli bower generator-angular generator-karma
 
 #Setup project env
