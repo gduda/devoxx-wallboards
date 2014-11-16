@@ -1,9 +1,10 @@
 "use strict";
 
 wallApp.controller('GameLeaderboardCtrl', ["$scope", "$timeout", "GameLeaderboardService", function ($scope, $timeout, GameLeaderboardService) {
+    $scope.reloadInterval = (60 * 1000) * 10; // Ten minutes
     $scope.loading = true;
 
-    function loadLeaderboard() {
+    function load() {
         console.log('Loading game leaderboard');
         GameLeaderboardService.loadLeaderboard().then(function (data) {
             $scope.leaderboard = data;
@@ -12,13 +13,13 @@ wallApp.controller('GameLeaderboardCtrl', ["$scope", "$timeout", "GameLeaderboar
             $scope.leaderboard = [];
             $scope.loading = false;
             console.log('Error loading leaderboard: ', error);
-        }).then(reloadLeaderboard, reloadLeaderboard);
+        }).then(reload, reload);
     }
 
-    function reloadLeaderboard() {
+    function reload() {
         console.log('reload leaderboard');
-        $timeout(loadLeaderboard, (60*1000) * 10);
+        $timeout(load, $scope.reloadInterval);
     }
 
-    loadLeaderboard();
+    load();
 }]);

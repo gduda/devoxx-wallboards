@@ -355,9 +355,7 @@ module.exports = function (grunt) {
         'coffee',
         'compass',
         'connect:test',
-        'karma:unit',
-        'connect:e2e',
-        'karma:e2e'
+        'karma:unit'
     ]);
 
     grunt.registerTask('test-e2e', [
