@@ -21,5 +21,5 @@ wallApp.controller('GameLeaderboardCtrl', ["$scope", "$timeout", "GameLeaderboar
         $timeout(load, $scope.reloadInterval);
     }
 
-    load();
+    //load();
 }]);

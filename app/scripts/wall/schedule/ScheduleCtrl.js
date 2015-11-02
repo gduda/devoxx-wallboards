@@ -15,21 +15,20 @@ var eventId = "13";
  * @param $updateView
  */
 wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageService', function ($http, $scope, $q, LocalStorageService) {
-
     scheduleLoaded.defer = $q.defer();
     scheduleLoaded.promise = scheduleLoaded.defer.promise;
     window.sc = this; // Global var to interact with from console
 
     var self = this;
 
-    $scope.scheduleNow = [];
-    $scope.scheduleNext = [];
-    $scope.loading = true;
+    this.scheduleNow = [];
+    this.scheduleNext = [];
+    this.loading = true;
 
     var speakers = [];
 
     var currentTime = new Date();
-    var currentDay = day(currentTime);
+    var currentDay = currentTime.getDay();
     var currentData = [];
 
     var onDone = function () {
@@ -42,7 +41,7 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
 
         console.log("Resolve after speakers");
         scheduleLoaded.defer.resolve();
-        $scope.loading = false;
+        self.loading = false;
 
         var MINUTES_10 = 1000 * 60 * 10;
         setInterval(self.refreshRemoteData, MINUTES_10);
@@ -60,7 +59,7 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
                 speakers = speakersFromCache;
                 done();
             } else {
-                var fullScheduleUrl = baseUriV1 + "events/" + eventId + "/speakers";
+                var fullScheduleUrl = 'http://cfp.devoxx.be/api/conferences/DV15/speakers';
                 $http.get(fullScheduleUrl)
                     .then(function (data, code) {
                         if ("" == data.data) {
@@ -85,7 +84,7 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
 
     this.nowAndNextTimer = function () {
         currentTime = new Date();
-        var dayNr = day(currentTime);
+        var dayNr = currentTime.getDay();
         if (dayNr != currentDay) {
             currentDay = dayNr;
             currentData = LocalStorageService.getDay(dayNr);
@@ -97,8 +96,22 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
     var MINUTES_1 = 1000 * 60;
     setInterval(self.nowAndNextTimer, MINUTES_1);
 
+    function getDayName(dayNr) {
+        switch (dayNr) {
+            case 0:  return 'sunday';
+            case 1:  return 'monday';
+            case 2:  return 'tuesday';
+            case 3:  return 'wednesday';
+            case 4:  return 'thursday';
+            case 5:  return 'friday';
+            case 6:  return 'saturday';
+            default: return 'sunday'; //Should never happen
+        }
+    }
+
     this.refreshRemoteData = function () {
-        $http.get(baseUriV1 + "events/" + eventId + "/schedule")
+        var dayName = getDayName(new Date().getDay());
+        $http.get('http://cfp.devoxx.be/api/conferences/DV15/schedules/' + dayName)
             .then(function (data, code) {
                 if ("" == data.data) {
                     console.error('Failed to call CFP REST');
@@ -111,7 +124,7 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
                 LocalStorageService.setSchedule(tak);
                 var groups = [];
                 tak.forEach(function (item) {
-                    var itemIndex = (item.day - 1);
+                    var itemIndex = (item.dayNr - 1);
                     if (!groups[itemIndex]) {
                         groups[itemIndex] = [];
                     }
@@ -130,8 +143,10 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
                     //    updateModels();
                     //}
                 }
-
+console.log('currentdata1', currentData);
+console.log('groups', groups);
                 currentData = groups[currentDay - 1];
+console.log('currentdata2', currentData);
                 updateModels();
 
             }).then(scheduleLoaded.defer.resolve);
@@ -140,18 +155,18 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
     function updateModels() {
         console.log('ScheduleItem data changed for day ' + currentDay + ' updating models...');
 
-        $scope.scheduleNow = [];
-        $scope.scheduleNext = [];
+        self.scheduleNow = [];
+        self.scheduleNext = [];
 
         var slots = defineSlots(currentData);
         var nowAndNext = nowAndNextSlot(slots);
 
-        $scope.scheduleNow = filterTime(nowAndNext[0]);
-        $scope.scheduleNext = filterTime(nowAndNext[1]);
+        self.scheduleNow = filterTime(nowAndNext[0]);
+        self.scheduleNext = filterTime(nowAndNext[1]);
 
         console.log("Slots", slots, "NowAndNext", nowAndNext);
-        console.log("NOW:", $scope.scheduleNow);
-        console.log("NEXT:", $scope.scheduleNext);
+        console.log("NOW:", self.scheduleNow);
+        console.log("NEXT:", self.scheduleNext);
 
         function defineSlots(items) {
             var slots = [];
@@ -204,11 +219,17 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
     function filterTalksAndKeynotes(data, speakers) {
         var talks = [];
 
-        data.forEach(function (item) {
-
-            if (item.kind.match(/Talk|Keynote/)) {
-                if (item.speakers) {
-                    var si = new ScheduleItem(item, findSpeakerImageUrl);
+        data.slots.forEach(function (slot) {
+            var talk = slot.talk;
+            if (talk &&
+                   (talk.talkType === 'Conference' ||
+                    talk.talkType === 'Quickie' ||
+                    talk.talkType === 'BOF (Bird of a Feather)' ||
+                    talk.talkType === 'University' ||
+                    talk.talkType === 'Hand\'s on Labs' ||
+                    talk.talkType === 'Keynote')) {
+                if (talk.speakers) {
+                    var si = new ScheduleItem(slot, findSpeakerImageUrl);
                     talks.push(si);
                 }
             }
@@ -389,7 +410,7 @@ wallApp.factory('LocalStorageService', ['$http', function ($http) {
     }
 
     function checkDay(dayNr) {
-        if (typeof(dayNr) == 'number' && dayNr >= 1 && dayNr <= 5) {
+        if (typeof(dayNr) == 'number' && dayNr >= 0 && dayNr <= 6) {
             return;
         }
         console.error("Invalid dayNr: " + dayNr);

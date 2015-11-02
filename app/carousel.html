@@ -1,8 +1,8 @@
-<ul class="panes">
-    <li>
+<ul class="panes" style="background-color: #000; opacity: 0.7">
+    <li ng-controller="ScheduleCtrl as schedule">
         <h1>Current talks</h1>
-        <h2 ng-show="loading">Loading...</h2>
-        <div ng-repeat="item in scheduleNow|orderBy:'room'" class="listEntry" ng-hide="loading">
+        <h2 ng-show="schedule.loading">Loading...</h2>
+        <div ng-repeat="item in schedule.scheduleNow|orderBy:'roomPadded'" class="listEntry" ng-hide="schedule.loading">
             <span class="room">{{item.room}}</span>
             <span class="image"><img ng-src="{{item.speakerImgUrl}}"/></span>
             <div class="text">
@@ -13,10 +13,10 @@
         </div>
     </li>
 
-    <li>
+    <li ng-controller="ScheduleCtrl as schedule">
         <h1>Next up</h1>
-        <h2 ng-show="loading">Loading...</h2>
-        <div ng-repeat="item in scheduleNext|orderBy:'room'" class="listEntry" ng-hide="loading">
+        <h2 ng-show="schedule.loading">Loading...</h2>
+        <div ng-repeat="item in schedule.scheduleNext|orderBy:'roomPadded'" class="listEntry" ng-hide="schedule.loading">
             <div class="room">{{item.room}}</div>
             <div class="image"><img ng-src="{{item.speakerImgUrl}}"/></div>
             <div class="text">
@@ -27,45 +27,35 @@
         </div>
     </li>
 
-    <li>
-        <div ng-controller="VotingCtrl">
+    <li ng-controller="VotingCtrl as voting">
+        <div>
             <h1 class="bestof">Top Talks Overall</h1>
-            <h2 ng-show="loadingWeek">Loading...</h2>
-            <div ng-repeat="talk in topTalksOfWeek" class="listEntry" ng-hide="loadingWeek">
-                <div class="room">{{$index + 1}}</div>
-                <div class="image"><img ng-src="{{talk.scheduleItem.speakerImgUrl}}"/></div>
+            <h2 ng-show="voting.loadingWeek">Loading...</h2>
+            <div ng-repeat="talk in voting.topTalksOfWeek" class="listEntry" ng-hide="voting.loadingWeek">
+                <div class="talkScore">{{talk.avg|number:1}}</div>
                 <div class="text">
-                    <span class="highlight">{{talk.likes}}</span>
-                    {{talk.scheduleItem.title}}
-                    <span class="warning">{{talk.scheduleItem.speakers}}</span>
+                    {{talk.title}}
+                    <div class="warning">
+                        <span ng-repeat="speakerName in talk.speakers">{{speakerName}} </span>
+                    </div>
                 </div>
             </div>
+        </div>
+    </li>
+    <li ng-controller="VotingCtrl as voting">
+        <div>
             <h2 class="bestof">Today's Top Talks</h2>
-            <h2 ng-show="loadingDay">Loading...</h2>
-            <div ng-repeat="talk in topTalksOfDay" class="listEntry" ng-hide="loadingDay">
-                <div class="room">{{$index + 1}}</div>
-                <div class="image"><img ng-src="{{talk.scheduleItem.speakerImgUrl}}"/></div>
+            <h2 ng-show="voting.loadingDay">Loading...</h2>
+            <div ng-repeat="talk in voting.topTalksOfDay" class="listEntry" ng-hide="voting.loadingDay">
+                <div class="talkScore">{{talk.avg|number:1}}</div>
                 <div class="text">
-                    <span class="highlight">{{talk.likes}}</span>
-                    {{talk.scheduleItem.title}}
-                    <span class="warning">{{talk.scheduleItem.speakers}}</span>
+                    {{talk.title}}
+                    <div class="warning">
+                        <span ng-repeat="speakerName in talk.speakers">{{speakerName}}</span>
+                    </div>
                 </div>
             </div>
         </div>
     </li>
 
-    <li>
-        <div ng-controller="GameLeaderboardCtrl">
-            <h1>#DevoxxHunt Top Hunters</h1>
-            <h2></h2>
-            <h2 ng-show="loading">Loading...</h2>
-            <div ng-repeat="lb in leaderboard|limitTo:7" class="listEntry" ng-hide="loading">
-                <div class="gamePoints">{{lb.points}}</div>
-                <div class="image"><img ng-src="{{lb.pictureUrl}}"/></div>
-                <div class="text warning">
-                    {{lb.name}}
-                </div>
-            </div>
-        </div>
-    </li>
 </ul>

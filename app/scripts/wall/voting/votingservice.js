@@ -1,8 +1,11 @@
 "use strict";
 
 wallApp.factory('VotingService', ['$http', '$q', function($http, $q) {
-    var topOfWeekUrl = "http://172.19.0.252:3000/bestofweek";
-    var topOfDayUrl = "http://172.19.0.252:3000/bestoftoday";
+
+    var dayNumberToName = ['sunday', 'monday', 'tuesday', 'thursday', 'friday', 'saturday'];
+    var dayNumber = new Date().getDay();
+    var topOfWeekUrl = 'https://api-voting.devoxx.com/DV15/top/talks?limit=5';
+    var topOfDayUrl = 'https://api-voting.devoxx.com/DV15/top/talks?limit=5&day=' + dayNumberToName[dayNumber];
 
     return {
         topOfWeek: function() {

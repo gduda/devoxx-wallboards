@@ -1,7 +1,7 @@
 * {
-    font-family: 'Lato';
+    font-family: 'Lato', serif;
     margin: 0;
-    pading: 0;
+    padding: 0;
 }
 
 body {
@@ -25,12 +25,12 @@ h1 {
 }
 
 #hallway {
-    .screen(url('../images/dv14-hallwall.jpg'), 1280px, 800px, 70px);
+    .screen(url('../images/dv15-hallwall.jpg'), 1280px, 800px, 70px);
 }
 
 #cinema {
     margin-top: 130px;
-    .screen(url('../images/dv14-cinemawall.jpg'), 1920px, 817px, 0);
+    .screen(url('../images/dv15-cinemawall.jpg'), 1920px, 817px, 0);
 }
 
 #hallway #schedule {
@@ -44,7 +44,7 @@ h1 {
 #carousel {
     width: 750px;
     height: 700px;
-    top: 70px;
+    top: 112px;
     right: 50px;
     position: absolute;
     overflow: hidden;
@@ -91,9 +91,9 @@ h1 {
                 -webkit-border-radius: 10px;
                 -webkit-box-shadow: #ebeb00 0 0 5px;
 
-                .room {
+                .talkScore {
                     float: left;
-                    width: 60px;
+                    width: 75px;
                     position: relative;
                     font-size: 3em;
                     margin: 8px 0 0;
@@ -102,15 +102,15 @@ h1 {
                     vertical-align: middle;
                 }
 
-                .image {
-                    margin-top: 4px;
-                    margin-right: 5px;
+                .room {
                     float: left;
-
-                    img {
-                        width: 60px;
-                        height: 66px;
-                    }
+                    width: 75px;
+                    position: relative;
+                    font-size: 3em;
+                    margin: 8px 0 0;
+                    padding: 0;
+                    text-align: center;
+                    vertical-align: middle;
                 }
 
                 .text {
@@ -202,10 +202,8 @@ h1 {
                 width: 760px;
                 height: 100px;
                 clear:both;
-                margin: 20px;
-                margin-top: 60px;
-                margin-bottom: 60px;
-                background: rgba(10,10,10,.9);
+                margin: 60px 20px;
+                background: rgba(0, 0, 0, 0.7);
                 -webkit-border-radius: 10px;
                 border: solid 1px #ebeb00;
                 -webkit-box-shadow: #ebeb00 0 0 5px;
@@ -245,13 +243,13 @@ h1 {
 }
 
 #notice {
-    opacity: 0.8;
-    font-size: 2em;
-    color: #ffffff;
+    opacity: 1;
+    font-size: 1.5em;
+    color: #fff;
     background-color: black;
-    -webkit-box-shadow: 0 0px 10px rgba(0,0,0,0.7);
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.7);
     position: absolute;
-    top: 10px;
+    top: 0;
     width: 100%;
     text-align: center;
 }
