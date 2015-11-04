@@ -361,8 +361,13 @@ module.exports = function (grunt) {
         'ngmin',
         'uglify',
         'rev',
-        'usemin'
+        'usemin',
+        'timestampFile'
     ]);
 
     grunt.registerTask('default', ['build']);
+
+    grunt.registerTask('timestampFile', 'Creates a file with a timestamp in it', function() {
+        grunt.file.write('dist/timestamp.json', '{"timestamp": ' + Date.now() + '}');
+    });
 };
