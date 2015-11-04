@@ -1,6 +1,1 @@
-/*
-  baseUri is is produced dynamically when deployed on cloudbees node.js server based on the 'API' configuration parameter
-*/
-
-var twitterBaseUri = 'http://localhost:9001/';
-var baseUriV1 = 'http://cfp.devoxx.com/rest/v1/';
+var twitterBaseUri = 'http://ec2-52-31-48-79.eu-west-1.compute.amazonaws.com:9001/';

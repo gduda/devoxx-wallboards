@@ -2,7 +2,7 @@
 
 var twitterSearchCriteria = 'devoxx';
 
-wallApp.controller('TwallCtrl', ['$http', '$scope', function ($http, $scope) {
+wallApp.controller('TweetWallCtrl', ['$http', '$scope', function ($http, $scope) {
 
     window.tc = this;
     var self = this;
@@ -11,19 +11,13 @@ wallApp.controller('TwallCtrl', ['$http', '$scope', function ($http, $scope) {
     var maxTweetId = 0;
 
     this.tweetQueue = [];
-    $scope.tweets = [];
-    $scope.scrollClass = "";
-    this.blacklist = [];
+    self.tweets = [];
+    self.scrollClass = "";
 
     this.refreshRemoteData = function () {
 
-        $http.get(baseUri + "twitter/" + twitterSearchCriteria)
+        $http.get(twitterBaseUri + "tweets/" + twitterSearchCriteria)
             .then(function (data) {
-
-                if ("" == data.data) {
-                    console.error('Failed to call Twitter REST');
-                    return;
-                }
 
                 var orderedTweets = _.sortBy(data.data, "id");
 
@@ -36,7 +30,7 @@ wallApp.controller('TwallCtrl', ['$http', '$scope', function ($http, $scope) {
                     }
                 });
 
-                if ($scope.tweets.length == 0) {
+                if (self.tweets.length == 0) {
                     setTimeout(self.tweetQueueProcessor, 0); // Populate on init (via timeout to avoid nested scope.apply)
                 }
             });
@@ -46,16 +40,16 @@ wallApp.controller('TwallCtrl', ['$http', '$scope', function ($http, $scope) {
         $scope.$apply(function () {
 
             // Initialisation
-            if ($scope.tweets.length < MAX) {
-                while ($scope.tweets.length < MAX && self.tweetQueue.length > 0) {
-                    $scope.tweets.push(self.tweetQueue.shift());
+            if (self.tweets.length < MAX) {
+                while (self.tweets.length < MAX && self.tweetQueue.length > 0) {
+                    self.tweets.push(self.tweetQueue.shift());
                 }
 
             }
             // Regular operation
             else if (self.tweetQueue.length > 0) {
-                $scope.tweets.push(self.tweetQueue.shift());
-                $scope.scrollClass = "scrollup";
+                self.tweets.push(self.tweetQueue.shift());
+                self.scrollClass = "scrollup";
                 setTimeout(shiftTweets, 1900);
             }
 
@@ -64,8 +58,8 @@ wallApp.controller('TwallCtrl', ['$http', '$scope', function ($http, $scope) {
         function shiftTweets() {
 
             $scope.$apply(function () {
-                $scope.tweets.shift();
-                $scope.scrollClass = "";
+                self.tweets.shift();
+                self.scrollClass = "";
             });
         }
     };
