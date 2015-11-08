@@ -16,7 +16,7 @@ wallApp.controller('TweetWallCtrl', ['$http', '$scope', function ($http, $scope)
 
     this.refreshRemoteData = function () {
 
-        $http.get(twitterBaseUri + "tweets/" + twitterSearchCriteria)
+        $http.get(twitterBaseUri + "tweets/" + twitterSearchCriteria + "/" + maxTweetId)
             .then(function (data) {
 
                 var orderedTweets = _.sortBy(data.data, "id");
