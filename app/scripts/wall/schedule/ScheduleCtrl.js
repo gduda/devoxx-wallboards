@@ -227,6 +227,8 @@ console.log('currentdata2', currentData);
                     talk.talkType === 'BOF (Bird of a Feather)' ||
                     talk.talkType === 'University' ||
                     talk.talkType === 'Hand\'s on Labs' ||
+                    talk.talkType === 'Tools-in-Action' ||
+                    talk.talkType === 'Startup presentation' ||
                     talk.talkType === 'Keynote')) {
                 if (talk.speakers) {
                     var si = new ScheduleItem(slot, findSpeakerImageUrl);
