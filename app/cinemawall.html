@@ -22,13 +22,14 @@
     <body ng-app="wallApp">
         <div id="cinema">
             <div id="tweets" ng-controller="TweetWallCtrl as tweetWall">
-                <div ng-class="tweetWall.scrollClass">
-                    <div class="container">
-                        <div class="border">
-                            <div ng-repeat="tweet in tweetWall.tweets">
-                                <div class="image"><img ng-src="{{tweet.image}}"/></div>
-                                <div class="tweet"><span class="author">{{tweet.author}}</span> {{tweet.tweet}}</div>
-                            </div>
+
+                <div class="tweet {{tweet.styleClass}}" ng-repeat="tweet in tweetWall.tweets" style="left: {{tweet.left}}px; top: {{tweet.top}}px;">
+                    <div class="cloud">
+                        <div class="cloudContents">
+                            <span class="author">{{tweet.author}}</span> {{tweet.tweet}}
+                        </div>
+                        <div class="authorImage">
+                            <img ng-src="{{tweet.image}}">
                         </div>
                     </div>
                 </div>

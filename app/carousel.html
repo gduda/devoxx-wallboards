@@ -1,10 +1,9 @@
-<ul class="panes" style="background-color: #000; opacity: 0.7">
+<ul class="panes">
     <li ng-controller="ScheduleCtrl as schedule">
         <h1>Current talks</h1>
         <h2 ng-show="schedule.loading">Loading...</h2>
         <div ng-repeat="item in schedule.scheduleNow|orderBy:'roomPadded'" class="listEntry" ng-hide="schedule.loading">
             <span class="room">{{item.room}}</span>
-            <span class="image"><img ng-src="{{item.speakerImgUrl}}"/></span>
             <div class="text">
                 <span class="highlight">{{item.time}}</span>
                 {{item.title}}
@@ -18,7 +17,6 @@
         <h2 ng-show="schedule.loading">Loading...</h2>
         <div ng-repeat="item in schedule.scheduleNext|orderBy:'roomPadded'" class="listEntry" ng-hide="schedule.loading">
             <div class="room">{{item.room}}</div>
-            <div class="image"><img ng-src="{{item.speakerImgUrl}}"/></div>
             <div class="text">
                 <span class="highlight">{{item.time}}</span>
                 {{item.title}}
@@ -32,7 +30,10 @@
             <h1 class="bestof">Top Talks Overall</h1>
             <h2 ng-show="voting.loadingWeek">Loading...</h2>
             <div ng-repeat="talk in voting.topTalksOfWeek" class="listEntry" ng-hide="voting.loadingWeek">
-                <div class="talkScore">{{talk.avg|number:1}}</div>
+                <div class="talkScore">
+                    <div class="avg">{{talk.avg|number:1}}</div>
+                    <div class="count">{{talk.count|number}} votes</div>
+                </div>
                 <div class="text">
                     {{talk.title}}
                     <div class="warning">
@@ -47,7 +48,10 @@
             <h2 class="bestof">Today's Top Talks</h2>
             <h2 ng-show="voting.loadingDay">Loading...</h2>
             <div ng-repeat="talk in voting.topTalksOfDay" class="listEntry" ng-hide="voting.loadingDay">
-                <div class="talkScore">{{talk.avg|number:1}}</div>
+                <div class="talkScore">
+                    <div class="avg">{{talk.avg|number:1}}</div>
+                    <div class="count">{{talk.count|number}} votes</div>
+                </div>
                 <div class="text">
                     {{talk.title}}
                     <div class="warning">

@@ -1,0 +1,138 @@
+<div id="background-wrap">
+    <style type="text/css">
+        body {
+            background: #00b4ff;
+            color: #333;
+            font: 100% Arial, Sans Serif;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        #background-wrap {
+            bottom: 0;
+            left: 0;
+            padding-top: 50px;
+            position: fixed;
+            right: 0;
+            top: 0;
+            z-index: -1;
+        }
+
+        div.tweet {
+            position: absolute;
+            left: 200px;
+            top: 150px;
+        }
+
+        .cloud {
+            background: #fff;
+            background: -moz-linear-gradient(top,  #fff 5%, #f1f1f1 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(5%,#fff), color-stop(100%,#f1f1f1));
+            background: -webkit-linear-gradient(top,  #fff 5%,#f1f1f1 100%);
+            background: -o-linear-gradient(top,  #fff 5%,#f1f1f1 100%);
+            background: -ms-linear-gradient(top,  #fff 5%,#f1f1f1 100%);
+            background: linear-gradient(top,  #fff 5%,#f1f1f1 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff', endColorstr='#f1f1f1',GradientType=0 );
+
+            -webkit-border-radius: 100px;
+            -moz-border-radius: 100px;
+            border-radius: 100px;
+
+            -webkit-box-shadow: 0 8px 5px rgba(0, 0, 0, 0.1);
+            -moz-box-shadow: 0 8px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 5px rgba(0, 0, 0, 0.1);
+
+            height: 120px;
+            position: relative;
+            width: 350px;
+        }
+
+        .cloudContents {
+            position: absolute;
+            padding: 10px;
+            left: 40px;
+            top: 10px;
+            width: 280px;
+            height: 100px;
+            box-sizing: border-box;
+            border: 0px solid blue;
+            font-size: large;
+        }
+
+        .author {
+            font-weight: bold;
+            color: #00b4ff;
+        }
+
+        .authorImage {
+            position: absolute;
+            right: 70px;
+            top: -40px;
+            z-index: 1000;
+        }
+
+        .authorImage > img {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .authorImage:before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            height: 90%;
+            width: 94%;
+            top: -2px;
+            left: -1px;
+
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+            border: 3px solid #00b4ff;
+            border-radius: 10px;
+            transform: rotate(-5deg);
+        }
+
+        .cloud:after, .cloud:before {
+            background: #fff;
+            content: '';
+            position: absolute;
+            z-indeX: -1;
+        }
+
+        .cloud:after {
+            -webkit-border-radius: 100px;
+            -moz-border-radius: 100px;
+            border-radius: 100px;
+
+            height: 100px;
+            left: 60px;
+            top: -40px;
+            width: 100px;
+            transform: scaleX(1.2);
+        }
+
+        .cloud:before {
+            -webkit-border-radius: 200px;
+            -moz-border-radius: 200px;
+            border-radius: 200px;
+
+            width: 150px;
+            height: 150px;
+            right: 40px;
+            top: -50px;
+            transform: scaleX(1.2);
+        }
+    </style>
+    <div class="tweet">
+        <div class="cloud">
+            <div class="cloudContents">
+                <span class="author">Febi</span> Die Reise startet in #ZRH mit einem Geocache. #Devoxx https://t.co/znlMOusKyZ
+            </div>
+            <div class="authorImage">
+                <img src="http://pbs.twimg.com/profile_images/378800000238959973/6f16c041ed7aac5e0798f789140164a4_normal.jpeg">
+            </div>
+        </div>
+    </div>
+
+</div>

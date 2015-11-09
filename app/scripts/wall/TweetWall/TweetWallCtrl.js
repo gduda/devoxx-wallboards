@@ -2,7 +2,7 @@
 
 var twitterSearchCriteria = 'devoxx';
 
-wallApp.controller('TweetWallCtrl', ['$http', '$scope', function ($http, $scope) {
+wallApp.controller('TweetWallCtrl', ['$http', '$scope', '$timeout', function ($http, $scope, $timeout) {
 
     window.tc = this;
     var self = this;
@@ -13,6 +13,24 @@ wallApp.controller('TweetWallCtrl', ['$http', '$scope', function ($http, $scope)
     this.tweetQueue = [];
     self.tweets = [];
     self.scrollClass = "";
+    self.roundRobin = 0;
+
+    var quadrantLeftOffset = 20;
+    var quadrantTopOffset = 0;
+    var quadrantWidth = 550;
+    var quadrantHeight = 300;
+
+    self.assignPosition = function () {
+        var leftRnd = (Math.random() * 100);
+        var topRnd = (Math.random() * 100);
+        self.roundRobin = (self.roundRobin + 1) % 4;
+        switch (self.roundRobin) {
+            case 0: return {left: leftRnd + quadrantLeftOffset, top: topRnd+quadrantTopOffset};
+            case 1: return {left: leftRnd + quadrantLeftOffset, top: topRnd+quadrantHeight};
+            case 2: return {left: leftRnd+quadrantWidth, top: topRnd+quadrantTopOffset};
+            case 3: return {left: leftRnd+quadrantWidth, top: topRnd+quadrantHeight};
+        }
+    };
 
     this.refreshRemoteData = function () {
 
@@ -38,29 +56,50 @@ wallApp.controller('TweetWallCtrl', ['$http', '$scope', function ($http, $scope)
 
     this.tweetQueueProcessor = function () {
         $scope.$apply(function () {
+            var tweet;
 
             // Initialisation
             if (self.tweets.length < MAX) {
                 while (self.tweets.length < MAX && self.tweetQueue.length > 0) {
-                    self.tweets.push(self.tweetQueue.shift());
+                    tweet = self.tweetQueue.shift();
+                    console.log('init', tweet);
+                    var pos = self.assignPosition();
+                    tweet.left = pos.left;
+                    tweet.top = pos.top;
+                    tweet.styleClass = "slide-in";
+                    self.tweets.push(tweet);
                 }
 
             }
             // Regular operation
             else if (self.tweetQueue.length > 0) {
-                self.tweets.push(self.tweetQueue.shift());
-                self.scrollClass = "scrollup";
-                setTimeout(shiftTweets, 1900);
+                shiftTweets();
             }
 
         });
 
         function shiftTweets() {
+            if (self.tweets.length > 0) {
+                var tweet = self.tweets[0];
+                console.log('shift', tweet);
+                tweet.styleClass = "slide-out";
+                $timeout(function () {
+                    self.tweets.shift();
+                    addTweet();
+                }, 1500);
+            } else {
+                addTweet();
+            }
+        }
 
-            $scope.$apply(function () {
-                self.tweets.shift();
-                self.scrollClass = "";
-            });
+        function addTweet() {
+            var tweet = self.tweetQueue.shift();
+            console.log('regular', tweet);
+            var pos = self.assignPosition();
+            tweet.left = pos.left;
+            tweet.top = pos.top;
+            tweet.styleClass = "slide-in";
+            self.tweets.push(tweet);
         }
     };
 
