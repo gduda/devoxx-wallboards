@@ -19,7 +19,7 @@ wallApp.factory('VotingService', ['$http', '$q', function($http, $q) {
 
             return defer.promise;
         },
-        topOfDay : function(callback) {
+        topOfDay : function() {
             var defer = $q.defer();
 
             $http.get(topOfDayUrl).success(function(data, status, headers, config) {

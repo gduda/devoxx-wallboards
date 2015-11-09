@@ -4,7 +4,8 @@ wallApp.controller('VotingCtrl', [ "$timeout", "$interval", "VotingService", fun
     var self = this;
     self.loadingWeek = true;
     self.loadingDay = true;
-    $interval(function () {
+
+    function retrieveVotes () {
         VotingService.topOfWeek().then(function (data) {
             self.topTalksOfWeek = data.talks;
             self.loadingWeek = false;
@@ -13,5 +14,8 @@ wallApp.controller('VotingCtrl', [ "$timeout", "$interval", "VotingService", fun
             self.topTalksOfDay = data.talks;
             self.loadingDay = false;
         });
-    }, 10000);
+    }
+
+    retrieveVotes();
+    $interval(retrieveVotes, 10000);
 }]);
