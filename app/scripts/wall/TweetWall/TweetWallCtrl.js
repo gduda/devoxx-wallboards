@@ -62,7 +62,6 @@ wallApp.controller('TweetWallCtrl', ['$http', '$scope', '$timeout', function ($h
             if (self.tweets.length < MAX) {
                 while (self.tweets.length < MAX && self.tweetQueue.length > 0) {
                     tweet = self.tweetQueue.shift();
-                    console.log('init', tweet);
                     var pos = self.assignPosition();
                     tweet.left = pos.left;
                     tweet.top = pos.top;
@@ -81,7 +80,6 @@ wallApp.controller('TweetWallCtrl', ['$http', '$scope', '$timeout', function ($h
         function shiftTweets() {
             if (self.tweets.length > 0) {
                 var tweet = self.tweets[0];
-                console.log('shift', tweet);
                 tweet.styleClass = "slide-out";
                 $timeout(function () {
                     self.tweets.shift();
@@ -94,7 +92,6 @@ wallApp.controller('TweetWallCtrl', ['$http', '$scope', '$timeout', function ($h
 
         function addTweet() {
             var tweet = self.tweetQueue.shift();
-            console.log('regular', tweet);
             var pos = self.assignPosition();
             tweet.left = pos.left;
             tweet.top = pos.top;
