@@ -1,29 +1,12 @@
 "use strict";
 
-wallApp.controller('NoticeCtrl', [ '$scope', function ($scope) {
+wallApp.controller('NoticeCtrl', [ function () {
 
     var self = this;
 
-    this.notices = [ "WIFI SSID: devoxx15 password: devoxx15" ]; // <- Add String messages here
+    self.msgs = [
+        "Don't forget to use the in-app voting afterwards, ",
+        "using the iOS and Android apps."
+    ];
 
-    setInterval(cycleNotices, 10 * 1000);
-    var noticeIndex = 0;
-
-    $scope.notice = this.notices.length > 0 ? this.notices[0] : null;
-
-    function cycleNotices() {
-
-        $scope.$apply(function () {
-
-            if (self.notices.length == 0) {
-                $scope.notice = null;
-            } else {
-                if (noticeIndex >= self.notices.length) {
-                    noticeIndex = 0;
-                }
-                $scope.notice = self.notices[noticeIndex];
-                noticeIndex++;
-            }
-        });
-    }
 }]);
