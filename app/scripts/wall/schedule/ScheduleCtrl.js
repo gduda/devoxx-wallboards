@@ -143,10 +143,9 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
                     //    updateModels();
                     //}
                 }
-console.log('currentdata1', currentData);
-console.log('groups', groups);
+
                 currentData = groups[currentDay - 1];
-console.log('currentdata2', currentData);
+
                 updateModels();
 
             }).then(scheduleLoaded.defer.resolve);
@@ -434,6 +433,7 @@ wallApp.factory('LocalStorageService', ['$http', function ($http) {
         setSpeakers: this.setSpeakers,
         hasSchedule: this.hasSchedule,
         getSchedule: this.getSchedule,
-        setSchedule: this.setSchedule
+        setSchedule: this.setSchedule,
+        clear: this.clear
     };
 }]);
