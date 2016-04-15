@@ -3,7 +3,7 @@
 wallApp.factory('GameLeaderboardService', ['$http', '$q', function($http, $q) {
     var load = function() {
         var defer = $q.defer();
-        $http.get('/blebackend/leaderboard')
+        $http.get(gameLeaderBoardUrl)
             .success(function(data) {
                 defer.resolve(data);
             }).error(function(error) {

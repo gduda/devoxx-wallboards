@@ -30,10 +30,6 @@ module.exports = function (grunt) {
                 files: ['test/spec/{,*/}*.coffee'],
                 tasks: ['coffee:test']
             },
-            /*compass: {
-                files: ['<%= yeoman.app %>/styles/{,*//*}*.{scss,sass}'],
-                tasks: ['compass']
-            },*/
             recess: {
                 files: ['<%= yeoman.app %>/styles/{,*/}*.less'],
                 tasks: ['recess:dist']
@@ -172,23 +168,6 @@ module.exports = function (grunt) {
                 ]
             }
         },
-        /*compass: {
-            options: {
-                sassDir: '<%= yeoman.app %>/styles',
-                cssDir: '.tmp/styles',
-                imagesDir: '<%= yeoman.app %>/images',
-                javascriptsDir: '<%= yeoman.app %>/scripts',
-                fontsDir: '<%= yeoman.app %>/styles/fonts',
-                importPath: '<%= yeoman.app %>/components',
-                relativeAssets: true
-            },
-            dist: {},
-            server: {
-                options: {
-                    debugInfo: true
-                }
-            }
-        },*/
         recess: {
             options: {
                 compile: true
@@ -233,15 +212,6 @@ module.exports = function (grunt) {
         htmlmin: {
             dist: {
                 options: {
-                    /*removeCommentsFromCDATA: true,
-                     // https://github.com/yeoman/grunt-usemin/issues/44
-                     //collapseWhitespace: true,
-                     collapseBooleanAttributes: true,
-                     removeAttributeQuotes: true,
-                     removeRedundantAttributes: true,
-                     useShortDoctype: true,
-                     removeEmptyAttributes: true,
-                     removeOptionalTags: true*/
                 },
                 files: [
                     {
@@ -293,7 +263,7 @@ module.exports = function (grunt) {
                         dest: '<%= yeoman.dist %>',
                         src: [
                             '*.{ico,txt}',
-                            'config.js',
+                            'config_be.js',
                             'components/**/*',
                             'images/{,*/}*.{gif,webp}',
                             'images/tracks/mobile/*',
@@ -310,8 +280,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('server', [
         'clean:server',
-        //'coffee:dist',
-        //'compass:server',
         'build',
         'livereload-start',
         'connect:livereload',
@@ -322,7 +290,6 @@ module.exports = function (grunt) {
     grunt.registerTask('serverDist', [
         'clean:server',
         'coffee:dist',
-        //'compass:server',
         'recess:dist',
         'connect:e2eDist',
         'open:serverDist',
@@ -332,7 +299,6 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:server',
         'coffee',
-        //'compass',
         'connect:test',
         'karma:unit'
     ]);
@@ -346,10 +312,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
-        //'jshint',
         'coffee',
-        // 'test',
-        //'compass:dist',
         'recess:dist',
         'useminPrepare',
         'imagemin',
@@ -357,7 +320,6 @@ module.exports = function (grunt) {
         'htmlmin',
         'concat',
         'copy:dist',
-        //'cdnify',
         'ngmin',
         'uglify',
         'rev',

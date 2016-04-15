@@ -15,15 +15,24 @@
         <link rel="stylesheet" href="styles/keyframes-tweets.css">
         <!-- endbuild -->
         <!-- build:css(.tmp) styles/tweetwall-less.css -->
-        <link rel="stylesheet" href="styles/wall.css">
+        <link rel="stylesheet" href="styles/tweetwall_fr.css">
         <!-- endbuild -->
     </head>
 
     <body ng-app="wallApp">
-        <div id="hallway">
-            <div id="carousel" ng-include="'carousel.html'" ng-controller="ScheduleCtrl"></div>
+        <div id="tweetwall_fr">
+            <div id="tweets" ng-controller="TweetWallCtrl as tweetWall">
 
-            <div id="notice" style="display: none" ng-controller="NoticeCtrl">{{notice}}</div>
+                <div class="tweet {{tweet.styleClass}}" ng-repeat="tweet in tweetWall.tweets" style="left: {{tweet.left}}px; top: {{tweet.top}}px;">
+                    <div class="photo" style="background: url({{tweet.image}})"></div>
+                    <i class="screw r t"></i>
+                    <i class="screw l b"></i>
+                    <i class="screw r b"></i>
+                    <span class="author">{{tweet.author}}</span>
+                    <div class="message">{{tweet.tweet}}</div>
+                </div>
+
+            </div>
         </div>
     </body>
 
@@ -34,7 +43,7 @@
     <!-- endbuild -->
     <!--[endif]-->
 
-    <script src="config_be.js"></script>
+    <script src="config_fr.js"></script>
 
     <!-- build:js scripts/tweetwall.js -->
     <script src="components/jquery/jquery.js"></script>
@@ -48,12 +57,6 @@
     <script src="scripts/wall/models.js"></script>
     <script src="scripts/wall/utilities.js"></script>
     <script src="scripts/wall/app.js"></script>
-    <script src="scripts/wall/gameleaderboard/GameLeaderboardCtrl.js"></script>
-    <script src="scripts/wall/gameleaderboard/GameLeaderboardService.js"></script>
-    <script src="scripts/wall/notice/NoticeCtrl.js"></script>
-    <script src="scripts/wall/schedule/ScheduleCtrl.js"></script>
     <script src="scripts/wall/tweets/TweetWallCtrl.js"></script>
-    <script src="scripts/wall/voting/VotingCtrl.js"></script>
-    <script src="scripts/wall/voting/VotingService.js"></script>
     <!-- endbuild -->
 </html>

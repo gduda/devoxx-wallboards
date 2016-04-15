@@ -1,7 +1,5 @@
 "use strict";
 
-var twitterSearchCriteria = 'devoxx';
-
 wallApp.controller('TweetWallCtrl', ['$http', '$scope', '$timeout', function ($http, $scope, $timeout) {
 
     window.tc = this;

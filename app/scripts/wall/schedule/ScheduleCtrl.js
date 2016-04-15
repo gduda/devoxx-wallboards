@@ -59,7 +59,7 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
                 speakers = speakersFromCache;
                 done();
             } else {
-                var fullScheduleUrl = 'http://cfp.devoxx.be/api/conferences/DV15/speakers';
+                //TODO: fill in fullScheduleUrl
                 $http.get(fullScheduleUrl)
                     .then(function (data, code) {
                         if ("" == data.data) {
@@ -111,7 +111,8 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
 
     this.refreshRemoteData = function () {
         var dayName = getDayName(new Date().getDay());
-        $http.get('http://cfp.devoxx.be/api/conferences/DV15/schedules/' + dayName)
+        //TODO fill in dailyScheduleUrl
+        $http.get(dailyScheduleUrl + dayName)
             .then(function (data, code) {
                 if ("" == data.data) {
                     console.error('Failed to call CFP REST');
@@ -220,15 +221,7 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
 
         data.slots.forEach(function (slot) {
             var talk = slot.talk;
-            if (talk &&
-                   (talk.talkType === 'Conference' ||
-                    talk.talkType === 'Quickie' ||
-                    talk.talkType === 'BOF (Bird of a Feather)' ||
-                    talk.talkType === 'University' ||
-                    talk.talkType === 'Hand\'s on Labs' ||
-                    talk.talkType === 'Tools-in-Action' ||
-                    talk.talkType === 'Startup presentation' ||
-                    talk.talkType === 'Keynote')) {
+            if (talk && _.contains(talkTypesInSchedule, talk.talkType)) {
                 if (talk.speakers) {
                     var si = new ScheduleItem(slot, findSpeakerImageUrl);
                     talks.push(si);
