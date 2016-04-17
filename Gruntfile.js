@@ -264,6 +264,7 @@ module.exports = function (grunt) {
                         src: [
                             '*.{ico,txt}',
                             'config_be.js',
+                            'config_fr.js',
                             'components/**/*',
                             'images/{,*/}*.{gif,webp}',
                             'images/tracks/mobile/*',
