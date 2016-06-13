@@ -1,111 +1,41 @@
 'use strict';
-var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
-var mountFolder = function (connect, dir) {
-    return connect.static(require('path').resolve(dir));
-};
-
+/** jshint ignore */
 module.exports = function (grunt) {
     // load all grunt tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-    // configurable paths
-    var yeomanConfig = {
-        app: 'app',
-        dist: 'dist'
-    };
-
-    try {
-        yeomanConfig.app = require('./bower.json').appPath || yeomanConfig.app;
-    } catch (e) {
-    }
-
     grunt.initConfig({
-        yeoman: yeomanConfig,
         watch: {
-            coffee: {
-                files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-                tasks: ['coffee:dist']
+            less: {
+                files: ['app/less/{,*/}*.less'],
+                tasks: [
+                    'less',
+                    'copy:dist'
+                ]
             },
-            coffeeTest: {
-                files: ['test/spec/{,*/}*.coffee'],
-                tasks: ['coffee:test']
-            },
-            recess: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.less'],
-                tasks: ['recess:dist']
-            },
-            livereload: {
-                files: [
-                    '<%= yeoman.app %>/*.html',
-                    '<%= yeoman.app %>/views/*.html',
-                    '<%= yeoman.app %>/views/{,*/}*.html',
-                    '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
-                    '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
-                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
-                ],
-                tasks: ['livereload']
+            js: {
+                files: ['app/scripts/{,**/}*.js'],
+                tasks: [
+                    'ngAnnotate',
+                    'uglify',
+                    'copy:dist'
+                ]
             }
         },
         connect: {
-            options: {
-                port: 9000,
-                // Change this to '0.0.0.0' to access the server from outside.
-                hostname: '0.0.0.0'
-            },
-            livereload: {
-                options: {
-                    middleware: function (connect) {
-                        return [
-                            lrSnippet,
-                            mountFolder(connect, '.tmp'),
-                            mountFolder(connect, 'images_dummy'),
-                            mountFolder(connect, yeomanConfig.app)
-                        ];
-                    }
-                }
-            },
-            test: {
-                options: {
-                    middleware: function (connect) {
-                        return [
-                            mountFolder(connect, '.tmp'),
-                            mountFolder(connect, 'test')
-                        ];
-                    }
-                }
-            },
-            e2e: {
-                options: {
-                    port: 9001,
-                    middleware: function (connect) {
-                        return [
-                            lrSnippet,
-                            mountFolder(connect, '.tmp'),
-                            mountFolder(connect, yeomanConfig.app)
-                        ];
-                    }
-                }
-            },
-            e2eDist: {
-                options: {
-                    port: 9002,
-                    hostname: 'localhost',
-                    base: yeomanConfig.dist,
-                    middleware: function (connect) {
-                        return [
-                            mountFolder(connect, 'images_dummy'),
-                            mountFolder(connect, yeomanConfig.dist)
-                        ];
-                    }
-                }
-            }
-        },
-        open: {
             server: {
-                url: 'http://localhost:<%= connect.options.port %>'
+                options: {
+                    port: 9000,
+                    hostname: '0.0.0.0',
+                    base: 'dist'
+                }
             },
             serverDist: {
-                url: 'http://localhost:9002'
+                options: {
+                    port: 9002,
+                    hostname: '0.0.0.0',
+                    base: 'dist'
+                }
             }
         },
         clean: {
@@ -115,13 +45,11 @@ module.exports = function (grunt) {
                         dot: true,
                         src: [
                             '.tmp',
-                            '<%= yeoman.dist %>/*',
-                            '!<%= yeoman.dist %>/.git*'
+                            'dist/*'
                         ]
                     }
                 ]
-            },
-            server: '.tmp'
+            }
         },
         jshint: {
             options: {
@@ -129,7 +57,9 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                '<%= yeoman.app %>/scripts/{,*/}*.js'
+                'app/scripts/{,**/}*.js',
+                '!app/scripts/wall/date.js',
+                '!app/scripts/wall/md5.js'
             ]
         },
         karma: {
@@ -144,57 +74,13 @@ module.exports = function (grunt) {
                 autoWatch: false
             }
         },
-        coffee: {
+        less: {
             dist: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= yeoman.app %>/scripts',
-                        src: '{,*/}*.coffee',
-                        dest: '.tmp/scripts',
-                        ext: '.js'
-                    }
-                ]
-            },
-            test: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'test/spec',
-                        src: '{,*/}*.coffee',
-                        dest: '.tmp/spec',
-                        ext: '.js'
-                    }
-                ]
-            }
-        },
-        recess: {
-            options: {
-                compile: true
-            },
-            dist: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= yeoman.app %>/styles',
-                        src: '{,*/}*.less',
-                        dest: '.tmp/styles/',
-                        ext: '.css'
-                    }
-                ]
-            }
-        },
-        useminPrepare: {
-            html: ['<%= yeoman.app %>/*.html'],
-            options: {
-                dest: '<%= yeoman.dist %>'
-            }
-        },
-        usemin: {
-            html: ['<%= yeoman.dist %>/{,*/}*.html', '<%= yeoman.dist %>/{,views/**/}*.html'],
-            css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
-            options: {
-                dirs: ['<%= yeoman.dist %>']
+                files: {
+                    'dist/css/wall.css': 'app/less/wall.less',
+                    'dist/css/tweetwall_fr.css': 'app/less/tweetwall_fr.less',
+                    'dist/css/cinemawall_pl.css': 'app/less/cinemawall_pl.less'
+                }
             }
         },
         imagemin: {
@@ -202,55 +88,61 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= yeoman.app %>/images',
+                        cwd: 'app/images',
                         src: '{,**/}*.{png,jpg,jpeg,png}',
-                        dest: '<%= yeoman.dist %>/images'
+                        dest: 'dist/images'
                     }
                 ]
             }
         },
         htmlmin: {
             dist: {
-                options: {
-                },
+                options: {},
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= yeoman.app %>',
+                        cwd: 'app',
                         src: ['*.html', 'views/**/*.html'],
-                        dest: '<%= yeoman.dist %>'
+                        dest: 'dist'
                     }
                 ]
             }
         },
-        cdnify: {
-            dist: {
-                html: ['<%= yeoman.dist %>/*.html']
-            }
-        },
-        ngmin: {
-            dist: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= yeoman.dist %>/scripts',
-                        src: '*.js',
-                        dest: '<%= yeoman.dist %>/scripts'
-                    }
-                ]
-            }
-        },
-        rev: {
-            dist: {
-                files: {
+        ngAnnotate: {
+            options: {
+                singleQuotes: true,
+                separator: ';'
+            },
+            wallboard: {
+                files: [{
+                    expand: true,
                     src: [
-                        '<%= yeoman.dist %>/scripts/{,*/}*.js',
-                        '<%= yeoman.dist %>/styles/{,*/}*.css',
-                        '<%= yeoman.dist %>/images/{,**/}*.{png,jpg,jpeg,gif,webp,svg}',
-                        '!<%= yeoman.dist %>/images/tracks/mobile/**/*',
-                        '<%= yeoman.dist %>/styles/fonts/*'
-                    ]
-                }
+                        'app/scripts/**/*.js'
+                    ],
+                    dest: '.tmp/annotated/',
+                    ext: '.annotated.js',
+                    extDot: 'last'
+                }]
+            }
+        },
+        filerev: {
+            src: [
+                'dist/images/*.{png,jpg,jpeg,gif,webp,svg}',
+                'dist/scripts/*.js',
+                'dist/css/*.css'
+
+            ],
+            dest: 'dist'
+        },
+        filerev_replace: {// jshint ignore:line
+            options: {
+                assets_root: 'dist'// jshint ignore:line
+            },
+            compiled_assets: {// jshint ignore:line
+                src: 'dist/css/*.css'
+            },
+            views: {
+                src: 'dist/*.html'
             }
         },
         copy: {
@@ -259,72 +151,62 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         dot: true,
-                        cwd: '<%= yeoman.app %>',
-                        dest: '<%= yeoman.dist %>',
+                        cwd: 'app',
+                        dest: 'dist',
                         src: [
                             '*.{ico,txt}',
                             'config_be.js',
                             'config_fr.js',
+                            'config_pl.js',
                             'components/**/*',
-                            'images/{,*/}*.{gif,webp}',
-                            'images/tracks/mobile/*',
-                            'styles/*.{eot,svg,ttf,woff}',
-                            'images_dummy/*'
+                            'css/*.css',
+                            'images/*',
+                            '*.html'
                         ]
                     }
                 ]
             }
+        },
+        uglify: {
+            main: {
+                options: {
+                    sourceMap: false
+                },
+                files: {
+                    'dist/scripts/tweetwall.min.js': [
+                        '.tmp/annotated/app/scripts/config.annotated.js',
+                        '.tmp/annotated/app/scripts/wall/*.annotated.js',
+                        '.tmp/annotated/app/scripts/wall/**/*.annotated.js',
+                        'app/*.js'
+                    ]
+                }
+            }
         }
     });
 
-    grunt.renameTask('regarde', 'watch');
-
     grunt.registerTask('server', [
-        'clean:server',
         'build',
-        'livereload-start',
-        'connect:livereload',
-        'open:server',
+        'connect:server',
         'watch'
     ]);
 
     grunt.registerTask('serverDist', [
-        'clean:server',
-        'coffee:dist',
-        'recess:dist',
-        'connect:e2eDist',
-        'open:serverDist',
+        'build',
+        'connect:serverDist',
         'watch'
     ]);
 
-    grunt.registerTask('test', [
-        'clean:server',
-        'coffee',
-        'connect:test',
-        'karma:unit'
-    ]);
-
-    grunt.registerTask('test-e2e', [
-        'clean:server',
-        'coffee',
-        'connect:e2e',
-        'karma:e2e'
-    ]);
-
     grunt.registerTask('build', [
-        'clean:dist',
-        'coffee',
-        'recess:dist',
-        'useminPrepare',
-        'imagemin',
-        'cssmin',
-        'htmlmin',
-        'concat',
-        'copy:dist',
-        'ngmin',
+        'clean',
+        'less',
+        // 'imagemin',
+        // 'htmlmin',
+        'jshint',
+        'ngAnnotate',
         'uglify',
-        'rev',
-        'usemin',
+        'copy:dist',
+        // 'filerev',
+        // 'filerev_replace',
         'timestampFile'
     ]);
 

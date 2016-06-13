@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-wallApp.controller('VotingCtrl', [ "$timeout", "$interval", "VotingService", function ($timeout, $interval, VotingService) {
+wallApp.controller('VotingCtrl', function ($timeout, $interval, VotingService) {
     var self = this;
     self.loadingWeek = true;
     self.loadingDay = true;
@@ -16,6 +16,8 @@ wallApp.controller('VotingCtrl', [ "$timeout", "$interval", "VotingService", fun
         });
     }
 
-    retrieveVotes();
-    $interval(retrieveVotes, 10000);
-}]);
+    if (false) {
+        retrieveVotes();
+        $interval(retrieveVotes, 10000);
+    }
+});

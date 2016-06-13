@@ -1,6 +1,6 @@
-"use strict";
-
-wallApp.factory('GameLeaderboardService', ['$http', '$q', function($http, $q) {
+'use strict';
+/* globals gameLeaderBoardUrl: false */
+wallApp.factory('GameLeaderboardService', function($http, $q) {
     var load = function() {
         var defer = $q.defer();
         $http.get(gameLeaderBoardUrl)
@@ -15,4 +15,4 @@ wallApp.factory('GameLeaderboardService', ['$http', '$q', function($http, $q) {
     return {
         loadLeaderboard: load
     };
-}]);
+});

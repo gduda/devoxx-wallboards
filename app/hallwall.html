@@ -4,56 +4,28 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>DEVOXX</title>
-        <meta name="description" content="Devoxx cinema sweetwall and schedule">
+        <meta name="description" content="Devoxx cinema tweetwall and schedule">
         <meta name="viewport" content="width=device-width">
         <meta http-equiv="refresh" content="3600">
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
         <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
-
-        <!-- build:css styles/tweetwall-keyframes.css -->
-        <link rel="stylesheet" href="styles/keyframes-tweets.css">
-        <!-- endbuild -->
-        <!-- build:css(.tmp) styles/tweetwall-less.css -->
-        <link rel="stylesheet" href="styles/wall.css">
-        <!-- endbuild -->
+        <link rel="stylesheet" href="css/keyframes-tweets.css">
+        <link rel="stylesheet" href="css/wall.css">
     </head>
 
     <body ng-app="wallApp">
         <div id="hallway">
-            <div id="carousel" ng-include="'carousel.html'" ng-controller="ScheduleCtrl"></div>
+            <div id="carousel" ng-include="'carousel.html'"></div>
 
             <div id="notice" style="display: none" ng-controller="NoticeCtrl">{{notice}}</div>
         </div>
     </body>
 
-    <!--[if lt IE 9]>
-    <!-- build:js scripts/scripts-ie.js -->
-    <script src="components/es5-shim/es5-shim.js"></script>
-    <script src="components/json3/lib/json3.min.js"></script>
-    <!-- endbuild -->
-    <!--[endif]-->
-
     <script src="config_be.js"></script>
 
-    <!-- build:js scripts/tweetwall.js -->
-    <script src="components/jquery/jquery.js"></script>
+    <script src="components/jquery/dist/jquery.js"></script>
     <script src="components/underscore/underscore-min.js"></script>
     <script src="components/angular/angular.js"></script>
     <script src="components/angular-route/angular-route.js"></script>
     <script src="components/angular-cookies/angular-cookies.js"></script>
-    <script src="scripts/config.js"></script>
-    <script src="scripts/wall/date.js"></script>
-    <script src="scripts/wall/md5.js"></script>
-    <script src="scripts/wall/models.js"></script>
-    <script src="scripts/wall/utilities.js"></script>
-    <script src="scripts/wall/app.js"></script>
-    <script src="scripts/wall/gameleaderboard/GameLeaderboardCtrl.js"></script>
-    <script src="scripts/wall/gameleaderboard/GameLeaderboardService.js"></script>
-    <script src="scripts/wall/notice/NoticeCtrl.js"></script>
-    <script src="scripts/wall/schedule/ScheduleCtrl.js"></script>
-    <script src="scripts/wall/tweets/TweetWallCtrl.js"></script>
-    <script src="scripts/wall/voting/VotingCtrl.js"></script>
-    <script src="scripts/wall/voting/VotingService.js"></script>
-    <!-- endbuild -->
+    <script src="scripts/tweetwall.min.js"></script>
 </html>

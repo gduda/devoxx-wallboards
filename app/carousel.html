@@ -1,5 +1,5 @@
-<ul class="panes">
-    <li ng-controller="ScheduleCtrl as schedule">
+<ul class="panes" ng-controller="ScheduleCtrl as schedule">
+    <li>
         <h1>Current talks</h1>
         <h2 ng-show="schedule.loading">Loading...</h2>
         <div ng-repeat="item in schedule.scheduleNow|orderBy:'roomPadded'" class="listEntry" ng-hide="schedule.loading">
@@ -12,7 +12,7 @@
         </div>
     </li>
 
-    <li ng-controller="ScheduleCtrl as schedule">
+    <li>
         <h1>Next up</h1>
         <h2 ng-show="schedule.loading">Loading...</h2>
         <div ng-repeat="item in schedule.scheduleNext|orderBy:'roomPadded'" class="listEntry" ng-hide="schedule.loading">

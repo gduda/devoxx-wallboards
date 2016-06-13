@@ -1,6 +1,8 @@
-"use strict";
-
-wallApp.controller('TweetWallCtrl', ['$http', '$scope', '$timeout', function ($http, $scope, $timeout) {
+'use strict';
+/* globals twitterBaseUri: false */
+/* globals twitterSearchCriteria: false */
+/* globals Tweet: false */
+wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout) {
 
     window.tc = this;
     var self = this;
@@ -10,7 +12,7 @@ wallApp.controller('TweetWallCtrl', ['$http', '$scope', '$timeout', function ($h
 
     this.tweetQueue = [];
     self.tweets = [];
-    self.scrollClass = "";
+    self.scrollClass = '';
     self.roundRobin = 0;
 
     var quadrantLeftOffset = 20;
@@ -32,10 +34,10 @@ wallApp.controller('TweetWallCtrl', ['$http', '$scope', '$timeout', function ($h
 
     this.refreshRemoteData = function () {
 
-        $http.get(twitterBaseUri + "tweets/" + twitterSearchCriteria + "/" + maxTweetId)
+        $http.get(twitterBaseUri + 'tweets/' + twitterSearchCriteria + '/' + maxTweetId)
             .then(function (data) {
 
-                var orderedTweets = _.sortBy(data.data, "id");
+                var orderedTweets = _.sortBy(data.data, 'id');
 
                 orderedTweets.forEach(function (result) {
                     var tweet = new Tweet(result);
@@ -46,7 +48,7 @@ wallApp.controller('TweetWallCtrl', ['$http', '$scope', '$timeout', function ($h
                     }
                 });
 
-                if (self.tweets.length == 0) {
+                if (self.tweets.length === 0) {
                     setTimeout(self.tweetQueueProcessor, 0); // Populate on init (via timeout to avoid nested scope.apply)
                 }
             });
@@ -63,7 +65,7 @@ wallApp.controller('TweetWallCtrl', ['$http', '$scope', '$timeout', function ($h
                     var pos = self.assignPosition();
                     tweet.left = pos.left;
                     tweet.top = pos.top;
-                    tweet.styleClass = "slide-in";
+                    tweet.styleClass = 'slide-in';
                     self.tweets.push(tweet);
                 }
 
@@ -78,7 +80,7 @@ wallApp.controller('TweetWallCtrl', ['$http', '$scope', '$timeout', function ($h
         function shiftTweets() {
             if (self.tweets.length > 0) {
                 var tweet = self.tweets[0];
-                tweet.styleClass = "slide-out";
+                tweet.styleClass = 'slide-out';
                 $timeout(function () {
                     self.tweets.shift();
                     addTweet();
@@ -93,7 +95,7 @@ wallApp.controller('TweetWallCtrl', ['$http', '$scope', '$timeout', function ($h
             var pos = self.assignPosition();
             tweet.left = pos.left;
             tweet.top = pos.top;
-            tweet.styleClass = "slide-in";
+            tweet.styleClass = 'slide-in';
             self.tweets.push(tweet);
         }
     };
@@ -104,4 +106,4 @@ wallApp.controller('TweetWallCtrl', ['$http', '$scope', '$timeout', function ($h
         setInterval(self.refreshRemoteData, 10000);
         setInterval(self.tweetQueueProcessor, 3000);
     }
-}]);
+});

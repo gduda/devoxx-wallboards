@@ -9,27 +9,32 @@
         <meta http-equiv="refresh" content="3600">
         <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="css/keyframes-tweets.css">
-        <link rel="stylesheet" href="css/tweetwall_fr.css">
+        <link rel="stylesheet" href="css/cinemawall_pl.css">
     </head>
 
     <body ng-app="wallApp">
-        <div id="tweetwall_fr">
+        <div id="cinema">
             <div id="tweets" ng-controller="TweetWallCtrl as tweetWall">
 
                 <div class="tweet {{tweet.styleClass}}" ng-repeat="tweet in tweetWall.tweets" style="left: {{tweet.left}}px; top: {{tweet.top}}px;">
-                    <div class="photo" style="background: url({{tweet.image}})"></div>
-                    <i class="screw r t"></i>
-                    <i class="screw l b"></i>
-                    <i class="screw r b"></i>
-                    <span class="author">{{tweet.author}}</span>
-                    <div class="message">{{tweet.tweet}}</div>
+                    <div class="cloud">
+                        <div class="cloudContents">
+                            <span class="author">{{tweet.author}}</span> {{tweet.tweet}}
+                        </div>
+                        <div class="authorImage">
+                            <img ng-src="{{tweet.image}}">
+                        </div>
+                    </div>
                 </div>
-
+            </div>
+            <div id="carousel" ng-include="'carousel.html'"></div>
+            <div id="notice" ng-controller="NoticeCtrl as notice">
+                <p ng-repeat="msg in notice.msgs">{{msg}}</p>
             </div>
         </div>
     </body>
 
-    <script src="config_fr.js"></script>
+    <script src="config_pl.js"></script>
 
     <script src="components/jquery/dist/jquery.js"></script>
     <script src="components/underscore/underscore-min.js"></script>

@@ -1,20 +1,11 @@
-"use strict";
-
-var scheduleLoaded = {
-    defer: undefined,
-    promise: undefined
-};
-
-
-var eventId = "13";
-
-/**
- * ScheduleController, instantiated by AngularJS.
- * @param $xhr
- * @param $defer
- * @param $updateView
- */
-wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageService', function ($http, $scope, $q, LocalStorageService) {
+'use strict';
+/* globals md5: false */
+/* globals fullScheduleUrl: false */
+/* globals dailyScheduleUrl: false */
+/* globals talkTypesInSchedule: false */
+/* globals Speaker: false */
+/* globals ScheduleItem: false */
+wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageService) {
     scheduleLoaded.defer = $q.defer();
     scheduleLoaded.promise = scheduleLoaded.defer.promise;
     window.sc = this; // Global var to interact with from console
@@ -36,10 +27,11 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
             self.refreshRemoteData();
         } else {
             currentData = LocalStorageService.getDay(currentDay);
+            console.log('currentData from local storage', currentData, currentDay);
             updateModels();
         }
 
-        console.log("Resolve after speakers");
+        console.log('Resolve after speakers');
         scheduleLoaded.defer.resolve();
         self.loading = false;
 
@@ -47,28 +39,26 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
         setInterval(self.refreshRemoteData, MINUTES_10);
     };
 
-    setTimeout(function() {
-        preLoadSpeakerImageUrls(onDone);
-    }, 0);
-
     function preLoadSpeakerImageUrls(done) {
         console.log('Preloading all speaker images...');
         try {
             var speakersFromCache = LocalStorageService.getSpeakers();
             if (speakersFromCache) {
                 speakers = speakersFromCache;
+                console.log(speakers);
                 done();
             } else {
-                //TODO: fill in fullScheduleUrl
                 $http.get(fullScheduleUrl)
-                    .then(function (data, code) {
-                        if ("" == data.data) {
+                    .then(function (data) {
+                        if ('' === data.data) {
                             console.error('Failed to call CFP REST');
                             speakers = LocalStorageService.getSpeakers();
                         } else {
                             data.data.forEach(function (item) {
                                 speakers.push(new Speaker(item));
                             });
+                            console.log(speakers);
+
 
                             LocalStorageService.setSpeakers(speakers);
                         }
@@ -85,11 +75,11 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
     this.nowAndNextTimer = function () {
         currentTime = new Date();
         var dayNr = currentTime.getDay();
-        if (dayNr != currentDay) {
+        if (dayNr !== currentDay) {
             currentDay = dayNr;
             currentData = LocalStorageService.getDay(dayNr);
         }
-        console.log("NowAndNextTime", currentTime.toLongDateString(), currentDay);
+        console.log('NowAndNextTime', currentTime.toLongDateString(), currentDay);
         $scope.$apply(updateModels);
     };
 
@@ -113,12 +103,12 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
         var dayName = getDayName(new Date().getDay());
         //TODO fill in dailyScheduleUrl
         $http.get(dailyScheduleUrl + dayName)
-            .then(function (data, code) {
-                if ("" == data.data) {
+            .then(function (data) {
+                if ('' === data.data) {
                     console.error('Failed to call CFP REST');
                     return;
                 }
-                console.log("Received Schedule");
+                console.log('Received Schedule');
 
                 var tak = filterTalksAndKeynotes(data.data, speakers);
 
@@ -137,16 +127,12 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
                 }
                 console.log('stored days');
                 function storeDay(itemDay, group) {
-                    /*var changed =*/
                     LocalStorageService.setDay(itemDay, group);
-                    //if (changed && currentDay == itemDay) {
-                    //    currentData = group;
-                    //    updateModels();
-                    //}
                 }
 
                 currentData = groups[currentDay - 1];
-
+console.log('groupsda', currentDay);
+console.log('groups', groups);
                 updateModels();
 
             }).then(scheduleLoaded.defer.resolve);
@@ -160,22 +146,25 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
 
         var slots = defineSlots(currentData);
         var nowAndNext = nowAndNextSlot(slots);
-
+console.log('currentData', currentData);
+console.log('slots', slots);
         self.scheduleNow = filterTime(nowAndNext[0]);
         self.scheduleNext = filterTime(nowAndNext[1]);
 
-        console.log("Slots", slots, "NowAndNext", nowAndNext);
-        console.log("NOW:", self.scheduleNow);
-        console.log("NEXT:", self.scheduleNext);
+        console.log('Slots', slots, 'NowAndNext', nowAndNext);
+        console.log('NOW:', self.scheduleNow);
+        console.log('NEXT:', self.scheduleNext);
 
         function defineSlots(items) {
             var slots = [];
-            items.forEach(function (item) {
-                var slot = item.time;
-                if (slots.indexOf(slot) == -1) {
-                    slots.push(slot);
-                }
-            });
+            if (items) {
+                items.forEach(function (item) {
+                    var slot = item.time;
+                    if (slots.indexOf(slot) === -1) {
+                        slots.push(slot);
+                    }
+                });
+            }
             return slots;
         }
 
@@ -184,31 +173,36 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
             var now = currentTime;
             for (var i = 0; i < slots.length; i++) {
                 var slot = slots[i];
-                var slotDate = Date.parseExact(slot, "HH:mm").withDate(now);
-
-                if (now.after(slotDate)) {
-                    nowAndNext[0] = slot;
-                    nowAndNext[1] = slots[i + 1];
+                var parseExact = Date.parseExact(slot, 'HH:mm');
+                if (parseExact) {
+                    var slotDate = parseExact.withDate(now);
+                    if (now.after(slotDate)) {
+                        nowAndNext[0] = slot;
+                        nowAndNext[1] = slots[i + 1];
+                    }
                 }
             }
             if (!nowAndNext.length) {
-                var firstSlotDate = Date.parseExact(slots[0], "HH:mm").withDate(now);
-                var beforeFirstSlot = now.before(firstSlotDate);
-                if (beforeFirstSlot) {
-                    nowAndNext[0] = slots[0];
-                    nowAndNext[1] = slots[1];
+                var parseExact2 = Date.parseExact(slots[0], 'HH:mm');
+                if (parseExact2) {
+                    var firstSlotDate = parseExact2.withDate(now);
+                    var beforeFirstSlot = now.before(firstSlotDate);
+                    if (beforeFirstSlot) {
+                        nowAndNext[0] = slots[0];
+                        nowAndNext[1] = slots[1];
+                    }
                 }
             }
             return nowAndNext;
         }
 
         function filterTime(time) {
-            if (time == undefined) {
+            if (angular.isUndefined(time)) {
                 return [];
             }
             var items = [];
             currentData.forEach(function (item) {
-                if (time == item.time) {
+                if (time === item.time) {
                     items.push(item);
                 }
             });
@@ -218,7 +212,8 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
 
     function filterTalksAndKeynotes(data, speakers) {
         var talks = [];
-
+console.log('data.slots', data.slots, talkTypesInSchedule);
+console.log('talkTypesInSchedule', talkTypesInSchedule);
         data.slots.forEach(function (slot) {
             var talk = slot.talk;
             if (talk && _.contains(talkTypesInSchedule, talk.talkType)) {
@@ -229,30 +224,45 @@ wallApp.controller('ScheduleCtrl', ['$http', '$scope', '$q', 'LocalStorageServic
             }
         });
 
-        talks = _.sortBy(talks, "date");
-        //_.each(talks, function (si) {
-        //console.log("Day: " + si.day + " Room: " + si.room + " Time: " + si.time + " Title: " + si.title + " Speakers: " + si.speakers + " SpeakerImg: " + si.speakerImgUri);
-        //});
+        talks = _.sortBy(talks, 'date');
+        _.each(talks, function (si) {
+        console.log('Day: ' + si.day + ' Room: ' + si.room + ' Time: ' + si.time + ' Title: ' + si.title + ' Speakers: ' + si.speakers + ' SpeakerImg: ' + si.speakerImgUri);
+        });
 
         function findSpeakerImageUrl(id) {
             if (id) {
                 var speakerId = parseInt(id);
                 var speakerUrl = null;
                 speakers.forEach(function (speaker) {
-                    if (speaker.id == speakerId) {
+                    if (speaker.id === speakerId) {
                         speakerUrl = speaker.imageUrl;
                     }
                 });
 
-                return speakerUrl
+                return speakerUrl;
             }
         }
 
         return talks;
     }
-}]);
 
-wallApp.factory('LocalStorageService', ['$http', function ($http) {
+    preLoadSpeakerImageUrls(onDone);
+
+});
+
+
+var scheduleLoaded = {
+    defer: undefined,
+    promise: undefined
+};
+
+/**
+ * ScheduleController, instantiated by AngularJS.
+ * @param $xhr
+ * @param $defer
+ * @param $updateView
+ */
+wallApp.factory('LocalStorageService', function () {
     var DAY_KEY = 'day_';
     var DAYMD5_KEY = 'md5_' + DAY_KEY;
     var SPEAKER_KEY = 'speaker';
@@ -263,7 +273,7 @@ wallApp.factory('LocalStorageService', ['$http', function ($http) {
 
     this.hasDay = function (dayNr) {
         try {
-            return localStorage.getItem(key(dayNr)) != null;
+            return localStorage.getItem(key(dayNr)) !== null;
         } catch (e) {
             console.error('Error HAS day ' + dayNr + ' in LocalStorage: ' + e.message);
         }
@@ -277,10 +287,10 @@ wallApp.factory('LocalStorageService', ['$http', function ($http) {
      */
     this.hasChanged = function (dayNr, dayScheduleItems) {
         try {
-            var json = typeof(dayScheduleItems) == "string" ? dayScheduleItems : JSON.stringify(dayScheduleItems);
+            var json = typeof(dayScheduleItems) === 'string' ? dayScheduleItems : JSON.stringify(dayScheduleItems);
             var hashFromJson = md5(json);
             var hashFromStorage = localStorage.getItem(keymd5(dayNr));
-            return hashFromStorage != hashFromJson;
+            return hashFromStorage !== hashFromJson;
         } catch (e) {
             console.error('Error MD5 day ' + dayNr + ' from LocalStorage: ' + e.message);
         }
@@ -291,7 +301,7 @@ wallApp.factory('LocalStorageService', ['$http', function ($http) {
         try {
             console.log('GET day ' + dayNr + ' from LocalStorage');
             var data = localStorage.getItem(key(dayNr));
-            if (data == undefined) {
+            if (angular.isUndefined(data)) {
                 return data;
             } else {
                 return JSON.parse(data);
@@ -344,7 +354,7 @@ wallApp.factory('LocalStorageService', ['$http', function ($http) {
             var timestamp = localStorage.getItem(SPEAKER_KEY + STORAGE_TIMESTAMP);
             if (timestamp > createTimestamp() - 1000 * 60 * 60) {
                 var data = localStorage.getItem(SPEAKER_KEY);
-                if (data != undefined) {
+                if (!angular.isUndefined(data)) {
                     return JSON.parse(data);
                 }
             }
@@ -366,7 +376,7 @@ wallApp.factory('LocalStorageService', ['$http', function ($http) {
     this.hasSchedule = function () {
         try {
             var data = localStorage.getItem(SCHEDULE_KEY);
-            return !(data == undefined || data == null);
+            return !(angular.isUndefined(data) || data === null);
         } catch (e) {
             return false;
         }
@@ -383,7 +393,7 @@ wallApp.factory('LocalStorageService', ['$http', function ($http) {
     this.getSchedule = function () {
         try {
             var data = localStorage.getItem(SCHEDULE_KEY);
-            if (data == undefined) {
+            if (angular.isUndefined(data)) {
                 return data;
             } else {
                 return JSON.parse(data);
@@ -404,10 +414,10 @@ wallApp.factory('LocalStorageService', ['$http', function ($http) {
     }
 
     function checkDay(dayNr) {
-        if (typeof(dayNr) == 'number' && dayNr >= 0 && dayNr <= 6) {
+        if (typeof(dayNr) === 'number' && dayNr >= 0 && dayNr <= 6) {
             return;
         }
-        console.error("Invalid dayNr: " + dayNr);
+        console.error('Invalid dayNr: ' + dayNr);
     }
 
     function logStorageSize() {
@@ -429,4 +439,4 @@ wallApp.factory('LocalStorageService', ['$http', function ($http) {
         setSchedule: this.setSchedule,
         clear: this.clear
     };
-}]);
+});

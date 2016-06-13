@@ -1,16 +1,14 @@
 {
     "name": "cfp-speaker",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "dependencies": {
-        "json3": "~3.2.4",
-        "es5-shim": "~2.0.8",
-        "jquery": "~1.9.1",
-        "angular": "~1.2.25",
-        "angular-route": "~1.2.25",
-        "angular-cookies": "~1.2.25",
-        "angular-mocks": "~1.2.25",
-        "jquery.cookie": "~1.4.0",
+        "jquery": "3.0.0",
+        "angular": "1.5.6",
+        "angular-route": "1.5.6",
+        "angular-cookies": "1.5.6",
+        "angular-mocks": "1.5.6",
+        "jquery.cookie": "1.4.1",
         "jquery-local-storage": "clakech/jquery-local-storage#master",
-        "underscore": "~1.5.2"
+        "underscore": "1.8.3"
     }
 }

@@ -1,6 +1,8 @@
+'use strict';
+/* exported wallApp */
 var wallApp = angular.module('wallApp', []);
 
-var lastTimestamp = Number.MAX_VALUE
+var lastTimestamp = Number.MAX_VALUE;
 setInterval(function () {
     $.ajax({
         url: 'timestamp.json'
