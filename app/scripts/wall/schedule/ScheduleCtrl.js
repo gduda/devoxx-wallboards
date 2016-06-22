@@ -226,7 +226,7 @@ console.log('talkTypesInSchedule', talkTypesInSchedule);
 
         talks = _.sortBy(talks, 'date');
         _.each(talks, function (si) {
-        console.log('Day: ' + si.day + ' Room: ' + si.room + ' Time: ' + si.time + ' Title: ' + si.title + ' Speakers: ' + si.speakers + ' SpeakerImg: ' + si.speakerImgUri);
+            console.log('Day: ' + si.day + ' Room: ' + si.room + ' Time: ' + si.time + ' Title: ' + si.title + ' Speakers: ' + si.speakers + ' SpeakerImg: ' + si.speakerImgUri);
         });
 
         function findSpeakerImageUrl(id) {

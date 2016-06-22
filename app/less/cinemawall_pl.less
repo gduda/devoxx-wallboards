@@ -1,4 +1,5 @@
 @highlightColor: #ffacce;
+@headerColor: #00b4ff;
 
 * {
     font-family: 'Lato', serif;
@@ -11,7 +12,7 @@ body {
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 2rem;
     text-indent: 4px;
 }
 
@@ -83,7 +84,7 @@ h1 {
                 overflow-y: hidden;
                 border: 2px solid @highlightColor;
                 border-radius: 5px;
-                font-size: 1.25em;
+                font-size: 1.25rem;
                 vertical-align: middle;
 
                 &:first-of-type {
@@ -103,8 +104,8 @@ h1 {
                     padding: 0;
                     text-align: center;
                     .avg {
-                        font-size: 3em;
-                        border-bottom: 2px solid #00b4ff;
+                        font-size: 3rem;
+                        border-bottom: 2px solid @headerColor;
                         color: @highlightColor;
                         font-weight: bold;
                         margin: -4px 0;
@@ -119,7 +120,7 @@ h1 {
                     float: left;
                     width: 75px;
                     position: relative;
-                    font-size: 4em;
+                    font-size: 5rem;
                     margin: 0;
                     padding: 0;
                     text-align: center;
@@ -128,17 +129,17 @@ h1 {
 
                 .text {
                     vertical-align: middle;
-                    font-size: 1.3em;
+                    font-size: 1.6rem;
                     word-wrap: normal;
                     margin: 3px;
                 }
 
                 .highlight {
-                    color: #00b4ff;
+                    color: @headerColor;
                 }
 
                 .warning {
-                    color: #00b4ff;
+                    color: @headerColor;
                 }
 
                 .error {
@@ -149,7 +150,7 @@ h1 {
                     float: left;
                     width: 200px;
                     position: relative;
-                    font-size: 3em;
+                    font-size: 3rem;
                     margin: 8px 0 0;
                     padding: 0;
                     text-align: center;
@@ -200,63 +201,13 @@ h1 {
 #tweets {
     position: absolute;
     right: 20px;
-    top: 120px;
+    top: 150px;
     width: 1000px;
     height: 100%;
-    display: table;
-
-    .container {
-        display: table-cell;
-        vertical-align: middle;
-        width: 780px;
-
-        .border {
-            > div {
-                width: 760px;
-                height: 100px;
-                clear:both;
-                margin: 60px 20px;
-                background: rgba(0, 0, 0, 0.7);
-                -webkit-border-radius: 10px;
-                border: solid 1px #ebeb00;
-                -webkit-box-shadow: #ebeb00 0 0 5px;
-
-                overflow: hidden;
-            }
-        }
-
-        .image{
-            img {
-                width: 100px;
-                height: 100px;
-                float: right;
-            }
-        }
-
-        .tweet {
-            margin-left: 5px;
-            margin-right: 5px;
-            font-size: 1.40em;
-            font-weight: bold;
-            line-height: 1.2em;
-            color: white;
-            float: none;
-            text-shadow: 2px 2px 2px #000;
-
-            .author {
-                color: #ff4520;
-                //color: orange; //rgb(0,122,224);
-                font-size: 0.95em;
-                clear: left;
-            }
-
-        }
-    }
-
 }
 
 #notice {
-    font-size: 1.2em;
+    font-size: 1.2rem;
     color: @highlightColor;
     background-color: #000;
     border: 2px solid @highlightColor;
@@ -274,108 +225,34 @@ h1 {
 div.tweet {
     position: absolute;
     left: 200px;
-    top: 150px;
+    top: 250px;
+    width: 350px;
+    color: @highlightColor;
+    font-size: 1.6rem;
 
-    .cloud {
-        background: #fff;
-        background: -moz-linear-gradient(top,  #fff 5%, #f1f1f1 100%);
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(5%,#fff), color-stop(100%,#f1f1f1));
-        background: -webkit-linear-gradient(top,  #fff 5%,#f1f1f1 100%);
-        background: -o-linear-gradient(top,  #fff 5%,#f1f1f1 100%);
-        background: -ms-linear-gradient(top,  #fff 5%,#f1f1f1 100%);
-        background: linear-gradient(top,  #fff 5%,#f1f1f1 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff', endColorstr='#f1f1f1',GradientType=0 );
+    div {
+        background-color: #000;
+        border: 2px solid @highlightColor;
+    }
 
-        -webkit-border-radius: 100px;
-        -moz-border-radius: 100px;
-        border-radius: 100px;
-
-        -webkit-box-shadow: 0 8px 5px rgba(0, 0, 0, 0.1);
-        -moz-box-shadow: 0 8px 5px rgba(0, 0, 0, 0.1);
-        box-shadow: 0 8px 5px rgba(0, 0, 0, 0.1);
-
-        height: 120px;
-        position: relative;
-        width: 370px;
-        z-index: 1000;
-
-
-        .cloudContents {
-            position: absolute;
-            padding: 5px;
-            left: 30px;
-            top: 10px;
-            width: 320px;
-            height: 100px;
-            box-sizing: border-box;
-            border: 0 solid blue;
-            font-size: medium;
-            z-index: 1001;
-            overflow-y: hidden;
-
-            .author {
-                font-weight: bold;
-                color: #00b4ff;
-            }
-        }
-
-        .authorImage {
-            position: absolute;
-            right: 70px;
-            top: -40px;
-            z-index: 1000;
-
-            > img {
-                border: 1px solid #ccc;
-                border-radius: 10px;
-            }
-
-            &:before {
-                content: "";
-                position: absolute;
-                z-index: -1;
-                height: 90%;
-                width: 94%;
-                top: -2px;
-                left: -1px;
-
-                box-shadow: 0 0 8px rgba(0,0,0,0.2);
-                border: 3px solid #00b4ff;
-                border-radius: 10px;
-                transform: rotate(-5deg);
-            }
+    .topRow {
+        border-radius: 10px 10px 0 0;
+        color: @headerColor;
+        display: flex;
+        align-items: center;
+        font-size: 2rem;
+        font-weight: bold;
+        img {
+            width: 60px;
+            height: 60px;
+            border-top-left-radius: 10px;
+            margin-right: 5px;
         }
     }
 
-    .cloud:after, .cloud:before {
-        background: #fff;
-        content: '';
-        position: absolute;
-        z-index: 999;
-    }
-
-    .cloud:after {
-        -webkit-border-radius: 100px;
-        -moz-border-radius: 100px;
-        border-radius: 100px;
-
-        height: 100px;
-        left: 60px;
-        top: -40px;
-        width: 100px;
-        transform: scaleX(1.3);
-    }
-
-    .cloud:before {
-        -webkit-border-radius: 200px;
-        -moz-border-radius: 200px;
-        border-radius: 200px;
-
-        width: 150px;
-        height: 150px;
-        right: 40px;
-        top: -50px;
-        transform: scaleX(1.3);
+    .bottomRow {
+        border-radius: 0 0 10px 10px;
+        margin-top: 2px;
     }
 }
 

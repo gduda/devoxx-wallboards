@@ -1,6 +1,6 @@
 //Twitter
-var twitterBaseUri = 'http://wall.devoxx.be:9001/';
-var twitterSearchCriteria = 'devoxxfr';
+var twitterBaseUri = 'http://ec2-54-171-145-123.eu-west-1.compute.amazonaws.com:9001/';
+var twitterSearchCriteria = 'devoxxpl';
 
 // Schedule
 var fullScheduleUrl = 'http://cfp.devoxx.pl/api/conferences/DevoxxPL2016/speakers';

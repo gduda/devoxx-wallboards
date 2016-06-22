@@ -2,7 +2,7 @@
 /* globals twitterBaseUri: false */
 /* globals twitterSearchCriteria: false */
 /* globals Tweet: false */
-wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout) {
+wallApp.controller('TweetWallCtrl', function ($http, $scope/*, $timeout*/) {
 
     window.tc = this;
     var self = this;
@@ -81,10 +81,10 @@ wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout) {
             if (self.tweets.length > 0) {
                 var tweet = self.tweets[0];
                 tweet.styleClass = 'slide-out';
-                $timeout(function () {
-                    self.tweets.shift();
-                    addTweet();
-                }, 1500);
+                // $timeout(function () {
+                //     self.tweets.shift();
+                //     addTweet();
+                // }, 1500);
             } else {
                 addTweet();
             }
@@ -103,7 +103,7 @@ wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout) {
     setTimeout(init, 0);
     function init() {
         self.refreshRemoteData();
-        setInterval(self.refreshRemoteData, 10000);
-        setInterval(self.tweetQueueProcessor, 3000);
+        // setInterval(self.refreshRemoteData, 10000);
+        // setInterval(self.tweetQueueProcessor, 3000);
     }
 });

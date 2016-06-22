@@ -20,6 +20,12 @@ module.exports = function (grunt) {
                     'uglify',
                     'copy:dist'
                 ]
+            },
+            html: {
+                files: ['app/{,**/}*.html'],
+                tasks: [
+                    'copy:dist'
+                ]
             }
         },
         connect: {
@@ -81,31 +87,6 @@ module.exports = function (grunt) {
                     'dist/css/tweetwall_fr.css': 'app/less/tweetwall_fr.less',
                     'dist/css/cinemawall_pl.css': 'app/less/cinemawall_pl.less'
                 }
-            }
-        },
-        imagemin: {
-            dist: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'app/images',
-                        src: '{,**/}*.{png,jpg,jpeg,png}',
-                        dest: 'dist/images'
-                    }
-                ]
-            }
-        },
-        htmlmin: {
-            dist: {
-                options: {},
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'app',
-                        src: ['*.html', 'views/**/*.html'],
-                        dest: 'dist'
-                    }
-                ]
             }
         },
         ngAnnotate: {
@@ -199,14 +180,10 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean',
         'less',
-        // 'imagemin',
-        // 'htmlmin',
         'jshint',
         'ngAnnotate',
         'uglify',
         'copy:dist',
-        // 'filerev',
-        // 'filerev_replace',
         'timestampFile'
     ]);
 
