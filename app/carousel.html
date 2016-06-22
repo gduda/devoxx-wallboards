@@ -1,4 +1,4 @@
-<ul class="panes" ng-controller="ScheduleCtrl as schedule">
+<ul class="panes" ng-class="{hasVoting: hasVoting}" ng-controller="ScheduleCtrl as schedule">
     <li>
         <h1>Current talks</h1>
         <h2 ng-show="schedule.loading">Loading...</h2>
@@ -25,7 +25,7 @@
         </div>
     </li>
 
-    <li ng-controller="VotingCtrl as voting">
+    <li ng-controller="VotingCtrl as voting" ng-if="::hasVoting">
         <div>
             <h1 class="bestof">Top Talks Overall</h1>
             <h2 ng-show="voting.loadingWeek">Loading...</h2>
@@ -44,7 +44,7 @@
         </div>
     </li>
 
-    <li ng-controller="VotingCtrl as voting">
+    <li ng-controller="VotingCtrl as voting" ng-if="::hasVoting">
         <div>
             <h2 class="bestof">Today's Top Talks</h2>
             <h2 ng-show="voting.loadingDay">Loading...</h2>

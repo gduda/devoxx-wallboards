@@ -8,12 +8,11 @@
         <meta name="viewport" content="width=device-width">
         <meta http-equiv="refresh" content="3600">
         <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="css/keyframes-tweets.css">
         <link rel="stylesheet" href="css/cinemawall_pl.css">
     </head>
 
     <body ng-app="wallApp">
-        <div id="cinema">
+        <div id="cinema" ng-cloak>
             <div id="tweets" ng-controller="TweetWallCtrl as tweetWall">
 
                 <div class="tweet {{tweet.styleClass}}" ng-repeat="tweet in tweetWall.tweets" style="left: {{tweet.left}}px; top: {{tweet.top}}px;">
@@ -29,6 +28,13 @@
             <div id="carousel" ng-include="'carousel.html'"></div>
             <div id="notice" ng-controller="NoticeCtrl as notice">
                 <p ng-repeat="msg in notice.msgs">{{msg}}</p>
+            </div>
+            <div id="wifi">
+                <img src="images/wifi_Logo-128.png" width="70" height="70">
+                <div>
+                    <p>WiFi SSID: DevoxxPL</p>
+                    <p>Password: DevoxxPL</p>
+                </div>
             </div>
         </div>
     </body>
