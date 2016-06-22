@@ -1,5 +1,5 @@
 //Twitter
-var twitterBaseUri = 'http://ec2-54-171-145-123.eu-west-1.compute.amazonaws.com:9001/';
+var twitterBaseUri = 'http://wall.devoxx.com:9001/';
 var twitterSearchCriteria = 'devoxxpl';
 
 // Schedule
