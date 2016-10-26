@@ -1,7 +1,10 @@
+@highlightColor: #6c89a9;
+
 * {
     font-family: 'Lato', serif;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -13,11 +16,11 @@ h1 {
     text-indent: 4px;
 }
 
-.screen(@url, @width, @height, @top) {
+.screen(@url, @top) {
     background: @url no-repeat;
     border: none;
-    height: @height;
-    width: @width;
+    height: 100%;
+    width: 100%;
     overflow: hidden;
     position: absolute;
     top: @top;
@@ -25,12 +28,12 @@ h1 {
 }
 
 #hallway {
-    .screen(url('../images/dv15-hallwall.jpg'), 1280px, 800px, 70px);
+    .screen(url('../images/dv16.jpg'), 70px);
 }
 
 #cinema {
     margin-top: 130px;
-    .screen(url('../images/dv15-cinemawall.jpg'), 1920px, 817px, 0);
+    .screen(url('../images/dv16.jpg'), 0);
 }
 
 #hallway #carousel {
@@ -44,52 +47,84 @@ h1 {
     left: 40px;
 }
 
+//TODO: Partially working animations
+//.pane.ng-animate {
+//    transition:1.5s linear all;
+//}
+//.pane.ng-enter {
+//    opacity: 0;
+//    transition-delay: 1.5s;
+//}
+//.pane.ng-enter.ng-enter-active {
+//    opacity: 1;
+//}
+//.pane.ng-leave {
+//    opacity: 1;
+//}
+//.pane.ng-leave.ng-leave-active {
+//    opacity: 0;
+//}
+//
+//.pane.ng-enter .listEntry {
+//    //animation: blinker 100ms linear;
+//    transition: 1.5s linear all;
+//    opacity: 0;
+//    border: 1px solid @highlightColor;
+//    box-shadow: yellow 0 0 4px;
+//    animation-delay: 1.5s;
+//}
+//.pane.ng-enter.ng-enter-active .listEntry {
+//    opacity: 1;
+//}
+//.pane.ng-leave .listEntry {
+//    opacity: 0;
+//    border: none;
+//}
+
+
 #carousel {
     width: 750px;
-    zzzheight: 580px; /*Height auto-adjusts to its content*/
     left: 50px;
     position: absolute;
     overflow: hidden;
 
-    background: rgba(255,255,255,1);
-    background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100px, rgba(255,255,255,0) 200px);
+    background-color: rgba(0, 0, 0, 0.5);
+    /*background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100px, rgba(255,255,255,0) 200px);
     background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(100px, rgba(255,255,255,1)), color-stop(200px, rgba(255,255,255,0)));
     background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100px, rgba(255,255,255,0) 200px);
     background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100px, rgba(255,255,255,0) 200px);
     background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100px, rgba(255,255,255,0) 200px);
     background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100px, rgba(255,255,255,0) 200px);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff', GradientType=0 );
-
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    border-radius: 40px 40px 0 0;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff', GradientType=0 );*/
 
     > .panes {
-        @hundredPercent: 100%;
-        width: @hundredPercent * 4;
+        width: 100%;
+        height: 500px;
         left: 0;
-//        left: -300%;
         list-style: none;
         position: relative;
         overflow: hidden;
         margin: 0;
         padding: 0;
 
-        @animationDuration: 40s;
-        animation: carouselAnim @animationDuration infinite;
-        -moz-animation: carouselAnim @animationDuration infinite;
-        -webkit-animation: carouselAnim @animationDuration infinite;
+        //@animationDuration: 40s;
+        //animation: carouselAnim @animationDuration infinite;
+        //-moz-animation: carouselAnim @animationDuration infinite;
+        //-webkit-animation: carouselAnim @animationDuration infinite;
 
-        > li {
-            position: relative;
-            float: left;
-            width: @hundredPercent / 4;
+        .pane {
+            top: 0;
+            left: 0;
+            position: absolute;
+            width: 100%;
+            height: 500px;
+            background-color: rgba(0, 0, 0, 0.5) !important;
 
             h1, h2 {
-                color: #00b4ff;
+                color: @highlightColor;
                 font-weight: bolder;
-                text-shadow: #00b4ff 0 0 2px;
-                -webkit-text-stroke: 2px #00b4ff;
+                text-shadow: @highlightColor 0 0 2px;
+                -webkit-text-stroke: 2px @highlightColor;
                 letter-spacing: 5px;
                 text-align: center;
             }
@@ -97,14 +132,11 @@ h1 {
             .listEntry {
                 margin: 3px 5px;
                 position: relative;
-                background-color: #fff;
-                color: #000;
+                background-color: #000;
+                color: #fff;
                 height: 55px;
                 clear: both;
                 overflow-y: hidden;
-                border: 2px solid #00b4ff;
-                border-radius: 30px 10px 20px 10px;
-                -webkit-border-radius: 30px 10px 20px 10px;
 
                 .talkScore {
                     float: left;
@@ -116,8 +148,8 @@ h1 {
                     text-align: center;
                     .avg {
                         font-size: 2em;
-                        border-bottom: 2px solid #00b4ff;
-                        color: #00b4ff;
+                        border-bottom: 2px solid @highlightColor;
+                        color: @highlightColor;
                         font-weight: bold;
                         margin: -4px 0;
                     }
@@ -146,11 +178,11 @@ h1 {
                 }
 
                 .highlight {
-                    color: #00b4ff;
+                    color: @highlightColor;
                 }
 
                 .warning {
-                    color: #00b4ff;
+                    color: @highlightColor;
                 }
 
                 .error {
@@ -173,7 +205,20 @@ h1 {
     }
 }
 
-@keyframes carouselAnim {
+@keyframes blinker {
+    0% {
+        opacity: 0 !important;
+    }
+    50% {
+        border-color: yellow !important;
+        box-shadow: yellow 0 0 4px !important;
+    }
+    100% {
+        opacity: 1 !important;
+    }
+}
+
+/*@keyframes carouselAnim {
     0%    { left:0; }
     20%   { left:0; }
     25%   { left:-100%; }
@@ -207,7 +252,7 @@ h1 {
     75%   { left:-300%; }
     95%   { left:-300%; }
     100%  { left:0; }
-}
+}*/
 
 #tweets {
     position: absolute;
@@ -268,17 +313,16 @@ h1 {
 }
 
 #notice {
-    font-size: 1.2em;
-    color: #00b4ff;
-    background-color: #fff;
-    border-left: 2px solid #00b4ff;
-    border-bottom: 2px solid #00b4ff;
-    border-bottom-left-radius: 20px;
+    font-size: 1.3em;
+    color: @highlightColor;
+    background-color: #000;
+    border-bottom: 2px solid @highlightColor;
     position: absolute;
+    text-align: center;
     top: 0;
     right: 0;
-    width: 500px;
-    height: 70px;
+    width: 100%;
+    height: 50px;
     padding: 12px;
     box-sizing: border-box;
 }
@@ -327,7 +371,7 @@ div.tweet {
 
             .author {
                 font-weight: bold;
-                color: #00b4ff;
+                color: @highlightColor;
             }
         }
 
@@ -352,7 +396,7 @@ div.tweet {
                 left: -1px;
 
                 box-shadow: 0 0 8px rgba(0,0,0,0.2);
-                border: 3px solid #00b4ff;
+                border: 3px solid @highlightColor;
                 border-radius: 10px;
                 transform: rotate(-5deg);
             }

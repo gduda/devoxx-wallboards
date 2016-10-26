@@ -1,10 +1,10 @@
 //Twitter
-var twitterBaseUri = 'http://wall.devoxx.be:9001/';
+var twitterBaseUri = 'http://localhost:9001/';
 var twitterSearchCriteria = 'devoxx';
 
 // Schedule
-var fullScheduleUrl = 'http://cfp.devoxx.be/api/conferences/DV15/speakers';
-var dailyScheduleUrl = 'http://cfp.devoxx.be/api/conferences/DV15/schedules/';
+var fullScheduleUrl = 'http://cfp.devoxx.be/api/conferences/DV16/speakers';
+var dailyScheduleUrl = 'http://cfp.devoxx.be/api/conferences/DV16/schedules/';
 var talkTypesInSchedule = ['Conference', 'Quickie', 'BOF (Bird of a Feather)', 'University', 'Hand\'s on Labs', 'Tools-in-Action', 'Startup presentation', 'Keynote'];
 
 // Voting

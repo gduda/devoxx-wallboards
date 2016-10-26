@@ -5,7 +5,8 @@
 /* globals talkTypesInSchedule: false */
 /* globals Speaker: false */
 /* globals ScheduleItem: false */
-wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageService) {
+
+wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageService, $interval) {
     scheduleLoaded.defer = $q.defer();
     scheduleLoaded.promise = scheduleLoaded.defer.promise;
     window.sc = this; // Global var to interact with from console
@@ -15,10 +16,22 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
     this.scheduleNow = [];
     this.scheduleNext = [];
     this.loading = true;
+    this.currentPane = 0;
+
+    $interval(function () {
+        if (++self.currentPane >= 2) {
+            self.currentPane = 0;
+        }
+    }, 5000);
 
     var speakers = [];
 
-    var currentTime = new Date();
+    this.getCurrentTime = function() {
+        return new Date('November 9, 2016 10:24:00');
+        // return new Date();
+    };
+
+    var currentTime = self.getCurrentTime();
     var currentDay = currentTime.getDay();
     var currentData = [];
 
@@ -36,7 +49,7 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
         self.loading = false;
 
         var MINUTES_10 = 1000 * 60 * 10;
-        setInterval(self.refreshRemoteData, MINUTES_10);
+        $interval(self.refreshRemoteData, MINUTES_10);
     };
 
     function preLoadSpeakerImageUrls(done) {
@@ -73,7 +86,7 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
     }
 
     this.nowAndNextTimer = function () {
-        currentTime = new Date();
+        currentTime = self.getCurrentTime();
         var dayNr = currentTime.getDay();
         if (dayNr !== currentDay) {
             currentDay = dayNr;
@@ -84,7 +97,7 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
     };
 
     var MINUTES_1 = 1000 * 60;
-    setInterval(self.nowAndNextTimer, MINUTES_1);
+    $interval(self.nowAndNextTimer, MINUTES_1);
 
     function getDayName(dayNr) {
         switch (dayNr) {
@@ -100,42 +113,41 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
     }
 
     this.refreshRemoteData = function () {
-        var dayName = getDayName(new Date().getDay());
+        var dayName = getDayName(self.getCurrentTime().getDay());
         //TODO fill in dailyScheduleUrl
-        $http.get(dailyScheduleUrl + dayName)
-            .then(function (data) {
-                if ('' === data.data) {
-                    console.error('Failed to call CFP REST');
-                    return;
+        $http.get(dailyScheduleUrl + dayName).then(function (data) {
+            if ('' === data.data) {
+                console.error('Failed to call CFP REST');
+                return;
+            }
+console.log('Received Schedule');
+
+            var tak = filterTalksAndKeynotes(data.data, speakers);
+
+            LocalStorageService.setSchedule(tak);
+            var groups = [];
+            tak.forEach(function (item) {
+                var itemIndex = (item.dayNr - 1);
+                if (!groups[itemIndex]) {
+                    groups[itemIndex] = [];
                 }
-                console.log('Received Schedule');
+                groups[itemIndex].push(item);
+            });
 
-                var tak = filterTalksAndKeynotes(data.data, speakers);
+            for (var i = 0; i < groups.length; i++) {
+                storeDay(i + 1, groups[i]);
+            }
+            console.log('stored days');
+            function storeDay(itemDay, group) {
+                LocalStorageService.setDay(itemDay, group);
+            }
 
-                LocalStorageService.setSchedule(tak);
-                var groups = [];
-                tak.forEach(function (item) {
-                    var itemIndex = (item.dayNr - 1);
-                    if (!groups[itemIndex]) {
-                        groups[itemIndex] = [];
-                    }
-                    groups[itemIndex].push(item);
-                });
-
-                for (var i = 0; i < groups.length; i++) {
-                    storeDay(i + 1, groups[i]);
-                }
-                console.log('stored days');
-                function storeDay(itemDay, group) {
-                    LocalStorageService.setDay(itemDay, group);
-                }
-
-                currentData = groups[currentDay - 1];
+            currentData = groups[currentDay - 1];
 console.log('groupsda', currentDay);
 console.log('groups', groups);
-                updateModels();
+            updateModels();
 
-            }).then(scheduleLoaded.defer.resolve);
+        }).then(scheduleLoaded.defer.resolve);
     };
 
     function updateModels() {
@@ -150,6 +162,13 @@ console.log('currentData', currentData);
 console.log('slots', slots);
         self.scheduleNow = filterTime(nowAndNext[0]);
         self.scheduleNext = filterTime(nowAndNext[1]);
+
+        self.scheduleNow.forEach(function (s) {
+            s.visible = true;
+        });
+        self.scheduleNext.forEach(function (s) {
+            s.visible = true;
+        });
 
         console.log('Slots', slots, 'NowAndNext', nowAndNext);
         console.log('NOW:', self.scheduleNow);
