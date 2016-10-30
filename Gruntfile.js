@@ -158,7 +158,7 @@ module.exports = function (grunt) {
                         '.tmp/annotated/app/scripts/config.annotated.js',
                         '.tmp/annotated/app/scripts/wall/*.annotated.js',
                         '.tmp/annotated/app/scripts/wall/**/*.annotated.js',
-                        'app/*.js'
+                        'app/config_be.js' // This should be changed depending of the event
                     ]
                 }
             }

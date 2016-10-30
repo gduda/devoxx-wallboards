@@ -7,8 +7,6 @@
 /* globals ScheduleItem: false */
 
 wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageService, $interval) {
-    scheduleLoaded.defer = $q.defer();
-    scheduleLoaded.promise = scheduleLoaded.defer.promise;
     window.sc = this; // Global var to interact with from console
 
     var self = this;
@@ -18,11 +16,17 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
     this.loading = true;
     this.currentPane = 0;
 
-    $interval(function () {
+    self.stopIntervalPanes = $interval(function () {
         if (++self.currentPane >= 2) {
             self.currentPane = 0;
         }
     }, 5000);
+    $scope.$on('$destroy', function() {
+        if (angular.isDefined(self.stopIntervalPanes)) {
+            $interval.cancel(self.stopIntervalPanes);
+            self.stopIntervalPanes = undefined;
+        }
+    });
 
     var speakers = [];
 
@@ -45,7 +49,6 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
         }
 
         console.log('Resolve after speakers');
-        scheduleLoaded.defer.resolve();
         self.loading = false;
 
         var MINUTES_10 = 1000 * 60 * 10;
@@ -93,7 +96,7 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
             currentData = LocalStorageService.getDay(dayNr);
         }
         console.log('NowAndNextTime', currentTime.toLongDateString(), currentDay);
-        $scope.$apply(updateModels);
+        updateModels();
     };
 
     var MINUTES_1 = 1000 * 60;
@@ -147,7 +150,7 @@ console.log('groupsda', currentDay);
 console.log('groups', groups);
             updateModels();
 
-        }).then(scheduleLoaded.defer.resolve);
+        });
     };
 
     function updateModels() {
@@ -268,12 +271,6 @@ console.log('talkTypesInSchedule', talkTypesInSchedule);
     preLoadSpeakerImageUrls(onDone);
 
 });
-
-
-var scheduleLoaded = {
-    defer: undefined,
-    promise: undefined
-};
 
 /**
  * ScheduleController, instantiated by AngularJS.
