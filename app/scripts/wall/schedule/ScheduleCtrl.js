@@ -287,7 +287,7 @@ wallApp.directive('onShowAnimate', function ($timeout) {
                 });
             }, 0);
         }
-    }
+    };
 });
 
 /**

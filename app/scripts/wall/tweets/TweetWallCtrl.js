@@ -65,7 +65,7 @@ wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout) {
                     var pos = self.assignPosition();
                     tweet.left = pos.left;
                     tweet.top = pos.top;
-                    tweet.styleClass = 'slide-in';
+                    tweet.styleClass = 'animated fadeInUp';
                     self.tweets.push(tweet);
                 }
 
@@ -79,10 +79,20 @@ wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout) {
 
         function shiftTweets() {
             if (self.tweets.length > 0) {
-                var tweet = self.tweets[0];
-                tweet.styleClass = 'slide-out';
+                self.tweets = self.tweets.map(function (t, idx) {
+                    if (idx === 0) {
+                        t.styleClass = 'animated fadeOutUp';
+                    } else {
+                        t.styleClass = 'animated moveUp';
+                    }
+                    return t;
+                });
+
                 $timeout(function () {
-                    self.tweets.shift();
+                    self.tweets = self.tweets.slice(1).map(function (t) {
+                        t.styleClass = '';
+                        return t;
+                    });
                     addTweet();
                 }, 1500);
             } else {
@@ -95,7 +105,7 @@ wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout) {
             var pos = self.assignPosition();
             tweet.left = pos.left;
             tweet.top = pos.top;
-            tweet.styleClass = 'slide-in';
+            tweet.styleClass = 'animated fadeInUp';
             self.tweets.push(tweet);
         }
     };
@@ -104,6 +114,6 @@ wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout) {
     function init() {
         self.refreshRemoteData();
         setInterval(self.refreshRemoteData, 10000);
-        setInterval(self.tweetQueueProcessor, 3000);
+        setInterval(self.tweetQueueProcessor, 30000);
     }
 });

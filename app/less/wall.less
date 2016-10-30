@@ -48,7 +48,7 @@ h1 {
 }
 
 #carousel {
-    width: 750px;
+    width: 45%;
     left: 50px;
     position: absolute;
     overflow: hidden;
@@ -202,9 +202,49 @@ h1 {
     position: absolute;
     right: 20px;
     top: 120px;
-    width: 800px;
+    width: 45%;
     height: 500px;
 
+    .tweet {
+        border: 1px solid @highlightColor;
+        background-color: #000;
+        color: #fff;
+        height: 100px;
+        margin: 3px 0;
+        padding: 3px;
+        .tweetInner {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+        .author {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            color: @highlightColor;
+            font-weight: 700;
+        }
+        .authorImage {
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+        }
+        .tweetText {
+            position: absolute;
+            top: 20px;
+            left: 65px;
+            height:60px;
+            width: 55%;
+            overflow-y: hidden;
+        }
+        .tweetImage {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            height: 88px;
+            width: 230px;
+        }
+    }
 }
 
 #notice {
@@ -242,5 +282,17 @@ h1 {
     }
     to {
         box-shadow: 0 0 @blurRadius @spreadRadius rgba(0,0,0,0);
+    }
+}
+
+.moveUp {
+    animation-name: moveUp;
+    animation-duration: 1s;
+}
+
+@-webkit-keyframes moveUp {
+    to {
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
     }
 }

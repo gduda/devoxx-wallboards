@@ -1,7 +1,7 @@
 'use strict';
 /* exported wallApp */
 /* global hasVoting: false */
-var wallApp = angular.module('wallApp', ['ngAnimate']);
+var wallApp = angular.module('wallApp', []);
 
 wallApp.run(function ($rootScope) {
     $rootScope.hasVoting = hasVoting;

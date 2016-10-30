@@ -9,7 +9,7 @@
         <meta http-equiv="refresh" content="3600">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Lato:300,700' rel='stylesheet' type='text/css'>
 
         <link rel="stylesheet" href="components/animate.css/animate.css">
         <link rel="stylesheet" href="css/wall.css">
@@ -17,16 +17,16 @@
 
     <body ng-app="wallApp">
         <div id="cinema">
-            <div id="tweets" ng-controller="TweetWallCtrl as tweetWall" style="display: none;">
+            <div id="tweets" ng-controller="TweetWallCtrl as tweetWall">
 
                 <div class="tweet {{tweet.styleClass}}" ng-repeat="tweet in tweetWall.tweets" style="left: {{tweet.left}}px; top: {{tweet.top}}px;">
-                    <div class="cloud">
-                        <div class="cloudContents">
-                            <span class="author">{{tweet.author}}</span> {{tweet.tweet}}
-                        </div>
+                    <div class="tweetInner">
+                        <span class="author">{{tweet.author}}</span>
                         <div class="authorImage">
-                            <img ng-src="{{tweet.image}}">
+                            <img ng-src="{{tweet.image}}" width="60" height="60">
                         </div>
+                        <span class="tweetText">{{tweet.tweet}}</span>
+                        <img src="asd" class="tweetImage">
                     </div>
                 </div>
             </div>
