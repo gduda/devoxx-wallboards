@@ -91,7 +91,7 @@ h1 {
                 clear: both;
                 overflow-y: hidden;
                 border: 1px solid @highlightColor;
-                box-shadow: 0px 0px 5px 2px @highlightColor 0 0 2px;
+                box-shadow: 0 0 5px 2px @highlightColor 0 0 2px;
 
                 .talkScore {
                     float: left;
@@ -204,55 +204,6 @@ h1 {
     top: 120px;
     width: 800px;
     height: 500px;
-    display: table;
-
-    .container {
-        display: table-cell;
-        vertical-align: middle;
-        width: 780px;
-
-        .border {
-            > div {
-                width: 760px;
-                height: 100px;
-                clear:both;
-                margin: 60px 20px;
-                background: rgba(0, 0, 0, 0.7);
-                -webkit-border-radius: 10px;
-                border: solid 1px #ebeb00;
-                -webkit-box-shadow: #ebeb00 0 0 5px;
-
-                overflow: hidden;
-            }
-        }
-
-        .image{
-            img {
-                width: 100px;
-                height: 100px;
-                float: right;
-            }
-        }
-
-        .tweet {
-            margin-left: 5px;
-            margin-right: 5px;
-            font-size: 1.40em;
-            font-weight: bold;
-            line-height: 1.2em;
-            color: white;
-            float: none;
-            text-shadow: 2px 2px 2px #000;
-
-            .author {
-                color: #ff4520;
-                //color: orange; //rgb(0,122,224);
-                font-size: 0.95em;
-                clear: left;
-            }
-
-        }
-    }
 
 }
 
@@ -271,10 +222,25 @@ h1 {
     box-sizing: border-box;
 }
 
-div.tweet {
-    position: absolute;
-    left: 200px;
-    top: 150px;
 
+.flashBorder {
+    -webkit-animation-name: flashBorder;
+    animation-name: flashBorder;
+    -webkit-transform-origin: center bottom;
+    transform-origin: center bottom;
+    animation-duration: 0.8s;
+}
 
+@-webkit-keyframes flashBorder {
+    @blurRadius: 5px;
+    @spreadRadius: 3px;
+    from {
+        box-shadow: 0 0 @blurRadius @spreadRadius rgba(0,0,0,0);
+    }
+    50% {
+        box-shadow: 0 0 @blurRadius @spreadRadius @highlightColor;
+    }
+    to {
+        box-shadow: 0 0 @blurRadius @spreadRadius rgba(0,0,0,0);
+    }
 }

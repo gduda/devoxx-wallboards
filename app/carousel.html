@@ -2,10 +2,10 @@
     ng-class="{hasVoting: hasVoting}"
     ng-controller="ScheduleCtrl as schedule"
     ng-switch on="schedule.currentPane">
-    <li ng-switch-when="2" class="pane">
+    <li ng-switch-when="0" class="pane">
         <h1>Current talks</h1>
-        <h2 ng-show="schedule.loading">Loading...</h2>
-        <div ng-repeat="item in schedule.scheduleNow|filter:{visible: true}" class="listEntry" ng-hide="schedule.loading">
+        <h2 ng-show="schedule.loading" class="animated infinite pulse">Loading...</h2>
+        <div ng-repeat="item in schedule.scheduleNow|orderBy:'room'" class="listEntry" ng-hide="schedule.loading" on-show-animate="flashBorder">
             <span class="room">{{item.room}}</span>
             <div class="text">
                 <span class="highlight">{{item.time}}</span>
@@ -17,8 +17,8 @@
 
     <li ng-switch-when="1" class="pane">
         <h1>Next up</h1>
-        <h2 ng-show="schedule.loading">Loading...</h2>
-        <div ng-repeat="item in schedule.scheduleNext|filter:{visible: true}" class="listEntry">
+        <h2 ng-show="schedule.loading" class="animated infinite pulse">Loading...</h2>
+        <div ng-repeat="item in schedule.scheduleNext|orderBy:'room'" class="listEntry" on-show-animate="flashBorder">
             <div class="room">{{item.room}}</div>
             <div class="text">
                 <span class="highlight">{{item.time}}</span>
@@ -28,10 +28,10 @@
         </div>
     </li>
 
-    <li ng-switch-otherwise class="pane" ng-controller="HuntlyCtrl as huntly">
+    <li ng-switch-when="2" class="pane" ng-controller="HuntlyCtrl as huntly">
         <h1>Huntly leaderboard</h1>
-        <h2 ng-show="huntly.loading">Loading...</h2>
-        <div ng-repeat="item in huntly.leaderboard" class="listEntry p{{$index+1}}" ng-class="{'pn': $index+1 > 4}">
+        <h2 ng-show="huntly.loading" class="animated infinite pulse">Loading...</h2>
+        <div ng-repeat="item in huntly.leaderboard" class="listEntry p{{$index+1}}" ng-class="{'pn': $index+1 > 4}" on-show-animate="flashBorder">
             <!--<div class="rank">{{$index+1}}</div>-->
             <div class="credits">{{item.credits}}</div>
             <div class="text">
@@ -40,7 +40,7 @@
         </div>
     </li>
 
-    <!--li ng-controller="VotingCtrl as voting" ng-if="::hasVoting">
+    <!--li ng-controller="VotingCtrl as voting" ng-if="::hasVoting" on-show-add-class="animated pulse">
         <div>
             <h1 class="bestof">Top Talks Overall</h1>
             <h2 ng-show="voting.loadingWeek">Loading...</h2>
@@ -59,7 +59,7 @@
         </div>
     </li>
 
-    <li ng-controller="VotingCtrl as voting" ng-if="::hasVoting">
+    <li ng-controller="VotingCtrl as voting" ng-if="::hasVoting" on-show-add-class="animated pulse">
         <div>
             <h2 class="bestof">Today's Top Talks</h2>
             <h2 ng-show="voting.loadingDay">Loading...</h2>

@@ -166,12 +166,12 @@ console.log('slots', slots);
         self.scheduleNow = filterTime(nowAndNext[0]);
         self.scheduleNext = filterTime(nowAndNext[1]);
 
-        self.scheduleNow.forEach(function (s) {
-            s.visible = true;
-        });
-        self.scheduleNext.forEach(function (s) {
-            s.visible = true;
-        });
+        // self.scheduleNow.forEach(function (s) {
+        //     s.visible = true;
+        // });
+        // self.scheduleNext.forEach(function (s) {
+        //     s.visible = true;
+        // });
 
         console.log('Slots', slots, 'NowAndNext', nowAndNext);
         console.log('NOW:', self.scheduleNow);
@@ -270,6 +270,24 @@ console.log('talkTypesInSchedule', talkTypesInSchedule);
 
     preLoadSpeakerImageUrls(onDone);
 
+});
+
+wallApp.directive('onShowAnimate', function ($timeout) {
+    return {
+        restrict: 'A',
+        scope: false,
+        link: function (scope, element, attrs) {
+            var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+            var classes = 'animated ' + attrs.onShowAnimate;
+            // Unfortunately ng-class overwrites the classname, so using a $timeout
+            // we apply this animation a bit later.
+            $timeout(function () {
+                element.addClass(classes).one(animationEnd, function () {
+                    $(this).removeClass(classes);
+                });
+            }, 0);
+        }
+    }
 });
 
 /**
