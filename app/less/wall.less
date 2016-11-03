@@ -210,7 +210,7 @@ h1 {
         background-color: #000;
         color: #fff;
         height: 100px;
-        margin: 3px 0;
+        margin: 5px 0;
         padding: 3px;
         .tweetInner {
             position: relative;
@@ -243,6 +243,19 @@ h1 {
             right: 2px;
             height: 88px;
             width: 230px;
+        }
+
+        &.NEGATIVE {
+            box-shadow: 0 0 5px 2px rgba(255, 0, 68, 0.5);
+            border-color: rgba(255, 0, 68, 1);
+        }
+        &.NEUTRAL {
+            box-shadow: 0 0 5px 2px rgba(255, 206, 0, 0.5);
+            border-color: rgba(255, 206, 0, 1);
+        }
+        &.POSITIVE {
+            box-shadow: 0 0 5px 2px rgba(0, 255, 20, 0.5);
+            border-color: rgba(0, 255, 20, 1);
         }
     }
 }

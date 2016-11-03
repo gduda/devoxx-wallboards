@@ -19,7 +19,7 @@
         <div id="cinema">
             <div id="tweets" ng-controller="TweetWallCtrl as tweetWall">
 
-                <div class="tweet {{tweet.styleClass}}" ng-repeat="tweet in tweetWall.tweets">
+                <div class="tweet {{tweet.styleClass}} {{tweet.sentiment}}" ng-repeat="tweet in tweetWall.tweets">
                     <div class="tweetInner">
                         <span class="author">{{tweet.from}}</span>
                         <div class="authorImage">
