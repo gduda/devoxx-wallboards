@@ -2,6 +2,7 @@
 /* globals topOfWeekUrl: false */
 /* globals topOfDayUrl: false */
 /* globals dayNumberToName: false */
+/* globals getCurrentTime: false */
 wallApp.factory('VotingService', function($http, $q) {
 
     return {
@@ -19,7 +20,7 @@ wallApp.factory('VotingService', function($http, $q) {
         topOfDay: function() {
             var defer = $q.defer();
 
-            var dayNumber = new Date().getDay();
+            var dayNumber = getCurrentTime().getDay();
             var topOfDayUrlComplete = topOfDayUrl + dayNumberToName[dayNumber];
 
             $http.get(topOfDayUrlComplete).success(function(data) {
