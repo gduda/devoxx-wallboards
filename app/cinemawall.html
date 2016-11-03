@@ -19,14 +19,14 @@
         <div id="cinema">
             <div id="tweets" ng-controller="TweetWallCtrl as tweetWall">
 
-                <div class="tweet {{tweet.styleClass}}" ng-repeat="tweet in tweetWall.tweets" style="left: {{tweet.left}}px; top: {{tweet.top}}px;">
+                <div class="tweet {{tweet.styleClass}}" ng-repeat="tweet in tweetWall.tweets">
                     <div class="tweetInner">
-                        <span class="author">{{tweet.author}}</span>
+                        <span class="author">{{tweet.from}}</span>
                         <div class="authorImage">
-                            <img ng-src="{{tweet.image}}" width="60" height="60">
+                            <img ng-src="{{tweet.profileImageUrl}}" width="60" height="60">
                         </div>
-                        <span class="tweetText">{{tweet.tweet}}</span>
-                        <img src="asd" class="tweetImage">
+                        <span class="tweetText">{{tweet.message}}</span>
+                        <img ng-if="tweet.imageUrl" class="tweetImage" ng-src="{{tweet.imageUrl}}">
                     </div>
                 </div>
             </div>

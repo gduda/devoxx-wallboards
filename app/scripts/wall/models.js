@@ -1,7 +1,6 @@
 'use strict';
 /* exported ScheduleItem */
 /* exported Speaker */
-/* exported Tweet */
 function ScheduleItem(slot) {
     this.id = slot.talk.id;
     this.type = slot.talk.kind;
@@ -57,17 +56,4 @@ function Speaker(speakerItem) {
         return this.imageUrl;
     };
 
-}
-
-function Tweet(tweet) {
-
-    this.id = tweet.id;
-    this.author = tweet.from;
-    this.image = tweet.profileImageUrl;
-    this.tweet = tweet.message;
-    this.createdAt = tweet.timestamp;
-
-    this.toString = function() {
-        return this.author + ' ' + this.id;
-    };
 }
