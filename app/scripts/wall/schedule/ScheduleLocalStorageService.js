@@ -1,3 +1,5 @@
+'use strict';
+/* globals md5: false */
 
 /**
  * LocalStorageService, instantiated by AngularJS.

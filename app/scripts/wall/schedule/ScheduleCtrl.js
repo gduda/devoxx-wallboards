@@ -1,5 +1,4 @@
 'use strict';
-/* globals md5: false */
 /* globals fullScheduleUrl: false */
 /* globals dailyScheduleUrl: false */
 /* globals talkTypesInSchedule: false */

@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="css/wall.css">
     </head>
 
-    <body ng-app="wallApp">
+    <body ng-app="wallApp" ng-cloak>
         <div id="cinema">
             <div id="tweets" ng-controller="TweetWallCtrl as tweetWall">
 
@@ -25,8 +25,9 @@
                         <div class="authorImage">
                             <img ng-src="{{tweet.profileImageUrl}}" width="60" height="60">
                         </div>
-                        <span class="tweetText">{{tweet.message}}</span>
+                        <span class="tweetText" ng-class="{hasImage: !!tweet.imageUrl}">{{tweet.message}}</span>
                         <img ng-if="tweet.imageUrl" class="tweetImage" ng-src="{{tweet.imageUrl}}">
+                        <div ng-if="tweet.sentiment" class="smiley"></div>
                     </div>
                 </div>
             </div>

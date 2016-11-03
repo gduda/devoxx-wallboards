@@ -1,7 +1,5 @@
 'use strict';
 /* globals twitterBaseUri: false */
-/* globals twitterSearchCriteria: false */
-/* globals Tweet: false */
 wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout, TweetsLocalStorageService) {
 
     window.tc = this;
