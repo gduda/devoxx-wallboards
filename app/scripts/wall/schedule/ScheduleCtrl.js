@@ -4,6 +4,7 @@
 /* globals talkTypesInSchedule: false */
 /* globals Speaker: false */
 /* globals ScheduleItem: false */
+/* globals getCurrentTime: false */
 
 wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageService, $interval) {
     window.sc = this; // Global var to interact with from console
@@ -13,10 +14,10 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
     this.scheduleNow = [];
     this.scheduleNext = [];
     this.loading = true;
-    this.currentPane = 0;
+    this.currentPane = 3;
 
     self.stopIntervalPanes = $interval(function () {
-        if (++self.currentPane >= 2) {
+        if (++self.currentPane >= 5) {
             self.currentPane = 0;
         }
     }, 5000);
@@ -29,12 +30,7 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
 
     var speakers = [];
 
-    this.getCurrentTime = function() {
-        return new Date('November 9, 2016 10:24:00');
-        // return new Date();
-    };
-
-    var currentTime = self.getCurrentTime();
+    var currentTime = getCurrentTime();
     var currentDay = currentTime.getDay();
     var currentData = [];
 
@@ -88,7 +84,7 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
     }
 
     this.nowAndNextTimer = function () {
-        currentTime = self.getCurrentTime();
+        currentTime = getCurrentTime();
         var dayNr = currentTime.getDay();
         if (dayNr !== currentDay) {
             currentDay = dayNr;
@@ -115,7 +111,7 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
     }
 
     this.refreshRemoteData = function () {
-        var dayName = getDayName(self.getCurrentTime().getDay());
+        var dayName = getDayName(getCurrentTime().getDay());
         //TODO fill in dailyScheduleUrl
         $http.get(dailyScheduleUrl + dayName).then(function (data) {
             if ('' === data.data) {

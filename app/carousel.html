@@ -40,42 +40,38 @@
         </div>
     </li>
 
-    <!--li ng-controller="VotingCtrl as voting" ng-if="::hasVoting" on-show-add-class="animated pulse">
-        <div>
-            <h1 class="bestof">Top Talks Overall</h1>
-            <h2 ng-show="voting.loadingWeek">Loading...</h2>
-            <div ng-repeat="talk in voting.topTalksOfWeek" class="listEntry" ng-hide="voting.loadingWeek">
-                <div class="talkScore">
-                    <div class="avg">{{talk.avg|number:1}}</div>
-                    <div class="count">{{talk.count|number}} votes</div>
-                </div>
-                <div class="text">
-                    {{talk.title}}
-                    <span class="warning">
-                        <span ng-repeat="speakerName in talk.speakers"> {{speakerName}} </span>
-                    </span>
-                </div>
+    <li ng-switch-when="3" class="pane" ng-controller="VotingCtrl as voting">
+        <h1>Top Talks Overall</h1>
+        <h2 ng-show="voting.loadingWeek">Loading...</h2>
+        <div ng-repeat="talk in voting.topTalksOfWeek" class="listEntry" on-show-animate="flashBorder">
+            <div class="talkScore">
+                <div class="avg">{{talk.ratingAverageScore|number:1}}</div>
+                <div class="count">{{talk.ratingTotalVotes|number}} votes</div>
+            </div>
+            <div class="text">
+                {{talk.proposalTitle}}
+                <span class="warning">
+                    <span> {{talk.proposalsSpeakers}} </span>
+                </span>
             </div>
         </div>
     </li>
 
-    <li ng-controller="VotingCtrl as voting" ng-if="::hasVoting" on-show-add-class="animated pulse">
-        <div>
-            <h2 class="bestof">Today's Top Talks</h2>
-            <h2 ng-show="voting.loadingDay">Loading...</h2>
-            <div ng-repeat="talk in voting.topTalksOfDay" class="listEntry" ng-hide="voting.loadingDay">
-                <div class="talkScore">
-                    <div class="avg">{{talk.avg|number:1}}</div>
-                    <div class="count">{{talk.count|number}} votes</div>
-                </div>
-                <div class="text">
-                    {{talk.title}}
-                    <span class="warning">
-                        <span ng-repeat="speakerName in talk.speakers"> {{speakerName}} </span>
-                    </span>
-                </div>
+    <li ng-switch-when="4" class="pane" ng-controller="VotingCtrl as voting">
+        <h1>Today's Top Talks</h1>
+        <h2 ng-show="voting.loadingDay">Loading...</h2>
+        <div ng-repeat="talk in voting.topTalksOfDay" class="listEntry" on-show-animate="flashBorder">
+            <div class="talkScore">
+                <div class="avg">{{talk.ratingAverageScore|number:1}}</div>
+                <div class="count">{{talk.ratingTotalVotes|number}} votes</div>
+            </div>
+            <div class="text">
+                {{talk.proposalTitle}}
+                <span class="warning">
+                    <span> {{talk.proposalsSpeakers}} </span>
+                </span>
             </div>
         </div>
-    </li-->
+    </li>
 
 </ul>

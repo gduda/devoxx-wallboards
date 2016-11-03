@@ -1,5 +1,6 @@
 'use strict';
 /* exported day */
+/* exported getCurrentTime */
 Date.prototype.before = function(other) {
     return this.compareTo(other) < 0;
 };
@@ -20,4 +21,9 @@ function day(date) {
     var eventDay = diff >= 1 && diff <= 5 ? diff : 1; // Default to day1 to show something
     console.log('Calculated event day: ', eventDay);
     return eventDay;
+}
+
+function getCurrentTime() {
+    return new Date('November 9, 2016 10:24:00');
+    // return new Date();
 }

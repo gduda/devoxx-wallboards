@@ -1,4 +1,5 @@
 @highlightColor: #6c89a9;
+@highlightColorHalfOpaque: #6c89a988;
 
 * {
     font-family: 'Lato', serif;
@@ -307,7 +308,7 @@ h1 {
         box-shadow: 0 0 @blurRadius @spreadRadius rgba(0,0,0,0);
     }
     50% {
-        box-shadow: 0 0 @blurRadius @spreadRadius @highlightColor;
+        box-shadow: 0 0 @blurRadius @spreadRadius @highlightColorHalfOpaque;
     }
     to {
         box-shadow: 0 0 @blurRadius @spreadRadius rgba(0,0,0,0);
