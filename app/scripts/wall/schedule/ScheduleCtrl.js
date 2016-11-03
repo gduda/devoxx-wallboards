@@ -14,7 +14,7 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
     this.scheduleNow = [];
     this.scheduleNext = [];
     this.loading = true;
-    this.currentPane = 3;
+    this.currentPane = 0;
 
     self.stopIntervalPanes = $interval(function () {
         if (++self.currentPane >= 5) {

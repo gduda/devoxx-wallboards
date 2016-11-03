@@ -25,5 +25,5 @@ function day(date) {
 
 function getCurrentTime() {
     return new Date('November 9, 2016 10:24:00');
-    // return new Date();
+    //TODO: Set to correct date: return new Date();
 }
