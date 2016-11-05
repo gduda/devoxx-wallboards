@@ -29,7 +29,7 @@ h1 {
 }
 
 #hallway {
-    .screen(url('../images/dv16-hallwall.jpg'), 70px);
+    .screen(url('../images/dv16-hallwall.jpg'), 0);
 }
 
 #cinema {
@@ -54,7 +54,7 @@ h1 {
     position: absolute;
     overflow: hidden;
 
-    background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0, 0, 0, 0.0) 50%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 0%, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 0.0) 50%);
 
     > .panes {
         width: 100%;
@@ -71,14 +71,14 @@ h1 {
             left: 0;
             position: absolute;
             width: 100%;
-            height: 500px;
-            background-color: rgba(0, 0, 0, 0.8) !important;
+            //height: 500px;
+            //background-color: rgba(0, 0, 0, 0.8) !important;
 
             h1, h2 {
-                color: @highlightColor;
+                color: #fff;
                 font-weight: bolder;
-                text-shadow: @highlightColor 0 0 2px;
-                -webkit-text-stroke: 2px @highlightColor;
+                text-shadow: #fff 0 0 2px;
+                -webkit-text-stroke: 2px #fff;
                 letter-spacing: 5px;
                 text-align: center;
             }
@@ -202,9 +202,9 @@ h1 {
 #tweets {
     position: absolute;
     right: 20px;
-    top: 120px;
+    top: 150px;
     width: 45%;
-    height: 500px;
+    height: 480px;
 
     .tweet {
         border: 1px solid @highlightColor;
