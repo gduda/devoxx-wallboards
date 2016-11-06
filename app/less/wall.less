@@ -124,7 +124,7 @@ h1 {
 
                 .credits {
                     float: left;
-                    width: 110px;
+                    width: 200px;
                     position: relative;
                     font-size: 3em;
                     margin: 0;
@@ -134,6 +134,9 @@ h1 {
                 }
 
                 .huntlyPlayer(@creditsSize, @textSize, @height) {
+                    display: flex;
+                    align-items: center;
+
                     .credits {
                         font-size: @creditsSize;
                     }
@@ -145,16 +148,16 @@ h1 {
                 }
 
                 &.p1 {
-                    .huntlyPlayer(5em, 2em, 105px);
+                    .huntlyPlayer(5em, 2em, 100px);
                 }
                 &.p2 {
-                    .huntlyPlayer(4em, 1.8em, 85px);
+                    .huntlyPlayer(4em, 1.8em, 80px);
                 }
                 &.p3 {
-                    .huntlyPlayer(3em, 1.6em, 65px);
+                    .huntlyPlayer(3em, 1.6em, 60px);
                 }
                 &.p4 {
-                    .huntlyPlayer(2.5em, 1.4em, 65px);
+                    .huntlyPlayer(2.5em, 1.4em, 55px);
                 }
                 &.pn {
                     .huntlyPlayer(2em, 1.2em, 50px);
@@ -165,6 +168,10 @@ h1 {
                     font-size: 1.3em;
                     word-wrap: normal;
                     margin: 3px;
+                }
+
+                .huntlyName {
+                    margin-left: 10px;
                 }
 
                 .highlight {

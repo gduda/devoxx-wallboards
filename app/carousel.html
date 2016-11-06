@@ -34,7 +34,7 @@
         <div ng-repeat="item in huntly.leaderboard" class="listEntry p{{$index+1}}" ng-class="{'pn': $index+1 > 4}" on-show-animate="flashBorder">
             <!--<div class="rank">{{$index+1}}</div>-->
             <div class="credits">{{item.credits}}</div>
-            <div class="text">
+            <div class="text huntlyName">
                 {{item.username}}
             </div>
         </div>
