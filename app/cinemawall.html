@@ -27,7 +27,9 @@
                         </div>
                         <span class="tweetText" ng-class="{hasImage: !!tweet.imageUrl}">{{tweet.message}}</span>
                         <img ng-if="tweet.imageUrl" class="tweetImage" ng-src="{{tweet.imageUrl}}">
-                        <div ng-if="tweet.sentiment" class="smiley"></div>
+                        <div class="smileyWrapper">
+                            <img ng-if="tweet.sentiment" class="smiley" ng-src="images/batman_{{tweet.sentiment}}.png"></img>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -44,7 +44,7 @@ h1 {
 }
 
 #cinema #carousel {
-    top: 150px;
+    top: 80px;
     left: 40px;
 }
 
@@ -198,7 +198,7 @@ h1 {
 #tweets {
     position: absolute;
     right: 20px;
-    top: 150px;
+    top: 80px;
     width: 45%;
     height: 480px;
 
@@ -245,29 +245,20 @@ h1 {
             max-width: 150px;
         }
 
+        .smileyWrapper {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 80px;
+            background-color: @highlightColor;
+        }
         .smiley {
             position: absolute;
-            right: 5px;
-            top: 7px;
-            width: 70px;
-            height: 70px;
-            font-size: 70px;
-        }
-
-        &.POSITIVE .smiley:after {
-            content: '\1f603';
-            //box-shadow: 0 0 5px 2px rgba(255, 0, 68, 0.5);
-            //border-color: rgba(255, 0, 68, 1);
-        }
-        &.NEUTRAL .smiley:after  {
-            content: '\1f610';
-            //box-shadow: 0 0 5px 2px rgba(255, 206, 0, 0.5);
-            //border-color: rgba(255, 206, 0, 1);
-        }
-        &.NEGATIVE .smiley:after {
-            content: '\1f641';
-            //box-shadow: 0 0 5px 2px rgba(0, 255, 20, 0.5);
-            //border-color: rgba(0, 255, 20, 1);
+            top: 18px;
+            right: 13px;
+            width: 53px;
+            height: 58px;
         }
     }
 }
