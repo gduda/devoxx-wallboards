@@ -1,35 +1,40 @@
 'use strict';
+/* globals angular: false */
 /* globals topOfWeekUrl: false */
 /* globals topOfDayUrl: false */
 /* globals dayNumberToName: false */
 /* globals getCurrentTime: false */
-wallApp.factory('VotingService', function($http, $q) {
+wallApp.service('VotingService', function($http, $interval, $rootScope) {
+    var self = this;
 
-    return {
-        topOfWeek: function() {
-            var defer = $q.defer();
+    function retrieveTopOfWeek() {
+        self.topOfWeek = $http.get(topOfWeekUrl).then(function (req) {
+            return req.data;
+        });
+    }
 
-            $http.get(topOfWeekUrl).success(function(data) {
-                defer.resolve(data);
-            }).error(function (data) {
-                defer.reject(data);
-            });
+    function retrieveTopOfDay() {
+        var dayNumber = getCurrentTime().getDay();
+        var topOfDayUrlComplete = topOfDayUrl + dayNumberToName[dayNumber];
 
-            return defer.promise;
-        },
-        topOfDay: function() {
-            var defer = $q.defer();
+        self.topOfDay = $http.get(topOfDayUrlComplete).then(function (req) {
+            return req.data;
+        });
+    }
 
-            var dayNumber = getCurrentTime().getDay();
-            var topOfDayUrlComplete = topOfDayUrl + dayNumberToName[dayNumber];
+    function retrieveVotes() {
+        retrieveTopOfWeek();
+        retrieveTopOfDay();
+    }
 
-            $http.get(topOfDayUrlComplete).success(function(data) {
-                defer.resolve(data);
-            }).error(function(data) {
-                defer.reject(data);
-            });
+    retrieveVotes();
+    self.stopInterval = $interval(retrieveVotes, 60000);
 
-            return defer.promise;
+    $rootScope.$on('$destroy', function() {
+        if (angular.isDefined(self.stopInterval)) {
+            $interval.cancel(self.stopInterval);
+            self.stopInterval = undefined;
         }
-    };
+    });
+
 });

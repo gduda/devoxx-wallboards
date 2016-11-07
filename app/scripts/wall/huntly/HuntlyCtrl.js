@@ -2,29 +2,24 @@
 /* globals angular: false */
 /* globals getCurrentTime: false */
 
-wallApp.controller('HuntlyCtrl', function ($scope, $interval, HuntlyService) {
+wallApp.controller('HuntlyCtrl', function ($scope, HuntlyService) {
     var vm = this;
 
     vm.loading = true;
 
     function retrieveLeaderboard() {
-        HuntlyService.retrieveLeaderboard().then(function (data) {
+        HuntlyService.leaderboard.then(function (data) {
             vm.leaderboard = data;
             vm.loading = false;
         });
     }
 
     retrieveLeaderboard();
-    vm.stopIntervalPanes = $interval(retrieveLeaderboard, 30000);
 
-    $scope.$on('$destroy', function() {
-        if (angular.isDefined(vm.stopIntervalPanes)) {
-            $interval.cancel(vm.stopIntervalPanes);
-            vm.stopIntervalPanes = undefined;
-        }
-    });
+});
 
-}).service('HuntlyService', function ($http) {
+wallApp.service('HuntlyService', function ($http, $interval, $rootScope) {
+    var self = this;
     var deploymentId = 83;
 
     var contestIdSocial = 251;
@@ -45,35 +40,28 @@ wallApp.controller('HuntlyCtrl', function ($scope, $interval, HuntlyService) {
     }
 
     function updateModels(response) {
-        var a = response.data.slice(0, 6);
-        // a.push({username: "BPB1", credits: 1375});
-        // a.push({username: "BPB2", credits: 374});
-        // a.push({username: "BPB3", credits: 372});
-        // a.push({username: "BPB4", credits: 371});
-        // a.push({username: "BPB5", credits: 3});
-        // a.push({username: "BPB6", credits: 2});
-        // a.push({username: "BPB7", credits: 1});
-        return a;
+        return response.data.slice(0, 6);
     }
 
     function handleError(response) {
         console.log('An error occurred retrieving Huntly data: ', response);
-        // var a = [];
-        // a.push({username: "BPB1", credits: 1375});
-        // a.push({username: "BPB2", credits: 374});
-        // a.push({username: "BPB3", credits: 372});
-        // a.push({username: "BPB4", credits: 371});
-        // a.push({username: "BPB5", credits: 3});
-        // a.push({username: "BPB6", credits: 2});
-        // a.push({username: "BPB7", credits: 1});
-        // return a;
     }
 
-    this.retrieveLeaderboard = function() {
+    function retrieveLeaderboard() {
         var huntlyUrl = getHuntlyUrl();
         if (huntlyUrl) {
-            return $http.get(huntlyUrl).then(updateModels, handleError);
+            self.leaderboard = $http.get(huntlyUrl).then(updateModels, handleError);
         }
-    };
+    }
+
+    retrieveLeaderboard();
+    self.stopInterval = $interval(retrieveLeaderboard, 60000);
+
+    $rootScope.$on('$destroy', function() {
+        if (angular.isDefined(self.stopInterval)) {
+            $interval.cancel(self.stopInterval);
+            self.stopInterval = undefined;
+        }
+    });
 
 });

@@ -1,12 +1,12 @@
 'use strict';
 
-wallApp.controller('VotingCtrl', function ($timeout, $interval, VotingService) {
+wallApp.controller('VotingCtrl', function ($timeout, VotingService) {
     var self = this;
     self.loadingWeek = true;
     self.loadingDay = true;
 
     function retrieveVotes () {
-        VotingService.topOfWeek().then(function (data) {
+        VotingService.topOfWeek.then(function (data) {
             if (data.result) {
                 self.topTalksOfWeek = data.result.talks;
             } else {
@@ -14,7 +14,7 @@ wallApp.controller('VotingCtrl', function ($timeout, $interval, VotingService) {
             }
             self.loadingWeek = false;
         });
-        VotingService.topOfDay().then(function (data) {
+        VotingService.topOfDay.then(function (data) {
             if (data.result) {
                 self.topTalksOfDay = data.result.talks;
             } else {
@@ -25,5 +25,4 @@ wallApp.controller('VotingCtrl', function ($timeout, $interval, VotingService) {
     }
 
     retrieveVotes();
-    $interval(retrieveVotes, 10000);
 });
