@@ -8,8 +8,8 @@
         <div ng-repeat="item in schedule.scheduleNow|orderBy:'room'" class="listEntry" ng-hide="schedule.loading" on-show-animate="flashBorder">
             <span class="room">{{item.room}}</span>
             <div class="text">
-                <span class="highlight">{{item.time}}</span>
-                {{item.title}}
+                <span class="talkTime">{{item.time}}</span>
+                <span class="talkName">{{item.title}}</span>
                 <span class="warning">{{item.speakers}}</span>
             </div>
         </div>
@@ -21,8 +21,8 @@
         <div ng-repeat="item in schedule.scheduleNext|orderBy:'room'" class="listEntry" on-show-animate="flashBorder">
             <div class="room">{{item.room}}</div>
             <div class="text">
-                <span class="highlight">{{item.time}}</span>
-                {{item.title}}
+                <span class="talkTime">{{item.time}}</span>
+                <span class="talkName">{{item.title}}</span>
                 <span class="warning">{{item.speakers}}</span>
             </div>
         </div>
