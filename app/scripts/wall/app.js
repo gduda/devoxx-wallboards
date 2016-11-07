@@ -9,7 +9,7 @@ wallApp.run(function ($rootScope) {
 
 var lastTimestamp = Number.MAX_VALUE;
 setInterval(function () {
-    $.ajax({
+    $.getJSON({
         url: 'timestamp.json'
     }).done(function (response) {
         if (response.timestamp > lastTimestamp) {
