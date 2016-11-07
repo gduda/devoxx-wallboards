@@ -25,11 +25,13 @@ wallApp.controller('HuntlyCtrl', function ($scope, $interval, HuntlyService) {
     });
 
 }).service('HuntlyService', function ($http) {
-    var contestIdUni = 251;
+    var deploymentId = 83;
+
+    var contestIdSocial = 251;
+    var contestIdUni = 252;
     var contestIdConf1 = 253;
     var contestIdConf2 = 254;
-    var contestIdMapping = [null, contestIdUni, contestIdUni, contestIdConf1, contestIdConf2, contestIdConf2, null];
-    var deploymentId = 83;
+    var contestIdMapping = [contestIdSocial, contestIdUni, contestIdUni, contestIdConf1, contestIdConf2, contestIdConf2, contestIdSocial];
 
     function getHuntlyUrl() {
         var currentTime = getCurrentTime();
