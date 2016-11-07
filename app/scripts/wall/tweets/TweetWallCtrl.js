@@ -90,7 +90,7 @@ wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout, TweetsLoc
     function init() {
         self.refreshRemoteData();
         setInterval(self.refreshRemoteData, 30000);
-        setInterval(self.tweetQueueProcessor, 10000);
+        setInterval(self.tweetQueueProcessor, 7000);
     }
 });
 
