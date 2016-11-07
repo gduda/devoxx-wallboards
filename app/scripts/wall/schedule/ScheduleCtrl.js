@@ -6,7 +6,7 @@
 /* globals ScheduleItem: false */
 /* globals getCurrentTime: false */
 
-wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageService, $interval) {
+wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageService, $interval, constants) {
     window.sc = this; // Global var to interact with from console
 
     var self = this;
@@ -15,12 +15,13 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
     this.scheduleNext = [];
     this.loading = true;
     this.currentPane = 0;
+    this.numberOfPanes = constants.wallType === 'cinema' ? 5 : 4;
 
     self.stopIntervalPanes = $interval(function () {
-        if (++self.currentPane >= 5) {
+        if (++self.currentPane >= self.numberOfPanes) {
             self.currentPane = 0;
         }
-    }, 5000);
+    }, constants.carouselInterval);
     $scope.$on('$destroy', function() {
         if (angular.isDefined(self.stopIntervalPanes)) {
             $interval.cancel(self.stopIntervalPanes);

@@ -28,19 +28,7 @@
         </div>
     </li>
 
-    <li ng-switch-when="2" class="pane" ng-controller="HuntlyCtrl as huntly">
-        <h1>Huntly leaderboard</h1>
-        <h2 ng-show="huntly.loading" class="animated infinite pulse">Loading...</h2>
-        <div ng-repeat="item in huntly.leaderboard" class="listEntry p{{$index+1}}" ng-class="{'pn': $index+1 > 4}" on-show-animate="flashBorder">
-            <!--<div class="rank">{{$index+1}}</div>-->
-            <div class="credits">{{item.credits}}</div>
-            <div class="text huntlyName">
-                {{item.username}}
-            </div>
-        </div>
-    </li>
-
-    <li ng-switch-when="3" class="pane" ng-controller="VotingCtrl as voting">
+    <li ng-switch-when="2" class="pane" ng-controller="VotingCtrl as voting">
         <h1>Top Talks Overall</h1>
         <h2 ng-show="voting.loadingWeek">Loading...</h2>
         <div ng-repeat="talk in voting.topTalksOfWeek" class="listEntry" on-show-animate="flashBorder">
@@ -57,7 +45,7 @@
         </div>
     </li>
 
-    <li ng-switch-when="4" class="pane" ng-controller="VotingCtrl as voting">
+    <li ng-switch-when="3" class="pane" ng-controller="VotingCtrl as voting">
         <h1>Today's Top Talks</h1>
         <h2 ng-show="voting.loadingDay">Loading...</h2>
         <div ng-repeat="talk in voting.topTalksOfDay" class="listEntry" on-show-animate="flashBorder">
@@ -70,6 +58,18 @@
                 <span class="warning">
                     <span> {{talk.proposalsSpeakers}} </span>
                 </span>
+            </div>
+        </div>
+    </li>
+
+    <li ng-switch-when="4" class="pane" ng-controller="HuntlyCtrl as huntly">
+        <h1>Huntly leaderboard</h1>
+        <h2 ng-show="huntly.loading" class="animated infinite pulse">Loading...</h2>
+        <div ng-repeat="item in huntly.leaderboard" class="listEntry p{{$index+1}}" ng-class="{'pn': $index+1 > 4}" on-show-animate="flashBorder">
+            <!--<div class="rank">{{$index+1}}</div>-->
+            <div class="credits">{{item.credits}}</div>
+            <div class="text huntlyName">
+                {{item.username}}
             </div>
         </div>
     </li>
