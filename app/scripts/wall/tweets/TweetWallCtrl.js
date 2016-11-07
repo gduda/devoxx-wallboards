@@ -5,7 +5,7 @@ wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout, TweetsLoc
     window.tc = this;
     var self = this;
 
-    var MAX = 5;
+    var MAX = 6;
     var maxTweetId = 0;
 
     self.tweetQueue = [];
