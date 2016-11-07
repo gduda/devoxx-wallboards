@@ -1,5 +1,6 @@
 'use strict';
 /* globals angular: false */
+/* globals getCurrentTime: false */
 
 wallApp.controller('HuntlyCtrl', function ($scope, $interval, HuntlyService) {
     var vm = this;
@@ -24,20 +25,25 @@ wallApp.controller('HuntlyCtrl', function ($scope, $interval, HuntlyService) {
     });
 
 }).service('HuntlyService', function ($http) {
-    var contestId = 48;
-    var deploymentId = '11';
-    var huntlyApiUrl = 'https://huntly-devel.scalac.io/deployments/' + deploymentId + '/leaderboards/sorted';
+    var contestIdUni = 251;
+    var contestIdConf1 = 253;
+    var contestIdConf2 = 254;
+    var contestIdMapping = [null, contestIdUni, contestIdUni, contestIdConf1, contestIdConf2, contestIdConf2, null];
+    var deploymentId = 83;
+
+    function getHuntlyUrl() {
+        var currentTime = getCurrentTime();
+        var currentDay = currentTime.getDay();
+        var contestId = contestIdMapping[currentDay];
+        if (contestId) {
+            return 'https://huntlyapp.com/deployments/' + deploymentId + '/leaderboards/' + contestId + '/topten ';
+        } else {
+            return null;
+        }
+    }
 
     function updateModels(response) {
-        return _.flatten(response.data.rows.filter(function (row) {
-            return row.contestId === contestId;
-        }).map(function (row) {
-            row.leaderBoardRows.push({username: 'JK1', credits: 5});
-            row.leaderBoardRows.push({username: 'JK2', credits: 51});
-            row.leaderBoardRows.push({username: 'JK3', credits: 15});
-            row.leaderBoardRows.push({username: 'JK4', credits: 35});
-            return row.leaderBoardRows.slice(0, 6);
-        }));
+        return response.data.slice(0, 6);
     }
 
     function handleError(response) {
@@ -45,12 +51,10 @@ wallApp.controller('HuntlyCtrl', function ($scope, $interval, HuntlyService) {
     }
 
     this.retrieveLeaderboard = function() {
-        return $http.get(huntlyApiUrl, {
-            headers: {
-                'Authorization': 'Basic bGVhZGVyYm9hcmQ6bjZqMzNxcUw='
-            },
-            cache: true
-        }).then(updateModels, handleError);
+        var huntlyUrl = getHuntlyUrl();
+        if (huntlyUrl) {
+            return $http.get(huntlyUrl).then(updateModels, handleError);
+        }
     };
 
 });
