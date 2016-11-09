@@ -16,7 +16,9 @@
         <div id="hallway">
             <div id="carousel" ng-include="'carousel.html'"></div>
 
-            <div id="notice" style="display: none" ng-controller="NoticeCtrl">{{notice}}</div>
+            <div id="notice" ng-controller="NoticeCtrl as notice">
+                <p ng-repeat="msg in notice.msgs">{{msg}}</p>
+            </div>
         </div>
     </body>
 
@@ -31,7 +33,7 @@
     <script>
         wallApp.constant('constants', {
             'wallType': 'hallway',
-            'carouselInterval': 10000
+            'carouselInterval': 15000
         });
     </script>
 </html>
