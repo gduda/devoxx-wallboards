@@ -5,11 +5,6 @@ function ScheduleItem(slot) {
     this.id = slot.talk.id;
     this.type = slot.talk.kind;
     this.room = getRoom(slot.roomName);
-    if (this.room.length === 1) {
-        this.roomPadded = '0' + this.room;
-    } else {
-        this.roomPadded = this.room;
-    }
     this.day = slot.day;
     this.dayNr = getDayNr(slot.day);
     this.time = slot.fromTime;
@@ -30,7 +25,9 @@ function ScheduleItem(slot) {
     }
 
     function getRoom(room) {
-        return room.replace(/(Room |(B)OF )(\d+)/i, '$2$3'); // Only number for room or B prefix for BOF rooms
+        var r = room.replace(/(Room |(B)OF )(\d+)/i, '$2$3'); // Only number for room or B prefix for BOF rooms
+		var pad = '      '; // many spaces to preserve numerical order when ordering alphabetically
+		return pad.substring(0, pad.length - r.length) + r;
     }
 
     function getSpeakerNames(speakers) {
