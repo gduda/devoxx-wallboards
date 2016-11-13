@@ -88,3 +88,9 @@ To vote, the application needs to have access to the URLs allowing vote. These U
 
 [![Built on CloudBees](http://www.cloudbees.com/sites/default/files/Button-Built-on-CB-1.png)](https://devoxx.ci.cloudbees.com/job/cfp-speaker/)
 
+## Installing on AWS
+You need an EC2 instance with everything installed (Nginx, Java, init.d scripts, env variables...). I have an AMI with everything preconfigured.
+
+Furthermore, you need a DynamoDB table, called: devoxx-twitterproxy. For Devoxx 2016 I had a read/write capacity of 50/5, which was way too much. The max usage during the whole conference was 15/1.
+
+Also, open up the following ports to the world: 80, 9001.
