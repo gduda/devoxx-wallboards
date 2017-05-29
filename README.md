@@ -86,8 +86,6 @@ To vote, the application needs to have access to the URLs allowing vote. These U
 ##Support##
 - [Best practices] [4]
 
-[![Built on CloudBees](http://www.cloudbees.com/sites/default/files/Button-Built-on-CB-1.png)](https://devoxx.ci.cloudbees.com/job/cfp-speaker/)
-
 ## Installing on AWS
 You need an EC2 instance with everything installed (Nginx, Java, init.d scripts, env variables...). I have an AMI with everything preconfigured.
 
