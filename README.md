@@ -1,6 +1,4 @@
-![Build status](https://devoxx.ci.cloudbees.com/job/cfp-speaker/badge/icon)
-
-Devoxx Wallboards Application
+# Devoxx Wallboards Application
 This application is used to show interesting data on the various Devoxx screens.
 
 Used technologies:
