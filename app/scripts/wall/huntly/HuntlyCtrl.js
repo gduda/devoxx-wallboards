@@ -1,6 +1,5 @@
 'use strict';
 /* globals angular: false */
-/* globals getCurrentTime: false */
 
 wallApp.controller('HuntlyCtrl', function ($scope, HuntlyService) {
     var vm = this;
@@ -20,20 +19,20 @@ wallApp.controller('HuntlyCtrl', function ($scope, HuntlyService) {
 
 wallApp.service('HuntlyService', function ($http, $interval, $rootScope) {
     var self = this;
-    var deploymentId = 83;
+    // var deploymentId = 125;
 
-    var contestIdSocial = 251;
-    var contestIdUni = 252;
-    var contestIdConf1 = 253;
-    var contestIdConf2 = 254;
-    var contestIdMapping = [contestIdSocial, contestIdUni, contestIdUni, contestIdConf1, contestIdConf2, contestIdConf2, contestIdSocial];
+    // var contestIdSocial = 251;
+    // var contestIdUni = 252;
+    // var contestIdConf1 = 253;
+    // var contestIdConf2 = 254;
+    // var contestIdMapping = [contestIdSocial, contestIdUni, contestIdUni, contestIdConf1, contestIdConf2, contestIdConf2, contestIdSocial];
 
     function getHuntlyUrl() {
-        var currentTime = getCurrentTime();
-        var currentDay = currentTime.getDay();
-        var contestId = contestIdMapping[currentDay];
+        // var currentTime = getCurrentTime();
+        // var currentDay = currentTime.getDay();
+        var contestId = 340;//contestIdMapping[currentDay];
         if (contestId) {
-            return 'https://huntlyapp.com/deployments/' + deploymentId + '/leaderboards/' + contestId + '/topten ';
+            return null; //'https://srv.huntlyapp.com/deployments/' + deploymentId + '/leaderboards/' + contestId + '/topten ';
         } else {
             return null;
         }

@@ -1,5 +1,5 @@
 //Twitter
-var twitterBaseUri = 'http://ec2-54-194-86-95.eu-west-1.compute.amazonaws.com:9001/';
+var twitterBaseUri = 'http://wall.devoxx.com:9001/';
 
 // Schedule
 var fullScheduleUrl = 'http://cfp.devoxx.be/api/conferences/DV16/speakers';

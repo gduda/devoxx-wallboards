@@ -15,7 +15,7 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
     this.scheduleNext = [];
     this.loading = true;
     this.currentPane = 0;
-    this.numberOfPanes = constants.wallType === 'cinema' ? 5 : 4;
+    this.numberOfPanes = constants.wallType === 'cinema' ? 4 : 4;
 
     self.stopIntervalPanes = $interval(function () {
         if (++self.currentPane >= self.numberOfPanes) {

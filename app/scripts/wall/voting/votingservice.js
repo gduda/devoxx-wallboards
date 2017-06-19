@@ -4,22 +4,30 @@
 /* globals topOfDayUrl: false */
 /* globals dayNumberToName: false */
 /* globals getCurrentTime: false */
-wallApp.service('VotingService', function($http, $interval, $rootScope) {
+wallApp.service('VotingService', function($q, $http, $interval, $rootScope) {
     var self = this;
 
     function retrieveTopOfWeek() {
-        self.topOfWeek = $http.get(topOfWeekUrl).then(function (req) {
-            return req.data;
-        });
+        if ($rootScope.hasVoting) {
+            self.topOfWeek = $http.get(topOfWeekUrl).then(function (req) {
+                return req.data;
+            });
+        } else {
+            self.topOfWeek = $q.defer().promise;
+        }
     }
 
     function retrieveTopOfDay() {
         var dayNumber = getCurrentTime().getDay();
         var topOfDayUrlComplete = topOfDayUrl + dayNumberToName[dayNumber];
 
-        self.topOfDay = $http.get(topOfDayUrlComplete).then(function (req) {
-            return req.data;
-        });
+        if ($rootScope.hasVoting) {
+            self.topOfDay = $http.get(topOfDayUrlComplete).then(function (req) {
+                return req.data;
+            });
+        } else {
+            self.topOfDay = $q.defer().promise;
+        }
     }
 
     function retrieveVotes() {

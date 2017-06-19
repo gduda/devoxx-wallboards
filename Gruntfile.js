@@ -84,8 +84,7 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     'dist/css/wall.css': 'app/less/wall.less',
-                    'dist/css/tweetwall_fr.css': 'app/less/tweetwall_fr.less',
-                    'dist/css/cinemawall_pl.css': 'app/less/cinemawall_pl.less'
+                    'dist/css/tweetwall_fr.css': 'app/less/tweetwall_fr.less'
                 }
             }
         },
@@ -158,7 +157,7 @@ module.exports = function (grunt) {
                         '.tmp/annotated/app/scripts/config.annotated.js',
                         '.tmp/annotated/app/scripts/wall/*.annotated.js',
                         '.tmp/annotated/app/scripts/wall/**/*.annotated.js',
-                        'app/config_be.js' // This should be changed depending of the event
+                        'app/config_pl.js' // This should be changed depending of the event
                     ]
                 }
             }

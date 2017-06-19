@@ -1,5 +1,5 @@
 //Twitter
-var twitterBaseUri = 'http://wall.devoxx.be:9001/';
+var twitterBaseUri = 'http://wall.devoxx.com:9001/';
 
 // Schedule
 var fullScheduleUrl = 'http://cfp.devoxx.be/api/conferences/DV15/speakers';
