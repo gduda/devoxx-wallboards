@@ -1,5 +1,6 @@
 'use strict';
 /* globals md5: false */
+/* globals getCurrentTime: false */
 
 /**
  * LocalStorageService, instantiated by AngularJS.
