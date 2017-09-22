@@ -81,7 +81,7 @@ wallApp.factory('LocalStorageService', function () {
     };
 
     function createTimestamp() {
-        return new Date().getTime();
+        return getCurrentTime().getTime();
     }
 
     this.setSpeakers = function (speakers) {

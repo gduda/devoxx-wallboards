@@ -33,8 +33,29 @@ module.exports = function (grunt) {
                 options: {
                     port: 9000,
                     hostname: '0.0.0.0',
-                    base: 'dist'
-                }
+                    base: 'dist',
+                    middleware: function (connect, options, defaultMiddleware) {
+                        var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
+                        return [
+                            // Include the proxy first
+                            proxy
+                        ].concat(defaultMiddleware);
+                    }
+                },
+                proxies: [
+                    {
+                        context: '/api',
+                        host: 'cfp.devoxx.be',
+                        port: 443,
+                        https: true,
+                        secure: false,
+                        xforward: false,
+                        headers: {
+                            // "x-custom-added-header": value
+                        }//,
+                        // hideHeaders: ['x-removed-header']
+                    }
+                ]
             },
             serverDist: {
                 options: {
@@ -166,6 +187,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('server', [
         'build',
+        'configureProxies:server',
         'connect:server',
         'watch'
     ]);

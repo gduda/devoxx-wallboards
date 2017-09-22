@@ -2,11 +2,12 @@
   "name": "devoxx-wallboards",
   "version": "0.0.1",
   "dependencies": {
-    "animate.css": "^3.5.2"
+    "animate.css": "^3.5.2",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
-    "grunt-bower-requirejs": "^2.0.0",
+    "grunt-connect-proxy": "git+https://github.com/drewzboto/grunt-connect-proxy.git",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-coffee": "^1.0.0",
     "grunt-contrib-compass": "^1.1.1",
