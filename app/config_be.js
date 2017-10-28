@@ -4,8 +4,8 @@ var twitterBaseUri = 'http://ec2-54-194-162-191.eu-west-1.compute.amazonaws.com:
 // Schedule
 // var fullScheduleUrl = 'http://localhost:9000/api/conferences/DV17/speakers';
 // var dailyScheduleUrl = 'http://localhost:9000/api/conferences/DV17/schedules/';
-var fullScheduleUrl = 'http://cfp.devoxx.be/api/conferences/DV17/speakers';
-var dailyScheduleUrl = 'http://cfp.devoxx.be/api/conferences/DV17/schedules/';
+var fullScheduleUrl = '/api/conferences/DV17/speakers';
+var dailyScheduleUrl = '/api/conferences/DV17/schedules/';
 var talkTypesInSchedule = ['Conference', 'Quickie', 'BOF (Bird of a Feather)', 'University', 'Hand\'s on Labs', 'Tools-in-Action', 'Startup presentation', 'Keynote'];
 
 // Voting
