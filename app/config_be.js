@@ -11,8 +11,8 @@ var talkTypesInSchedule = ['Conference', 'Quickie', 'BOF (Bird of a Feather)', '
 // Voting
 var hasVoting = true;
 var dayNumberToName = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-var topOfWeekUrl = '/voting/v1/top/talks?limit=7';
-var topOfDayUrl = '/voting/v1/top/talks?limit=7&day=';
+var topOfWeekUrl = 'https://cfp.devoxx.co.uk/api/voting/v1/top/talks?limit=7';
+var topOfDayUrl = 'https://cfp.devoxx.co.uk/api/voting/v1/top/talks?limit=7&day=';
 
 // Devoxx Hunt leaderboard
 var gameLeaderBoardUrl = '/blebackend/leaderboard';
