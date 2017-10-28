@@ -174,7 +174,8 @@ module.exports = function (grunt) {
                             'components/**/*',
                             'css/*.css',
                             'images/*',
-                            '*.html'
+                            '*.html',
+                            'appspec.yml'
                         ]
                     }
                 ]
