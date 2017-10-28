@@ -1,5 +1,5 @@
 //Twitter
-var twitterBaseUri = 'http://ec2-54-194-162-191.eu-west-1.compute.amazonaws.com:9001/';
+var twitterBaseUri = '/';
 
 // Schedule
 // var fullScheduleUrl = 'http://localhost:9000/api/conferences/DV17/speakers';

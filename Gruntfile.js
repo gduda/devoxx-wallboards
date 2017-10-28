@@ -54,6 +54,18 @@ module.exports = function (grunt) {
                             // "x-custom-added-header": value
                         }//,
                         // hideHeaders: ['x-removed-header']
+                    },
+                    {
+                        context: '/tweets',
+                        host: 'localhost',
+                        port: 9001,
+                        https: false,
+                        secure: false,
+                        xforward: false,
+                        headers: {
+                            // "x-custom-added-header": value
+                        }//,
+                        // hideHeaders: ['x-removed-header']
                     }
                 ]
             },
