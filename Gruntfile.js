@@ -57,8 +57,8 @@ module.exports = function (grunt) {
                     },
                     {
                         context: '/tweets',
-                        host: 'localhost',
-                        port: 9001,
+                        host: 'wall.devoxx.com',
+                        port: 80,
                         https: false,
                         secure: false,
                         xforward: false,
