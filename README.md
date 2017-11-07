@@ -1,4 +1,6 @@
 # Devoxx Wallboards Application
+[![Build Status](https://travis-ci.org/devoxx/devoxx-wallboards.svg?branch=master)](https://travis-ci.org/devoxx/devoxx-wallboards)
+
 This application is used to show interesting data on the various Devoxx screens.
 
 Used technologies:
