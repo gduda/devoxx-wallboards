@@ -6,7 +6,7 @@ var twitterBaseUri = '/';
 // var dailyScheduleUrl = 'http://localhost:9000/api/conferences/DV17/schedules/';
 var fullScheduleUrl = '/api/conferences/DV17/speakers';
 var dailyScheduleUrl = '/api/conferences/DV17/schedules/';
-var talkTypesInSchedule = ['Conference', 'Quickie', 'BOF (Bird of a Feather)', 'University', 'Hand\'s on Labs', 'Tools-in-Action', 'Startup presentation', 'Keynote'];
+var talkTypesInSchedule = ['Deep Dive', 'Conference', 'Quickie', 'BOF (Bird of a Feather)', 'University', 'Hand\'s on Labs', 'Tools-in-Action', 'Startup presentation', 'Keynote'];
 
 // Voting
 var hasVoting = true;
