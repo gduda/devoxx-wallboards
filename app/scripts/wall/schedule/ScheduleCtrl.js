@@ -119,7 +119,8 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
                 console.error('Failed to call CFP REST');
                 return;
             }
-console.log('Received Schedule');
+
+            console.log('Received Schedule');
 
             var tak = filterTalksAndKeynotes(data.data, speakers);
 
@@ -142,8 +143,7 @@ console.log('Received Schedule');
             }
 
             currentData = groups[currentDay - 1];
-console.log('groupsda', currentDay);
-console.log('groups', groups);
+
             updateModels();
 
         });
@@ -157,8 +157,9 @@ console.log('groups', groups);
 
         var slots = defineSlots(currentData);
         var nowAndNext = nowAndNextSlot(slots);
-console.log('currentData', currentData);
-console.log('slots', slots);
+
+        console.log('currentData', currentData);
+        console.log('slots', slots);
         self.scheduleNow = filterTime(nowAndNext[0]);
         self.scheduleNext = filterTime(nowAndNext[1]);
 
@@ -230,8 +231,9 @@ console.log('slots', slots);
 
     function filterTalksAndKeynotes(data, speakers) {
         var talks = [];
-console.log('data.slots', data.slots, talkTypesInSchedule);
-console.log('talkTypesInSchedule', talkTypesInSchedule);
+
+        console.log('data.slots', data.slots, talkTypesInSchedule);
+        console.log('talkTypesInSchedule', talkTypesInSchedule);
         data.slots.forEach(function (slot) {
             var talk = slot.talk;
             if (talk && _.contains(talkTypesInSchedule, talk.talkType)) {

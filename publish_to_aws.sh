@@ -6,7 +6,7 @@ echo "Publishing to AWS"
 rm dist.zip
 zip -r dist.zip dist
 
-AWS_HOST=ec2-54-194-162-191.eu-west-1.compute.amazonaws.com
+AWS_HOST=ec2-34-244-221-30.eu-west-1.compute.amazonaws.com
 AWS_USER=ec2-user
 AWS_KEY=~/.ssh/DevoxxWallKeyPair2015.pem
 

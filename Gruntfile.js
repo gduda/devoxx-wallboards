@@ -45,7 +45,7 @@ module.exports = function (grunt) {
                 proxies: [
                     {
                         context: '/api',
-                        host: 'cfp.devoxx.be',
+                        host: 'cfp.devoxx.pl',
                         port: 443,
                         https: true,
                         secure: false,
@@ -57,8 +57,8 @@ module.exports = function (grunt) {
                     },
                     {
                         context: '/tweets',
-                        host: 'wall.devoxx.com',
-                        port: 80,
+                        host: 'ec2-34-244-221-30.eu-west-1.compute.amazonaws.com',
+                        port: 9001,
                         https: false,
                         secure: false,
                         xforward: false,
@@ -191,7 +191,7 @@ module.exports = function (grunt) {
                         '.tmp/annotated/app/scripts/config.annotated.js',
                         '.tmp/annotated/app/scripts/wall/*.annotated.js',
                         '.tmp/annotated/app/scripts/wall/**/*.annotated.js',
-                        'app/config_be.js' // This should be changed depending of the event
+                        'app/config_pl.js' // This should be changed depending of the event
                     ]
                 }
             }

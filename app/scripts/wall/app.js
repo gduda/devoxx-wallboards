@@ -13,7 +13,8 @@ setInterval(function () {
         url: 'timestamp.json'
     }).done(function (response) {
         if (response.timestamp > lastTimestamp) {
-            document.location.reload();
+            localStorage.clear();
+            document.location.reload(true);
         } else {
             lastTimestamp = response.timestamp;
         }

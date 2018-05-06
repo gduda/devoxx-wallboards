@@ -5,7 +5,7 @@ wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout, TweetsLoc
     window.tc = this;
     var self = this;
 
-    var MAX = 6;
+    var MAX = 1;
     var maxTweetId = 0;
 
     self.tweetQueue = [];
@@ -40,7 +40,7 @@ wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout, TweetsLoc
             if (self.tweets.length < MAX) {
                 while (self.tweets.length < MAX && self.tweetQueue.length > 0) {
                     tweet = self.tweetQueue.shift();
-                    tweet.styleClass = 'animated fadeInUp';
+                    tweet.styleClass = 'animated fadeIn';
                     self.tweets.push(tweet);
                 }
             }
@@ -55,7 +55,7 @@ wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout, TweetsLoc
             if (self.tweets.length > 0) {
                 self.tweets = self.tweets.map(function (t, idx) {
                     if (idx === 0) {
-                        t.styleClass = 'animated fadeOutUp';
+                        t.styleClass = 'animated fadeOut';
                     } else {
                         t.styleClass = 'animated moveUp';
                     }
@@ -76,7 +76,7 @@ wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout, TweetsLoc
 
         function addTweet() {
             var tweet = self.tweetQueue.shift();
-            tweet.styleClass = 'animated fadeInUp';
+            tweet.styleClass = 'animated fadeIn';
             self.tweets.push(tweet);
 
             if (self.tweets[0]) {

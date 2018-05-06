@@ -21,10 +21,10 @@
 
                 <div class="tweet {{tweet.styleClass}} {{tweet.sentiment}}" ng-repeat="tweet in tweetWall.tweets">
                     <div class="tweetInner">
-                        <span class="author">{{tweet.from}}</span>
                         <div class="authorImage">
-                            <img ng-src="{{tweet.profileImageUrl}}" width="60" height="60">
+                            <img ng-src="{{tweet.profileImageUrl}}" width="120" height="120">
                         </div>
+                        <span class="author">{{tweet.from}}</span>
                         <span class="tweetText" ng-class="{hasImage: !!tweet.imageUrl}">{{tweet.message}}</span>
                         <img ng-if="tweet.imageUrl" class="tweetImage" ng-src="{{tweet.imageUrl}}">
                         <div ng-if="tweet.sentiment" class="smileyWrapper">
