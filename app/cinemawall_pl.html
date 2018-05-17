@@ -25,8 +25,8 @@
                             <img ng-src="{{tweet.profileImageUrl}}" width="120" height="120">
                         </div>
                         <span class="author">{{tweet.from}}</span>
-                        <span class="tweetText" ng-class="{hasImage: !!tweet.imageUrl}">{{tweet.message}}</span>
-                        <img ng-if="tweet.imageUrl" class="tweetImage" ng-src="{{tweet.imageUrl}}">
+                        <span class="tweetText" ng-class="{hasImage: !!true}">{{tweet.message}}</span>
+                        <img class="tweetImage" ng-src="http://pbs.twimg.com/profile_images/721942679450427392/WpxkXL8N_normal.jpg">
                         <div ng-if="tweet.sentiment" class="smileyWrapper">
                             <img class="smiley" ng-src="images/batman_{{tweet.sentiment}}.png"></img>
                         </div>

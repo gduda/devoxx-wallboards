@@ -80,7 +80,6 @@ wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout, TweetsLoc
             self.tweets.push(tweet);
 
             if (self.tweets[0]) {
-                console.log(self.tweets[0]);
                 TweetsLocalStorageService.setLastShownTimestamp(self.tweets[0].timestamp);
             }
         }
@@ -90,7 +89,7 @@ wallApp.controller('TweetWallCtrl', function ($http, $scope, $timeout, TweetsLoc
     function init() {
         self.refreshRemoteData();
         setInterval(self.refreshRemoteData, 30000);
-        setInterval(self.tweetQueueProcessor, 7000);
+        setInterval(self.tweetQueueProcessor, 5000);
     }
 });
 
