@@ -19,7 +19,7 @@ h1 {
 
 .screen(@url, @top) {
     background: @url no-repeat;
-    background-size: 100vw;
+    background-size: 100vw 100vh;
     border: none;
     height: 100vh;
     width: 100vw;
@@ -212,15 +212,15 @@ h1 {
 }
 
 #tweets {
-    position: absolute;
-    right: 50px;
-    top: 167px;
-    width: 30%;
-    height: 580px;
+    position: fixed;
+    right: 4vw;
+    top: 19vh;
+    width: 29vw;
+    height: 65vh;
     transform: rotate(-18deg);
 
     .tweet {
-        //border: 2px solid @highlightColor;
+        //border: 2px solid red;
         //border-radius: 10px;
         //background-color: #000;
         //color: #fff;
@@ -238,7 +238,7 @@ h1 {
             left: 142px;
             color: #191919;
             font-weight: 700;
-            font-size: 32px;
+            font-size: 40px;
         }
         .authorImage {
             //position: absolute;
@@ -251,13 +251,14 @@ h1 {
         }
         .tweetText {
             position: absolute;
-            top: 220px;
+            top: 27vh;
             left: 2px;
-            height:180px;
-            width: 450px;
+            height: 30vh;
             overflow-y: hidden;
-            font-size: 22px;
+            font-size: 26px;
             color: #191919;
+            clip-path: polygon(0% 0%, 100% 0, 82% 100%, 0% 100%);
+
             &.hasImage {
                 width: 338px;
             }

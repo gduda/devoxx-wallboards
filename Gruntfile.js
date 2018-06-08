@@ -172,8 +172,11 @@ module.exports = function (grunt) {
                             'config_fr.js',
                             'config_pl.js',
                             'components/**/*',
+                            '!components/jquery/src/**/*',
+                            '!components/animate.css/source/**/*',
                             'css/*.css',
                             'images/*',
+                            '!images/*.psd',
                             '*.html',
                             'appspec.yml'
                         ]
