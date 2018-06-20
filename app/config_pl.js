@@ -1,5 +1,5 @@
 //Twitter
-var twitterBaseUri = 'http://ec2-34-244-221-30.eu-west-1.compute.amazonaws.com:9001/';
+var twitterBaseUri = 'http://ec2-34-244-221-30.eu-west-1.compute.amazonaws.com/';
 
 // Schedule
 var fullScheduleUrl = 'https://cfp.devoxx.pl/api/conferences/DevoxxPL2018/speakers';
