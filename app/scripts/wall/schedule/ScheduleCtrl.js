@@ -1,12 +1,9 @@
 'use strict';
-/* globals fullScheduleUrl: false */
 /* globals dailyScheduleUrl: false */
 /* globals talkTypesInSchedule: false */
-/* globals Speaker: false */
 /* globals ScheduleItem: false */
 /* globals getCurrentTime: false */
-
-wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageService, $interval, constants) {
+wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, $interval, constants) {
     window.sc = this; // Global var to interact with from console
 
     var self = this;
@@ -15,14 +12,14 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
     this.scheduleNext = [];
     this.loading = true;
     this.currentPane = 0;
-    this.numberOfPanes = constants.wallType === 'cinema' ? 2 : 2;
+    this.numberOfPanes = 2;
 
     self.stopIntervalPanes = $interval(function () {
         if (++self.currentPane >= self.numberOfPanes) {
             self.currentPane = 0;
         }
     }, constants.carouselInterval);
-    $scope.$on('$destroy', function() {
+    $scope.$on('$destroy', function () {
         if (angular.isDefined(self.stopIntervalPanes)) {
             $interval.cancel(self.stopIntervalPanes);
             self.stopIntervalPanes = undefined;
@@ -35,79 +32,43 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
     var currentDay = currentTime.getDay();
     var currentData = [];
 
-    var onDone = function () {
-        if ((!LocalStorageService.hasDay(currentDay)) || (!LocalStorageService.hasSchedule())) {
-            self.refreshRemoteData();
-        } else {
-            currentData = LocalStorageService.getDay(currentDay);
-            console.log('currentData from local storage', currentData, currentDay);
-            updateModels();
-        }
-
-        console.log('Resolve after speakers');
-        self.loading = false;
-
-        var MINUTES_10 = 1000 * 60 * 10;
-        $interval(self.refreshRemoteData, MINUTES_10);
-    };
-
-    function preLoadSpeakerImageUrls(done) {
-        console.log('Preloading all speaker images...');
-        try {
-            var speakersFromCache = LocalStorageService.getSpeakers();
-            if (speakersFromCache) {
-                speakers = speakersFromCache;
-                console.log(speakers);
-                done();
-            } else {
-                $http.get(fullScheduleUrl)
-                    .then(function (data) {
-                        if ('' === data.data) {
-                            console.error('Failed to call CFP REST');
-                            speakers = LocalStorageService.getSpeakers();
-                        } else {
-                            data.data.forEach(function (item) {
-                                speakers.push(new Speaker(item));
-                            });
-                            console.log(speakers);
-
-
-                            LocalStorageService.setSpeakers(speakers);
-                        }
-
-                        done();
-                    });
-            }
-        } catch (e) {
-            console.error('Failed to preload speaker images: ', e);
-            done();
-        }
-    }
-
     this.nowAndNextTimer = function () {
         currentTime = getCurrentTime();
         var dayNr = currentTime.getDay();
         if (dayNr !== currentDay) {
             currentDay = dayNr;
-            currentData = LocalStorageService.getDay(dayNr);
+            this.refreshRemoteData();
         }
         console.log('NowAndNextTime', currentTime.toLongDateString(), currentDay);
         updateModels();
     };
 
-    var MINUTES_1 = 1000 * 60;
-    $interval(self.nowAndNextTimer, MINUTES_1);
+    self.getTimeString = function (item) {
+        return (item.time.getHours() + '').padStart(2, '0') + ':' +
+            (item.time.getMinutes() + '').padStart(2, '0');
+    };
+
+    var MINUTES_5 = 5 * 1000 * 60;
+    $interval(self.nowAndNextTimer, MINUTES_5);
 
     function getDayName(dayNr) {
         switch (dayNr) {
-            case 0:  return 'sunday';
-            case 1:  return 'monday';
-            case 2:  return 'tuesday';
-            case 3:  return 'wednesday';
-            case 4:  return 'thursday';
-            case 5:  return 'friday';
-            case 6:  return 'saturday';
-            default: return 'sunday'; //Should never happen
+            case 0:
+                return 'sunday';
+            case 1:
+                return 'monday';
+            case 2:
+                return 'tuesday';
+            case 3:
+                return 'wednesday';
+            case 4:
+                return 'thursday';
+            case 5:
+                return 'friday';
+            case 6:
+                return 'saturday';
+            default:
+                return 'unknown'; //Should never happen
         }
     }
 
@@ -120,32 +81,15 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
                 return;
             }
 
-            console.log('Received Schedule');
+            console.log('Received Schedule', data);
 
             var tak = filterTalksAndKeynotes(data.data, speakers);
-
-            LocalStorageService.setSchedule(tak);
-            var groups = [];
-            tak.forEach(function (item) {
-                var itemIndex = (item.dayNr - 1);
-                if (!groups[itemIndex]) {
-                    groups[itemIndex] = [];
-                }
-                groups[itemIndex].push(item);
+            currentData = tak.filter(function (talk) {
+                return talk.dayNr === currentDay;
             });
 
-            for (var i = 0; i < groups.length; i++) {
-                storeDay(i + 1, groups[i]);
-            }
-            console.log('stored days');
-            function storeDay(itemDay, group) {
-                LocalStorageService.setDay(itemDay, group);
-            }
-
-            currentData = groups[currentDay - 1];
-
             updateModels();
-
+            self.loading = false;
         });
     };
 
@@ -159,115 +103,83 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, LocalStorageServ
         var nowAndNext = nowAndNextSlot(slots);
 
         console.log('currentData', currentData);
-        console.log('slots', slots);
         self.scheduleNow = filterTime(nowAndNext[0]);
         self.scheduleNext = filterTime(nowAndNext[1]);
-
-        // self.scheduleNow.forEach(function (s) {
-        //     s.visible = true;
-        // });
-        // self.scheduleNext.forEach(function (s) {
-        //     s.visible = true;
-        // });
 
         console.log('Slots', slots, 'NowAndNext', nowAndNext);
         console.log('NOW:', self.scheduleNow);
         console.log('NEXT:', self.scheduleNext);
 
         function defineSlots(items) {
-            var slots = [];
-            if (items) {
-                items.forEach(function (item) {
-                    var slot = item.time;
-                    if (slots.indexOf(slot) === -1) {
-                        slots.push(slot);
-                    }
-                });
-            }
-            return slots;
+            var unique = _.uniq(items.map(function (talk) {
+                return talk.time.toString();
+            })).sort();
+
+            return unique.map(function (timeString, index) {
+                var startTime = new Date(timeString.toString());
+                var endTime;
+                if (unique[index+1]) {
+                    endTime = new Date(unique[index+1].toString());
+                } else {
+                    endTime = new Date(startTime);
+                    endTime.setHours(startTime.getHours() + 2);
+                }
+                return [startTime, endTime];
+            });
         }
 
         function nowAndNextSlot(slots) {
             var nowAndNext = [];
             var now = currentTime;
-            for (var i = 0; i < slots.length; i++) {
-                var slot = slots[i];
-                var parseExact = Date.parseExact(slot, 'HH:mm');
-                if (parseExact) {
-                    var slotDate = parseExact.withDate(now);
-                    if (now.after(slotDate)) {
-                        nowAndNext[0] = slot;
-                        nowAndNext[1] = slots[i + 1];
-                    }
-                }
+
+            var currentAndFutureStartTimes = slots.filter(function (s) {
+                return s[1] >= now;
+            });
+
+            if (currentAndFutureStartTimes.length === 1) {
+                // 1 if the talk has not yet started, 0 if the talk has started.
+                // This determines whether or not this is the current or upcoming talk.
+                var index = currentAndFutureStartTimes[0][0] > now ? 1 : 0;
+                nowAndNext[index] = currentAndFutureStartTimes[0];
             }
-            if (!nowAndNext.length) {
-                var parseExact2 = Date.parseExact(slots[0], 'HH:mm');
-                if (parseExact2) {
-                    var firstSlotDate = parseExact2.withDate(now);
-                    var beforeFirstSlot = now.before(firstSlotDate);
-                    if (beforeFirstSlot) {
-                        nowAndNext[0] = slots[0];
-                        nowAndNext[1] = slots[1];
-                    }
-                }
+            if (currentAndFutureStartTimes.length >= 2) {
+                nowAndNext[0] = currentAndFutureStartTimes[0];
+                nowAndNext[1] = currentAndFutureStartTimes[1];
             }
+
             return nowAndNext;
         }
 
         function filterTime(time) {
-            if (angular.isUndefined(time)) {
+            if (angular.isUndefined(time) || angular.isUndefined(time[0])) {
                 return [];
             }
-            var items = [];
-            currentData.forEach(function (item) {
-                if (time === item.time) {
-                    items.push(item);
-                }
+            return currentData.filter(function (item) {
+                return time[0].toString() === item.time.toString();
             });
-            return items;
         }
     }
 
-    function filterTalksAndKeynotes(data, speakers) {
+    function filterTalksAndKeynotes(data) {
         var talks = [];
 
-        console.log('data.slots', data.slots, talkTypesInSchedule);
-        console.log('talkTypesInSchedule', talkTypesInSchedule);
-        data.slots.forEach(function (slot) {
-            var talk = slot.talk;
-            if (talk && _.contains(talkTypesInSchedule, talk.talkType)) {
-                if (talk.speakers) {
-                    var si = new ScheduleItem(slot, findSpeakerImageUrl);
-                    talks.push(si);
-                }
+        console.log('data', data, talkTypesInSchedule);
+        data.forEach(function (talk) {
+            if (talk.speakers) {
+                var si = new ScheduleItem(talk);
+                talks.push(si);
             }
         });
 
-        talks = _.sortBy(talks, 'date');
+        talks = _.sortBy(talks, 'fromDate');
         _.each(talks, function (si) {
-            console.log('Day: ' + si.day + ' Room: ' + si.room + ' Time: ' + si.time + ' Title: ' + si.title + ' Speakers: ' + si.speakers + ' SpeakerImg: ' + si.speakerImgUri);
+            console.log(' Time: ' + si.time + ' Room: ' + si.room + ' Title: ' + si.title + ' Speakers: ' + si.speakers);
         });
-
-        function findSpeakerImageUrl(id) {
-            if (id) {
-                var speakerId = parseInt(id);
-                var speakerUrl = null;
-                speakers.forEach(function (speaker) {
-                    if (speaker.id === speakerId) {
-                        speakerUrl = speaker.imageUrl;
-                    }
-                });
-
-                return speakerUrl;
-            }
-        }
 
         return talks;
     }
 
-    preLoadSpeakerImageUrls(onDone);
-
+    this.refreshRemoteData();
 });
 
 wallApp.directive('onShowAnimate', function ($timeout) {
@@ -287,4 +199,3 @@ wallApp.directive('onShowAnimate', function ($timeout) {
         }
     };
 });
-

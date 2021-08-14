@@ -1,6 +1,9 @@
 {
   "name": "devoxx-wallboards",
   "version": "0.0.1",
+  "scripts": {
+    "proxy": "npx no-cors-proxy -p 8000 -t https://devoxxpl20.cfp.dev/"
+  },
   "dependencies": {
     "animate.css": "^3.5.2",
     "lodash": "^4.17.4"
@@ -32,6 +35,7 @@
     "karma-chrome-launcher": "^1.0.1",
     "karma-jasmine": "^1.0.2",
     "karma-story-reporter": "^0.3.1",
-    "matchdep": "^1.0.1"
+    "matchdep": "^1.0.1",
+    "no-cors-proxy": "^1.0.5"
   }
 }

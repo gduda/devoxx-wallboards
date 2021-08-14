@@ -1,12 +1,12 @@
 #!/bin/bash
-cd ~/projects/work/devoxx/devoxx-wallboards
+cd ~/projects/devoxx/devoxx-wallboards
 echo "Building distribution"
 grunt build
 echo "Publishing to AWS"
 rm dist.zip
 zip -r dist.zip dist
 
-AWS_HOST=ec2-34-244-221-30.eu-west-1.compute.amazonaws.com
+AWS_HOST=63.33.193.196
 AWS_USER=ec2-user
 AWS_KEY=~/.ssh/DevoxxWallKeyPair2015.pem
 

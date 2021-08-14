@@ -57,7 +57,7 @@ module.exports = function (grunt) {
                     },
                     {
                         context: '/tweets',
-                        host: 'ec2-34-244-221-30.eu-west-1.compute.amazonaws.com',
+                        host: 'ec2-18-202-227-82.eu-west-1.compute.amazonaws.com',
                         port: 9001,
                         https: false,
                         secure: false,

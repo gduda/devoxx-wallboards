@@ -1,36 +1,49 @@
 'use strict';
 /* exported ScheduleItem */
-/* exported Speaker */
-function ScheduleItem(slot) {
-    this.id = slot.talk.id;
-    this.type = slot.talk.kind;
-    this.room = getRoom(slot.roomName);
-    this.day = slot.day;
-    this.dayNr = getDayNr(slot.day);
-    this.time = slot.fromTime;
-    this.speakers = getSpeakerNames(slot.talk.speakers);
-    this.title = slot.talk.title;
 
-    function getDayNr(day) {
+/* exported Speaker */
+function ScheduleItem(talk) {
+    this.id = talk.id;
+    this.type = talk.sessionTypeName;
+    this.room = getRoom(talk.roomName);
+    this.time = new Date(talk.fromDate);
+    this.speakers = getSpeakerNames(talk.speakers);
+    this.title = talk.talkTitle;
+    this.dayNr = this.time.getDay();
+    this.day = getDay(this.dayNr);
+
+    function getDay(day) {
         switch (day) {
-            case 'sunday':    return 0;
-            case 'monday':    return 1;
-            case 'tuesday':   return 2;
-            case 'wednesday': return 3;
-            case 'thursday':  return 4;
-            case 'friday':    return 5;
-            case 'saturday':  return 6;
-            default:          return 0; //Should never happen
+            case 0:
+                return 'sunday';
+            case 1:
+                return 'monday';
+            case 2:
+                return 'tuesday';
+            case 3:
+                return 'wednesday';
+            case 4:
+                return 'thursday';
+            case 5:
+                return 'friday';
+            case 6:
+                return 'saturday';
+            default:
+                return 'sunday'; //Should never happen
         }
     }
 
     function getRoom(room) {
         var r = room.replace(/(Room |(B)OF )(\d+)/i, '$2$3'); // Only number for room or B prefix for BOF rooms
-		var pad = '      '; // many spaces to preserve numerical order when ordering alphabetically
-		return pad.substring(0, pad.length - r.length) + r;
+        var pad = '      '; // many spaces to preserve numerical order when ordering alphabetically
+        return pad.substring(0, pad.length - r.length) + r;
     }
 
     function getSpeakerNames(speakers) {
+
+        speakers = speakers.map(function (s) {
+            return new Speaker(s);
+        });
 
         if (!speakers) {
             return 'N/A';
@@ -38,18 +51,18 @@ function ScheduleItem(slot) {
 
         var speakerNames = _.uniq(_.pluck(speakers, 'name')).join(', ');
 
-        return  speakerNames;
+        return speakerNames;
     }
 
 }
 
 function Speaker(speakerItem) {
 
-    this.id = speakerItem.uuid;
+    this.id = speakerItem.id;
     this.name = speakerItem.firstName + ' ' + speakerItem.lastName;
-    this.imageUrl = speakerItem.avatarURL;
+    this.imageUrl = '';
 
-    this.toString = function() {
+    this.toString = function () {
         return this.imageUrl;
     };
 

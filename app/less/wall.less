@@ -1,5 +1,5 @@
-@highlightColor: #666;
-@highlightColorHalfOpaque: #66666688;
+@highlightColor: #fff;
+@highlightColorHalfOpaque: #ffffff88;
 
 * {
     font-family: 'Lato', serif;
@@ -12,14 +12,19 @@ body {
     background-color: black;
 }
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
 h1 {
-    font-size: 2em;
+    font-size: 3em;
     text-indent: 4px;
 }
 
-.screen(@url, @top) {
+.screen(@url, @top, @bg_position: 0) {
     background: @url no-repeat;
-    background-size: 100vw 100vh;
+    background-size: 100vw auto;
+    background-position-y: @bg_position;
     border: none;
     height: 100vh;
     width: 100vw;
@@ -30,35 +35,35 @@ h1 {
 }
 
 #hallway {
-    .screen(url('../images/dv17-hallwall.jpg'), 0);
+    .screen(url('../images/dv21pl-wall.jpg'), 0);
 }
 
 #cinema {
-    .screen(url('../images/dv17-cinemawall_large_book.jpg'), 0);
+    .screen(url('../images/dv21pl-wall.jpg'), 0, 80px);
 }
 
 #hallway #carousel {
-    top: 80px;
-    right: 40px;
+    top: 100px;
+    right: 60px;
     margin: 0 auto;
 }
 
 #cinema #carousel {
-    top: 80px;
-    left: 40px;
+    top: 100px;
+    left: 60px;
 }
 
 #carousel {
-    width: 40%;
+    width: 65%;
     left: 40px;
     position: absolute;
     overflow: hidden;
 
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 0%, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 0.0) 50%);
+    //background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.0) 50%);
 
     > .panes {
         width: 100%;
-        height: 570px;
+        height: 850px;
         left: 0;
         list-style: none;
         position: relative;
@@ -84,7 +89,7 @@ h1 {
                 position: relative;
                 background-color: #000;
                 color: #fff;
-                height: 80px;
+                height: 140px;
                 clear: both;
                 overflow-y: hidden;
                 border: 2px solid @highlightColor;
@@ -114,9 +119,9 @@ h1 {
 
                 .room {
                     float: left;
-                    width: 75px;
+                    width: 100px;
                     position: relative;
-                    font-size: 3em;
+                    font-size: 6em;
                     margin: 0;
                     padding: 0;
                     text-align: center;
@@ -166,7 +171,7 @@ h1 {
 
                 .text {
                     vertical-align: middle;
-                    font-size: 1.6em;
+                    font-size: 3em;
                     word-wrap: normal;
                     margin: 3px;
                 }
@@ -174,8 +179,9 @@ h1 {
                 .talkTime {
                     display: inline-block;
                     float: left;
-                    height: 46px;
-                    color: #aaa;
+                    height: 100px;
+                    width: 150px;
+                    color: #fff;
                     margin-right: 3px;
                 }
 
@@ -184,7 +190,7 @@ h1 {
                 }
 
                 .highlight {
-                    color: #aaa;
+                    color: #fff;
                 }
 
                 .warning {
@@ -213,19 +219,22 @@ h1 {
 
 #tweets {
     position: fixed;
-    right: 4vw;
-    top: 19vh;
-    width: 29vw;
-    height: 65vh;
-    transform: rotate(-18deg);
+    width: 45%;
+    height: 850px;
+    top: 100px;
+    right: 40px;
 
     .tweet {
-        //border: 2px solid red;
-        //border-radius: 10px;
-        //background-color: #000;
-        //color: #fff;
-        height: 100%;
-        margin: 5px 0;
+        position: relative;
+        clear: both;
+        overflow-y: hidden;
+        box-shadow: 0 0 5px 2px @highlightColor 0 0 2px;
+        border: 2px solid @highlightColor;
+        border-radius: 10px;
+        background-color: #000;
+        color: #fff;
+        height: 210px;
+        margin: 5px 5px;
         padding: 3px;
         .tweetInner {
             //position: relative;
@@ -235,15 +244,15 @@ h1 {
         .author {
             position: absolute;
             top: 8px;
-            left: 142px;
-            color: #191919;
+            left: 140px;
+            color: #fff;
             font-weight: 700;
-            font-size: 40px;
+            font-size: 2em;
         }
         .authorImage {
-            //position: absolute;
-            //bottom: 2px;
-            //left: 2px;
+            position: absolute;
+            top: 16px;
+            left: 16px;
             width: 6vw;
             height: 10vh;
             overflow: hidden;
@@ -251,22 +260,22 @@ h1 {
         }
         .tweetText {
             position: absolute;
-            top: 27vh;
-            left: 2px;
-            height: 30vh;
+            top: 2em;
+            left: 140px;
+            height:180px;
+            width: 600px;
             overflow-y: hidden;
-            font-size: 26px;
-            color: #191919;
-            clip-path: polygon(0% 0%, 100% 0, 82% 100%, 0% 100%);
-
+            font-size: 2em;
+            color: #fff;
             &.hasImage {
                 width: 338px;
             }
         }
         .tweetImage {
             position: absolute;
-            top: 400px;
             max-height: 150px;
+            top: 10px;
+            left: 10px;
         }
 
         .smileyWrapper {
@@ -288,7 +297,7 @@ h1 {
 }
 
 #notice {
-    font-size: 1.3em;
+    font-size: 2.6em;
     color: @highlightColor;
     background-color: #000;
     border-bottom: 2px solid @highlightColor;
@@ -297,7 +306,7 @@ h1 {
     top: 0;
     right: 0;
     width: 100%;
-    height: 50px;
+    height: 80px;
     padding: 12px;
     box-sizing: border-box;
 }

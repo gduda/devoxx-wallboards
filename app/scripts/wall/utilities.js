@@ -33,9 +33,11 @@ function getCurrentTime() {
     if (urlParams && urlParams.currentTime) {
         var date = new Date(urlParams.currentTime);
         console.log('currentTime set', urlParams.currentTime, date);
+        window.currentTime = date;
         return date;
     } else {
         console.log('currentTime not set');
+        window.currentTime = new Date();
         return new Date();
     }
 }

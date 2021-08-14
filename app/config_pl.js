@@ -1,10 +1,10 @@
 //Twitter
-var twitterBaseUri = 'http://ec2-34-244-221-30.eu-west-1.compute.amazonaws.com/';
+var twitterBaseUri = 'http://ec2-18-202-227-82.eu-west-1.compute.amazonaws.com/';
 
 // Schedule
-var fullScheduleUrl = 'https://cfp.devoxx.pl/api/conferences/DevoxxPL2018/speakers';
-var dailyScheduleUrl = 'https://cfp.devoxx.pl/api/conferences/DevoxxPL2018/schedules/';
-var talkTypesInSchedule = ['Conference', 'Quickie', 'BOF (Bird of a Feather)', 'University', 'Hand\'s on Labs', 'Tools-in-Action', 'Startup presentation', 'Keynote'];
+var fullScheduleUrl = '/api/public/speakers';
+var dailyScheduleUrl = '/api/public/schedules/';
+var talkTypesInSchedule = ["Conference", "BOF", "Keynote", "Tools-in-Action", "Quickie", "Hands-on Lab", "Lunch Break", "Coffee Break", "Coffee Break", "Deep Dive", "Networking Afterparty", "Short Break"];
 
 // Voting
 var hasVoting = true;
