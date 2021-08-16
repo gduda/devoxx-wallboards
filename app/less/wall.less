@@ -85,6 +85,7 @@ h1 {
             }
 
             .listEntry {
+                display: flex;
                 margin: 5px 5px;
                 position: relative;
                 background-color: #000;
@@ -118,14 +119,17 @@ h1 {
                 }
 
                 .room {
-                    float: left;
-                    width: 100px;
+                    width: 160px;
                     position: relative;
-                    font-size: 6em;
+                    font-size: 4em;
                     margin: 0;
                     padding: 0;
-                    text-align: center;
-                    vertical-align: middle;
+                    display: flex;
+                    height: 100%;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #333;
+                    flex: 0 0 160px;
                 }
 
                 .credits {
@@ -171,7 +175,7 @@ h1 {
 
                 .text {
                     vertical-align: middle;
-                    font-size: 3em;
+                    font-size: 2.3em;
                     word-wrap: normal;
                     margin: 3px;
                 }
@@ -195,6 +199,7 @@ h1 {
 
                 .warning {
                     color: #aaa;
+                    white-space: nowrap;
                 }
 
                 .error {
