@@ -2,7 +2,7 @@
   "name": "devoxx-wallboards",
   "version": "0.0.1",
   "scripts": {
-    "start": "npx no-cors-proxy -p 8000 -t https://devoxxpl20.cfp.dev/"
+    "start": "npx no-cors-proxy -p 8000 -t https://devoxx-wall.herokuapp.com/"
   },
   "dependencies": {
     "animate.css": "^3.5.2",

@@ -45,7 +45,7 @@ module.exports = function (grunt) {
                 proxies: [
                     {
                         context: '/api',
-                        host: 'cfp.devoxx.pl',
+                        host: 'devoxxpl23.cfp.dev',
                         port: 443,
                         https: true,
                         secure: false,

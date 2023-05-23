@@ -9,8 +9,8 @@ var talkTypesInSchedule = ["Conference", "BOF", "Keynote", "Tools-in-Action", "Q
 // Voting
 var hasVoting = true;
 var dayNumberToName = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-var topOfWeekUrl = 'https://cfp.devoxx.pl/api/voting/v1/top/talks?limit=7';
-var topOfDayUrl = 'https://cfp.devoxx.pl/api/voting/v1/top/talks?limit=7&day=';
+var topOfWeekUrl = 'https://devoxxpl23.cfp.dev/api/voting/v1/top/talks?limit=7';
+var topOfDayUrl = 'https://devoxxpl23.cfp.dev/api/voting/v1/top/talks?limit=7&day=';
 
 // Devoxx Hunt leaderboard
 var gameLeaderBoardUrl = '/blebackend/leaderboard';
