@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "proxy": "npx no-cors-proxy -p 8000 -t https://devoxx-wall.herokuapp.com/",
-    "start": "grunt server"
+    "start": "node /dist/config_pl.js"
   },
   "dependencies": {
     "animate.css": "^3.5.2",
