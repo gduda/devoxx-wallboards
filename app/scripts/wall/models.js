@@ -4,11 +4,16 @@
 /* exported Speaker */
 function ScheduleItem(talk) {
     this.id = talk.id;
-    this.type = talk.sessionTypeName;
-    this.room = getRoom(talk.roomName);
+    this.type = talk.sessionType.name;
+    this.room = getRoom(talk.room.name);
     this.time = new Date(talk.fromDate);
-    this.speakers = getSpeakerNames(talk.speakers);
-    this.title = talk.talkTitle;
+    if (talk.proposal) {
+        this.speakers = getSpeakerNames(talk.proposal.speakers);
+        this.title = talk.proposal.title;
+    } else {
+        this.speakers = null;
+        this.title = null;
+    }
     this.dayNr = this.time.getDay();
     this.day = getDay(this.dayNr);
 
@@ -34,7 +39,7 @@ function ScheduleItem(talk) {
     }
 
     function getRoom(room) {
-        var r = room.replace(/(Room |(B)OF )(\d+)/i, '$2$3'); // Only number for room or B prefix for BOF rooms
+        var r = room.replace(/(Room |(B)OF )(.+)/i, '$2$3'); // Only number for room or B prefix for BOF rooms
         var pad = '      '; // many spaces to preserve numerical order when ordering alphabetically
         return pad.substring(0, pad.length - r.length) + r;
     }

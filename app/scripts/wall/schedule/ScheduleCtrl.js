@@ -165,7 +165,7 @@ wallApp.controller('ScheduleCtrl', function ($http, $scope, $q, $interval, const
 
         console.log('data', data, talkTypesInSchedule);
         data.forEach(function (talk) {
-            if (talk.speakers) {
+            if (talk.proposal && talk.proposal.speakers) {
                 var si = new ScheduleItem(talk);
                 talks.push(si);
             }
