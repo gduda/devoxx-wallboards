@@ -208,11 +208,6 @@ module.exports = function (grunt) {
         'watch'
     ]);
 
-    grunt.registerTask('serverHeroku', [
-        'configureProxies:server',
-        'connect:server'
-    ]);
-
     grunt.registerTask('serverDist', [
         'build',
         'connect:serverDist',

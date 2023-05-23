@@ -1,5 +1,5 @@
 //Twitter
-var twitterBaseUri = 'http://ec2-18-202-227-82.eu-west-1.compute.amazonaws.com/';
+var twitterBaseUri = 'http://devoxx-wall.herokuapp.com/';
 
 // Schedule
 var fullScheduleUrl = '/api/public/speakers';
