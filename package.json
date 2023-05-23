@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "proxy": "npx no-cors-proxy -p 8000 -t https://devoxx-wall.herokuapp.com/",
-    "start": "node app.js"
+    "start": "node scripts/wall/app.js"
   },
   "dependencies": {
     "animate.css": "^3.5.2",
