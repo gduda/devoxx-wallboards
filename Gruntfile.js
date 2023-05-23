@@ -209,7 +209,6 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('serverHeroku', [
-        'build',
         'configureProxies:server',
         'connect:server'
     ]);

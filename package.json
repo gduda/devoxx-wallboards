@@ -2,7 +2,8 @@
   "name": "devoxx-wallboards",
   "version": "0.0.1",
   "scripts": {
-    "build": "grunt serverHeroku",
+    "build": "grunt build",
+    "prestart": "grunt serverHeroku",
     "start": "npx no-cors-proxy -p 8000 -t https://devoxx-wall.herokuapp.com/"
   },
   "dependencies": {
