@@ -30,8 +30,7 @@ var urlParams;
 
 function getCurrentTime() {
     //return new Date('November 9, 2016 10:24:00');
-    return new Date('May 31, 2023 13:40:00');
-/*
+    //return new Date('May 31, 2023 13:40:00');
     if (urlParams && urlParams.currentTime) {
         var date = new Date(urlParams.currentTime);
         console.log('currentTime set', urlParams.currentTime, date);
@@ -42,5 +41,4 @@ function getCurrentTime() {
         window.currentTime = new Date();
         return new Date();
     }
-*/
 }

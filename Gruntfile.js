@@ -178,7 +178,8 @@ module.exports = function (grunt) {
                             'images/*',
                             '!images/*.psd',
                             '*.html',
-                            'appspec.yml'
+                            'appspec.yml',
+                            'api/public/schedules/*'
                         ]
                     }
                 ]
