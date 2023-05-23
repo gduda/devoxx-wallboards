@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "build": "grunt serverHeroku",
-    "proxy": "npx no-cors-proxy -p 8000 -t https://devoxx-wall.herokuapp.com/",
-    "start": "grunt watch"
+    "start": "npx no-cors-proxy -p 8000 -t https://devoxx-wall.herokuapp.com/"
   },
   "dependencies": {
     "animate.css": "^3.5.2",
